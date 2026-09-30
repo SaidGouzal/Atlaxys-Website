@@ -7,7 +7,7 @@ const budgetValues = budgetRanges.map((b) => b.value) as [string, ...string[]];
 /** Server-side contract for a lead. The client validates the same rules natively. */
 export const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
-  email: z.string().trim().toLowerCase().pipe(z.email()).pipe(z.string().max(200)),
+  email: z.string().trim().toLowerCase().pipe(z.string().email()).pipe(z.string().max(200)),
   company: z.string().trim().max(160).default(''),
   phone: z
     .string()

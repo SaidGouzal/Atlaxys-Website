@@ -45,7 +45,7 @@ const seo = z
     description: z.string().max(200).optional(),
     noindex: z.boolean().default(false),
   })
-  .prefault({});
+  .default({});
 
 const faq = z.object({ question: z.string(), answer: z.string() });
 
@@ -60,7 +60,7 @@ const relations = z
     posts: z.array(z.string()).default([]),
     locations: z.array(z.string()).default([]),
   })
-  .prefault({});
+  .default({});
 
 // ---------------------------------------------------------------------------
 // Services — what Atlaxys does for clients
@@ -139,9 +139,9 @@ const products = defineCollection({
               .default([]),
           })
           .optional(),
-        demoUrl: z.url().optional(),
-        downloadUrl: z.url().optional(),
-        docsUrl: z.url().optional(),
+        demoUrl: z.string().url().optional(),
+        downloadUrl: z.string().url().optional(),
+        docsUrl: z.string().url().optional(),
         services: z.array(z.string()).default([]),
         caseStudies: z.array(z.string()).default([]),
         posts: z.array(z.string()).default([]),
@@ -152,7 +152,7 @@ const products = defineCollection({
         demo: z.boolean().default(false),
         seo: z
           .object({ title: localized(z.string()).optional(), description: localized(z.string()).optional() })
-          .prefault({}),
+          .default({}),
         updatedAt: z.coerce.date().optional(),
         draft: z.boolean().default(false),
       })
@@ -175,7 +175,7 @@ const caseStudies = defineCollection({
         name: z.string(),
         descriptor: z.string(),
         location: z.string().optional(),
-        url: z.url().optional(),
+        url: z.string().url().optional(),
       }),
       /** Industry id (file name in src/content/industries). */
       industry: z.string(),
@@ -224,7 +224,7 @@ const blog = defineCollection({
       description: z.string().max(200),
       publishedAt: z.coerce.date(),
       updatedAt: z.coerce.date().optional(),
-      author: z.object({ name: z.string(), role: z.string().optional(), url: z.url().optional() }).optional(),
+      author: z.object({ name: z.string(), role: z.string().optional(), url: z.string().url().optional() }).optional(),
       category: z.string(),
       tags: z.array(z.string()).default([]),
       cover: z.object({ src: image(), alt: z.string().min(1) }).optional(),
@@ -297,7 +297,7 @@ const landingPages = defineCollection({
         projectType: z.enum(projectTypes).optional(),
         variant: z.enum(['compact', 'full']).default('compact'),
       })
-      .prefault({}),
+      .default({}),
     /** Section order; omit to use the default order. Unlisted sections are hidden. */
     sections: z.array(z.enum(landingSections)).optional(),
     services: z.array(z.string()).default([]),
@@ -306,7 +306,7 @@ const landingPages = defineCollection({
         /** Sent as `content_name` with the Meta Lead event. */
         contentName: z.string().optional(),
       })
-      .prefault({}),
+      .default({}),
     draft: z.boolean().default(false),
   }),
 });

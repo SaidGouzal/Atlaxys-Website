@@ -2,10 +2,10 @@
   "name": "atlaxys-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Official website of Atlaxys Consulting — technology consulting & software engineering studio.",
+  "description": "Official website of Atlaxys Consulting â€” technology consulting & software engineering studio.",
   "type": "module",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=20.3.0"
   },
   "scripts": {
     "dev": "astro dev",
