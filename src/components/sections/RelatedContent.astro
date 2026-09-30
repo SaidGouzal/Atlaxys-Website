@@ -1,0 +1,177 @@
+---
+/**
+ * Internal-linking block shown at the end of services, products, case
+ * studies, articles and location pages. Fed by src/lib/content/related.ts.
+ */
+import { useTranslations, type Locale } from '@/i18n';
+import type { RelatedContent } from '@/lib/content/related';
+import CaseCard from '../cards/CaseCard.astro';
+import PostRow from '../cards/PostRow.astro';
+import ProductCard from '../cards/ProductCard.astro';
+import Icon from '../ui/Icon.astro';
+import SignalRule from '../ui/SignalRule.astro';
+
+interface Props {
+  locale: Locale;
+  related: RelatedContent;
+  show?: ('services' | 'products' | 'caseStudies' | 'posts')[];
+}
+
+const { locale, related, show = ['services', 'products', 'caseStudies', 'posts'] } = Astro.props;
+const t = useTranslations(locale);
+const has = (k: (typeof show)[number]) => show.includes(k) && related[k].length > 0;
+---
+
+{
+  has('services') && (
+    <section class="related" aria-labelledby="related-services">
+      <h2 id="related-services" class="related__title eyebrow">
+        <SignalRule length={40} />
+        <span>{t.labels.relatedServices}</span>
+      </h2>
+      <ul role="list" class="related__services">
+        {related.services.map((s) => (
+          <li>
+            <a href={s.url} class="related__service">
+              <span class="mono tabular">{s.index}</span>
+              <span class="related__service-title">{s.data.title}</span>
+              <span class="related__service-tagline">{s.data.tagline}</span>
+              <Icon name="arrow-up-right" size={20} class="related__service-icon" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+{
+  has('caseStudies') && (
+    <section class="related" aria-labelledby="related-work">
+      <h2 id="related-work" class="related__title eyebrow">
+        <SignalRule length={40} />
+        <span>{t.labels.relatedWork}</span>
+      </h2>
+      <div class="related__grid">
+        {related.caseStudies.map((c) => (
+          <CaseCard item={c} locale={locale} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+{
+  has('products') && (
+    <section class="related" aria-labelledby="related-products">
+      <h2 id="related-products" class="related__title eyebrow">
+        <SignalRule length={40} />
+        <span>{t.labels.relatedProducts}</span>
+      </h2>
+      <div class="related__grid related__grid--3">
+        {related.products.map((p) => (
+          <ProductCard product={p} locale={locale} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+{
+  has('posts') && (
+    <section class="related" aria-labelledby="related-posts">
+      <h2 id="related-posts" class="related__title eyebrow">
+        <SignalRule length={40} />
+        <span>{t.labels.relatedInsights}</span>
+      </h2>
+      <div class="related__posts">
+        {related.posts.map((p) => (
+          <PostRow post={p} locale={locale} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .related + .related {
+    margin-block-start: var(--space-2xl);
+  }
+
+  .related__title {
+    margin-block-end: var(--space-l);
+  }
+
+  .related__grid {
+    display: grid;
+    gap: var(--space-xl) var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .related__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .related__grid--3 {
+      grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    }
+  }
+
+  .related__posts {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .related__services {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 48rem) {
+    .related__services {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--grid-gap);
+    }
+  }
+
+  .related__service {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: 0.25rem var(--space-s);
+    align-items: baseline;
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .related__service .mono {
+    color: var(--color-muted);
+    grid-row: span 2;
+  }
+
+  .related__service-title {
+    font-weight: 650;
+    font-size: var(--step-1);
+  }
+
+  .related__service-tagline {
+    grid-column: 2;
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+
+  .related__service :global(.related__service-icon) {
+    grid-row: 1;
+    grid-column: 3;
+    color: var(--color-accent);
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+
+  .related__service:hover :global(.related__service-icon) {
+    transform: rotate(45deg);
+  }
+
+  .related__service:hover .related__service-title {
+    color: var(--color-accent);
+  }
+</style>

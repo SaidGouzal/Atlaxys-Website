@@ -1,0 +1,171 @@
+---
+/**
+ * Generated cover for case studies without imagery: the project's own
+ * architecture (from its content file) drawn as a system diagram — layers,
+ * components and the routed connections between them. Unique per project,
+ * always on-brand, and honest (it shows the real structure, not stock art).
+ */
+import { mulberry32 } from '@/lib/signal/routing';
+
+interface Props {
+  layers: { name: string; items: string[] }[];
+  seed: string;
+  label?: string;
+  class?: string;
+}
+
+const { layers, seed, label, class: className } = Astro.props;
+const rand = mulberry32([...seed].reduce((a, c) => a + c.charCodeAt(0) * 31, 7));
+
+const W = 1200;
+const H = 750;
+const padX = 90;
+const padY = 90;
+const laneH = (H - padY * 2) / layers.length;
+const boxH = Math.min(64, laneH * 0.42);
+const labelMax = 18;
+
+const lanes = layers.map((layer, li) => {
+  const count = Math.min(layer.items.length, 4);
+  const span = W - padX * 2 - 150;
+  const boxW = Math.min(230, (span - (count - 1) * 24) / count);
+  const totalW = count * boxW + (count - 1) * 24;
+  const startX = padX + 150 + (span - totalW) / 2;
+  const y = padY + li * laneH + (laneH - boxH) / 2;
+  return {
+    name: layer.name,
+    y,
+    boxes: layer.items.slice(0, count).map((item, i) => ({
+      x: startX + i * (boxW + 24),
+      y,
+      w: boxW,
+      h: boxH,
+      label: item.length > labelMax ? `${item.slice(0, labelMax - 1)}…` : item,
+    })),
+  };
+});
+
+// Route connections between adjacent lanes with a 45° jog.
+const links: { d: string; hot: boolean; end: [number, number] }[] = [];
+for (let li = 0; li < lanes.length - 1; li++) {
+  const from = lanes[li]!;
+  const to = lanes[li + 1]!;
+  from.boxes.forEach((a, ai) => {
+    const b = to.boxes[Math.min(to.boxes.length - 1, Math.floor(rand() * to.boxes.length))]!;
+    const x1 = a.x + a.w * (0.3 + 0.4 * rand());
+    const y1 = a.y + a.h;
+    const x2 = b.x + b.w * (0.3 + 0.4 * rand());
+    const y2 = b.y;
+    const midY = (y1 + y2) / 2;
+    const dx = x2 - x1;
+    const jog = Math.min(Math.abs(dx), (y2 - y1) * 0.35) * Math.sign(dx);
+    // Down, 45° jog, across, down — the way a trace is routed on a board.
+    const d = `M${x1} ${y1} V${midY - Math.abs(jog) / 2} L${x1 + jog} ${midY + Math.abs(jog) / 2} H${x2} V${y2}`;
+    links.push({ d, hot: li === 0 ? ai === 0 : rand() < 0.25, end: [x2, y2] });
+  });
+}
+---
+
+<svg
+  class:list={['blueprint', className]}
+  viewBox={`0 0 ${W} ${H}`}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+  preserveAspectRatio="xMidYMid meet"
+>
+  <defs>
+    <pattern id={`bp-grid-${seed}`} width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="currentColor" stroke-opacity="0.06" stroke-width="1"></path>
+    </pattern>
+  </defs>
+  <rect width={W} height={H} class="blueprint__bg"></rect>
+  <rect width={W} height={H} fill={`url(#bp-grid-${seed})`}></rect>
+
+  {
+    lanes.map((lane) => (
+      <g>
+        <text x={padX} y={lane.y + boxH / 2 + 5} class="blueprint__lane">
+          {lane.name.toUpperCase()}
+        </text>
+        <line x1={padX + 150} x2={W - padX} y1={lane.y - 20} y2={lane.y - 20} class="blueprint__rule" />
+      </g>
+    ))
+  }
+
+  {links.map((l) => <path d={l.d} class:list={['blueprint__link', { 'blueprint__link--hot': l.hot }]} />)}
+
+  {
+    lanes.map((lane) =>
+      lane.boxes.map((b) => (
+        <g>
+          <rect x={b.x} y={b.y} width={b.w} height={b.h} class="blueprint__box" />
+          <text x={b.x + 16} y={b.y + b.h / 2 + 6} class="blueprint__label">
+            {b.label}
+          </text>
+        </g>
+      )),
+    )
+  }
+
+  {links.filter((l) => l.hot).map((l) => <circle cx={l.end[0]} cy={l.end[1]} r="7" class="blueprint__node" />)}
+</svg>
+
+<style>
+  .blueprint {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: var(--steel-200);
+    direction: ltr;
+  }
+
+  .blueprint__bg {
+    fill: var(--ink-850);
+  }
+
+  .blueprint__lane {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    fill: var(--steel-400);
+  }
+
+  .blueprint__rule {
+    stroke: var(--steel-200);
+    stroke-opacity: 0.08;
+  }
+
+  .blueprint__box {
+    fill: var(--ink-900);
+    stroke: var(--steel-200);
+    stroke-opacity: 0.35;
+    stroke-width: 1.5;
+  }
+
+  .blueprint__label {
+    font-family: var(--font-mono);
+    font-size: 17px;
+    fill: var(--steel-200);
+  }
+
+  .blueprint__link {
+    fill: none;
+    stroke: var(--steel-200);
+    stroke-opacity: 0.3;
+    stroke-width: 1.5;
+  }
+
+  .blueprint__link--hot {
+    stroke: var(--signal-500);
+    stroke-opacity: 0.95;
+    stroke-width: 2;
+  }
+
+  .blueprint__node {
+    fill: var(--ink-900);
+    stroke: var(--signal-500);
+    stroke-width: 2.5;
+  }
+</style>

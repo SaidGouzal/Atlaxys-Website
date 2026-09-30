@@ -1,0 +1,261 @@
+---
+/**
+ * Delivery process. Desktop with motion: a pinned horizontal sequence where
+ * a signal travels along the rail and lights each step's node. Otherwise
+ * (mobile, reduced motion, no JS): a vertical timeline / static grid —
+ * same content, same order.
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  index: string;
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  steps: { title: string; text: string; outputs: string[] }[];
+}
+
+const { index, eyebrow, title, intro, steps } = Astro.props;
+const total = String(steps.length).padStart(2, '0');
+---
+
+<section id="process" class="section process" data-hscroll aria-labelledby="process-title">
+  <div class="container process__head">
+    <SectionHeader id="process-title" index={index} eyebrow={eyebrow} title={title} intro={intro} />
+    <div class="process__meter" aria-hidden="true">
+      <span class="mono tabular"><span data-hscroll-counter>01</span> / {total}</span>
+      <span class="process__bar"><span data-hscroll-progress></span></span>
+    </div>
+  </div>
+
+  <div class="process__viewport">
+    <ol role="list" class="process__track container" data-hscroll-track data-reveal-stagger="80">
+      {
+        steps.map((step, i) => (
+          <li class="process-step" data-hscroll-step data-reveal>
+            <div class="process-step__rail" aria-hidden="true">
+              <span class="process-step__node" />
+            </div>
+            <span class="process-step__num numeral-outline" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="process-step__title">
+              <span class="visually-hidden">{i + 1}. </span>
+              {step.title}
+            </h3>
+            <p class="process-step__text">{step.text}</p>
+            <ul role="list" class="process-step__outputs">
+              {step.outputs.map((o) => (
+                <li>{o}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    overflow: hidden;
+  }
+
+  .process__head {
+    position: relative;
+  }
+
+  .process__meter {
+    display: none;
+  }
+
+  .process__track {
+    display: grid;
+    gap: 0;
+  }
+
+  .process-step {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    padding-block: var(--space-l);
+    padding-inline-start: 3rem;
+  }
+
+  .process-step__rail {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0.6rem;
+    width: 1px;
+    background: var(--color-line-strong);
+  }
+
+  .process-step__node {
+    position: absolute;
+    inset-block-start: calc(var(--space-l) + 0.5rem);
+    inset-inline-start: -0.4rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    background: var(--color-bg);
+    transition:
+      background-color var(--dur-3),
+      box-shadow var(--dur-3);
+  }
+
+  .process-step__num {
+    font-size: clamp(3rem, 2rem + 4vw, 6rem);
+  }
+
+  .process-step__title {
+    font-family: var(--font-display);
+    font-stretch: 118%;
+    font-weight: 720;
+    font-size: var(--step-3);
+    line-height: 1.05;
+  }
+
+  :global(:lang(ar)) .process-step__title {
+    font-stretch: 100%;
+    line-height: 1.4;
+  }
+
+  .process-step__text {
+    color: var(--color-text-2);
+    max-width: 40ch;
+  }
+
+  .process-step__outputs {
+    display: grid;
+    gap: 0.35rem;
+    margin-block-start: var(--space-xs);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :global(:lang(ar)) .process-step__outputs {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .process-step__outputs li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .process-step__outputs li::before {
+    content: '';
+    width: 0.9rem;
+    height: 1px;
+    background: var(--color-accent);
+  }
+
+  /* Static desktop fallback: five columns. */
+  @media (min-width: 64rem) {
+    .process__track {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      column-gap: var(--grid-gap);
+    }
+
+    .process-step {
+      padding-inline-start: 0;
+      padding-block-start: 3rem;
+      align-content: start;
+    }
+
+    .process-step__rail {
+      inset-block: 0 auto;
+      inset-inline: 0 calc(var(--grid-gap) * -1);
+      width: auto;
+      height: 1px;
+      top: 0.4rem;
+    }
+
+    .process-step__node {
+      inset-block-start: -0.4rem;
+      inset-inline-start: 0;
+    }
+  }
+
+  /* ---- Pinned horizontal sequence (GSAP adds .is-pinned) -------------- */
+  .process:global(.is-pinned) {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: calc(var(--header-height) + var(--space-l)) var(--space-xl);
+  }
+
+  .process:global(.is-pinned) .process__meter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: var(--gutter);
+    color: var(--color-muted);
+  }
+
+  .process__bar {
+    position: relative;
+    width: 10rem;
+    height: 1px;
+    background: var(--color-line-strong);
+  }
+
+  .process__bar > span {
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  :global([dir='rtl']) .process__bar > span {
+    transform-origin: right;
+  }
+
+  .process:global(.is-pinned) .process__track {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: none;
+    width: 100%;
+    gap: 0;
+    will-change: transform;
+  }
+
+  .process:global(.is-pinned) .process-step {
+    flex: 0 0 clamp(20rem, 31vw, 30rem);
+    padding-inline-end: var(--space-2xl);
+  }
+
+  .process:global(.is-pinned) .process-step__rail {
+    inset-inline-end: 0;
+  }
+
+  .process-step:global(.is-active) .process-step__node {
+    background: var(--color-accent);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 18%, transparent);
+  }
+
+  /* Upcoming steps recede through colour (still ≥ 4.5:1), not opacity. */
+  .process:global(.is-pinned) .process-step:not(:global(.is-active)) .process-step__title {
+    color: var(--color-muted);
+  }
+
+  .process:global(.is-pinned) .process-step:not(:global(.is-active)) .process-step__text {
+    color: var(--color-muted);
+  }
+
+  .process:global(.is-pinned) .process-step__title,
+  .process:global(.is-pinned) .process-step__text {
+    transition: color var(--dur-4) var(--ease-out);
+  }
+</style>

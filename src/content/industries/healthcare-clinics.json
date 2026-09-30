@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Clinics & healthcare services", "fr": "Cliniques & services de santé", "ar": "العيادات والخدمات الصحية" },
+  "summary": {
+    "en": "Appointments, patient records and billing — with strict data protection.",
+    "fr": "Rendez-vous, dossiers patients et facturation — avec une protection stricte des données.",
+    "ar": "المواعيد وملفات المرضى والفوترة — مع حماية صارمة للبيانات."
+  },
+  "services": ["software-engineering", "devops-cloud"],
+  "order": 8
+}

@@ -1,0 +1,232 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import SpecList from '@/components/ui/SpecList.astro';
+import Logo from '@/components/layout/Logo.astro';
+import { site } from '@/config/site';
+import { localeStaticPaths, mirroredAlternates, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy, getProducts, getServices } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, products, services] = await Promise.all([getPageCopy(locale, 'about'), getProducts(locale), getServices(locale)]);
+const trail = crumbs(locale, 'about');
+
+// Facts from content, plus live data so the list never goes stale.
+const facts = [
+  ...copy.facts.items,
+  { label: t.labels.services, value: services.map((s) => s.data.title) },
+  ...(products.length ? [{ label: t.labels.products, value: products.map((p) => p.name) }] : []),
+  { label: t.nav.contact, value: site.contact.email },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  page="about"
+  pageType="AboutPage"
+  breadcrumbs={trail}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/about/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+
+  <Section labelledby="story-title">
+    <Container class="about-story">
+      <SectionHeader id="story-title" index="01" eyebrow={copy.story.eyebrow} title={copy.story.title} size="md" />
+      <div class="about-story__text prose" data-reveal>
+        {copy.story.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </Container>
+  </Section>
+
+  <Section theme="light" labelledby="facts-title">
+    <Container class="about-facts">
+      <div class="about-facts__head">
+        <h2 id="facts-title" class="h3">{copy.facts.title}</h2>
+        <div class="about-facts__mark" aria-hidden="true">
+          <Logo width={220} eager={false} />
+        </div>
+      </div>
+      <div data-reveal>
+        <SpecList items={facts} />
+      </div>
+    </Container>
+  </Section>
+
+  <Section labelledby="engage-title">
+    <Container>
+      <SectionHeader id="engage-title" index="02" eyebrow={copy.engagement.eyebrow} title={copy.engagement.title} intro={copy.engagement.intro} />
+      <ol role="list" class="engage" data-reveal-stagger="90">
+        {
+          copy.engagement.items.map((item, i) => (
+            <li class="engage__item" data-reveal>
+              <span class="engage__index mono tabular">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="engage__title">{item.title}</h3>
+              <p class="engage__text">{item.text}</p>
+              <p class="engage__best mono">{item.bestFor}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </Container>
+  </Section>
+
+  <Section labelledby="refuse-title" spacing="flush-top">
+    <Container>
+      <SectionHeader id="refuse-title" index="03" eyebrow={copy.refusals.eyebrow} title={copy.refusals.title} size="md" />
+      <ul role="list" class="refusals">
+        {
+          copy.refusals.items.map((item) => (
+            <li class="refusal" data-reveal>
+              <span class="refusal__x" aria-hidden="true">
+                ×
+              </span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={copy.cta.title} text={copy.cta.text} id="about-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .about-story {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  @media (min-width: 64rem) {
+    .about-story {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--grid-gap);
+    }
+
+    .about-story :global(.section-header__title) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .about-story__text {
+    font-size: var(--step-1);
+    line-height: 1.6;
+  }
+
+  .about-facts {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .about-facts__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    justify-content: space-between;
+  }
+
+  .about-facts__mark {
+    padding: var(--space-l);
+    background: var(--ink-950);
+    width: fit-content;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  }
+
+  @media (min-width: 64rem) {
+    .about-facts {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--grid-gap);
+    }
+  }
+
+  .engage {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .engage {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .engage__item {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+
+  .engage__index {
+    color: var(--color-accent);
+  }
+
+  .engage__title {
+    font-family: var(--font-display);
+    font-stretch: 120%;
+    font-weight: 740;
+    font-size: var(--step-3);
+    line-height: 1;
+  }
+
+  :global(:lang(ar)) .engage__title {
+    font-stretch: 100%;
+    line-height: 1.4;
+  }
+
+  .engage__text {
+    color: var(--color-text-2);
+  }
+
+  .engage__best {
+    color: var(--color-muted);
+    padding-block-start: var(--space-s);
+    border-top: 1px solid var(--color-line);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .refusals {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .refusal {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-line);
+    font-family: var(--font-display);
+    font-stretch: 110%;
+    font-weight: 600;
+    font-size: clamp(1.3rem, 1rem + 1.5vw, 2.25rem);
+    line-height: 1.2;
+  }
+
+  :global(:lang(ar)) .refusal {
+    font-stretch: 100%;
+    line-height: 1.6;
+  }
+
+  /* The orange "X" of the ATLAXYS wordmark, used as the refusal marker. */
+  .refusal__x {
+    flex: 0 0 auto;
+    color: var(--color-accent);
+    font-weight: 800;
+    font-stretch: 125%;
+  }
+</style>

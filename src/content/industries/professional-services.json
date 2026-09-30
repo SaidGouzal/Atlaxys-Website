@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Professional services", "fr": "Services professionnels", "ar": "الخدمات المهنية" },
+  "summary": {
+    "en": "Document-heavy work in accounting, legal and consulting firms, automated.",
+    "fr": "L’automatisation du travail documentaire des cabinets comptables, juridiques et de conseil.",
+    "ar": "أتمتة العمل الوثائقي في مكاتب المحاسبة والمحاماة والاستشارات."
+  },
+  "services": ["ai-automation", "technology-consulting"],
+  "order": 4
+}

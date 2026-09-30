@@ -1,0 +1,124 @@
+---
+/**
+ * Inline conversion block: form, email and WhatsApp — the three contact
+ * channels, configurable in one place (src/config/site.ts).
+ */
+import { mailtoLink, site, whatsappLink } from '@/config/site';
+import { routePath, useTranslations, type Locale } from '@/i18n';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SignalRule from '../ui/SignalRule.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  text: string;
+  whatsappMessage?: string;
+  id?: string;
+}
+
+const { locale, title, text, whatsappMessage, id = 'cta-title' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<aside class="cta-block" aria-labelledby={id}>
+  <div class="cta-block__inner" data-reveal>
+    <p class="eyebrow">
+      <SignalRule length={48} />
+      <span>{t.nav.contact}</span>
+    </p>
+    <h2 id={id} class="cta-block__title">{title}</h2>
+    <p class="cta-block__text">{text}</p>
+    <div class="cta-block__actions">
+      <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">{t.cta.discussProject}</Button>
+      <a
+        class="cta-block__channel"
+        href={whatsappLink(whatsappMessage ?? t.whatsapp.message)}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="whatsapp_click"
+        data-track-location="cta-block"
+      >
+        <Icon name="whatsapp" size={20} />
+        <span>{t.cta.whatsapp}</span>
+        <span class="visually-hidden">{t.a11y.newTab}</span>
+      </a>
+      <a class="cta-block__channel" href={mailtoLink()} data-track="email_click" data-track-location="cta-block">
+        <Icon name="mail" size={20} />
+        <span class="ltr">{site.contact.email}</span>
+      </a>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .cta-block {
+    position: relative;
+    border: 1px solid var(--color-line-strong);
+    background:
+      radial-gradient(60% 120% at 100% 0%, color-mix(in srgb, var(--signal-600) 14%, transparent), transparent 70%),
+      var(--color-surface);
+    clip-path: polygon(0 0, calc(100% - 2.5rem) 0, 100% 2.5rem, 100% 100%, 0 100%);
+  }
+
+  :global([dir='rtl']) .cta-block {
+    clip-path: polygon(2.5rem 0, 100% 0, 100% 100%, 0 100%, 0 2.5rem);
+    background:
+      radial-gradient(60% 120% at 0% 0%, color-mix(in srgb, var(--signal-600) 14%, transparent), transparent 70%),
+      var(--color-surface);
+  }
+
+  .cta-block__inner {
+    display: grid;
+    gap: var(--space-m);
+    padding: clamp(2rem, 1rem + 4vw, 5rem);
+  }
+
+  .cta-block__title {
+    font-family: var(--font-display);
+    font-stretch: var(--display-stretch);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    font-size: var(--step-4);
+    line-height: 1;
+    max-width: 18ch;
+  }
+
+  :global(:lang(ar)) .cta-block__title {
+    line-height: 1.35;
+  }
+
+  .cta-block__text {
+    color: var(--color-text-2);
+    font-size: var(--step-1);
+    max-width: 46ch;
+  }
+
+  .cta-block__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-l);
+    margin-block-start: var(--space-s);
+  }
+
+  .cta-block__channel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .cta-block__channel :global(.icon) {
+    color: var(--color-accent);
+  }
+
+  .cta-block__channel:hover span {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.25em;
+  }
+</style>

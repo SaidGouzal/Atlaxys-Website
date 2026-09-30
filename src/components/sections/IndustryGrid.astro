@@ -1,0 +1,68 @@
+---
+import type { Industry } from '@/lib/content';
+
+interface Props {
+  industries: Industry[];
+}
+
+const { industries } = Astro.props;
+---
+
+<ul role="list" class="industry-grid" data-reveal-stagger="50">
+  {
+    industries.map((industry, i) => (
+      <li class="industry" data-reveal>
+        <span class="industry__index mono tabular">{String(i + 1).padStart(2, '0')}</span>
+        {industry.url ? (
+          <a href={industry.url} class="industry__name">
+            {industry.name}
+          </a>
+        ) : (
+          <span class="industry__name">{industry.name}</span>
+        )}
+        <p class="industry__summary">{industry.summary}</p>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .industry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    border-top: 1px solid var(--color-line);
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .industry {
+    display: grid;
+    align-content: start;
+    gap: var(--space-xs);
+    padding: var(--space-l) var(--space-m);
+    border-bottom: 1px solid var(--color-line);
+    border-inline-end: 1px solid var(--color-line);
+    transition: background-color var(--dur-2);
+  }
+
+  .industry:hover {
+    background: var(--color-surface-2);
+  }
+
+  .industry__index {
+    color: var(--color-muted);
+  }
+
+  .industry__name {
+    font-size: var(--step-1);
+    font-weight: 620;
+    line-height: 1.25;
+    color: var(--color-text);
+    text-decoration: none;
+    margin-block-start: var(--space-s);
+  }
+
+  .industry__summary {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+</style>

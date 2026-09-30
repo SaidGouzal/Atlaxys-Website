@@ -1,0 +1,58 @@
+---
+import SignalRule from '../ui/SignalRule.astro';
+import AnimatedText from '../ui/AnimatedText.astro';
+
+interface Props {
+  eyebrow: string;
+  text: string;
+}
+const { eyebrow, text } = Astro.props;
+---
+
+<section id="statement" class="section statement" aria-labelledby="statement-label">
+  <div class="container statement__grid">
+    <p id="statement-label" class="eyebrow statement__eyebrow" data-reveal>
+      <SignalRule length={56} />
+      <span>{eyebrow}</span>
+    </p>
+    <AnimatedText as="p" class="statement__text" mode="scrub">{text}</AnimatedText>
+  </div>
+</section>
+
+<style>
+  .statement {
+    padding-block: var(--space-section);
+  }
+
+  .statement__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .statement :global(.statement__text) {
+    font-family: var(--font-display);
+    font-stretch: 108%;
+    font-weight: 560;
+    font-size: clamp(1.6rem, 1rem + 2.6vw, 3.4rem);
+    line-height: 1.16;
+    letter-spacing: -0.012em;
+    max-width: 30ch;
+    text-wrap: pretty;
+  }
+
+  :global(:lang(ar)) .statement :global(.statement__text) {
+    font-stretch: 100%;
+    letter-spacing: 0;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 64rem) {
+    .statement__grid {
+      grid-template-columns: 3fr 9fr;
+      align-items: start;
+    }
+    .statement__eyebrow {
+      padding-block-start: 1.1rem;
+    }
+  }
+</style>

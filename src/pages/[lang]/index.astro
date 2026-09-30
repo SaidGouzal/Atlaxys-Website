@@ -1,0 +1,204 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import Process from '@/components/home/Process.astro';
+import Statement from '@/components/home/Statement.astro';
+import CaseCard from '@/components/cards/CaseCard.astro';
+import PostRow from '@/components/cards/PostRow.astro';
+import ProductCard from '@/components/cards/ProductCard.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import IndustryGrid from '@/components/sections/IndustryGrid.astro';
+import Principles from '@/components/sections/Principles.astro';
+import ServiceIndex from '@/components/sections/ServiceIndex.astro';
+import TechStack from '@/components/sections/TechStack.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getCaseStudies, getIndustries, getPageCopy, getPosts, getProducts, getServices } from '@/lib/content';
+import { faqNode, itemListNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, services, caseStudies, products, posts, industries] = await Promise.all([
+  getPageCopy(locale, 'home'),
+  getServices(locale),
+  getCaseStudies(locale),
+  getProducts(locale),
+  getPosts(locale),
+  getIndustries(locale),
+]);
+
+const industryById = new Map(industries.map((i) => [i.key, i]));
+const featuredWork = caseStudies.slice(0, 2);
+const latestPosts = posts.slice(0, 3);
+const path = routePath(locale, 'home');
+
+// Section numbering follows what is actually rendered.
+let n = 0;
+const idx = () => String(++n).padStart(2, '0');
+---
+
+<BaseLayout
+  locale={locale}
+  page="home"
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/') }}
+  schema={[
+    itemListNode(
+      path,
+      services.map((s) => ({ name: s.data.title, url: s.url })),
+    ),
+    faqNode(path, copy.faq.items),
+  ]}
+  footerCta={false}
+>
+  <Hero locale={locale} copy={copy.hero} />
+
+  <Statement eyebrow={copy.statement.eyebrow} text={copy.statement.text} />
+
+  <Section labelledby="services-title" class="home-services">
+    <Container>
+      <SectionHeader id="services-title" index={idx()} eyebrow={copy.services.eyebrow} title={copy.services.title} intro={copy.services.intro}>
+        <Button href={routePath(locale, 'services')} variant="link">{t.nav.allServices}</Button>
+      </SectionHeader>
+      <ServiceIndex services={services} />
+    </Container>
+  </Section>
+
+  <Process index={idx()} eyebrow={copy.process.eyebrow} title={copy.process.title} intro={copy.process.intro} steps={copy.process.steps} />
+
+  {
+    featuredWork.length > 0 && (
+      <Section labelledby="work-title">
+        <Container>
+          <SectionHeader id="work-title" index={idx()} eyebrow={copy.work.eyebrow} title={copy.work.title} intro={copy.work.intro}>
+            <Button href={routePath(locale, 'work')} variant="link">
+              {t.cta.allWork}
+            </Button>
+          </SectionHeader>
+          <div class="home-work">
+            {featuredWork.map((item, i) => (
+              <div class:list={['home-work__item', `home-work__item--${i}`]}>
+                <CaseCard item={item} industry={industryById.get(item.data.industry)} locale={locale} size={i === 0 ? 'lg' : 'md'} />
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  {
+    products.length > 0 && (
+      <Section theme="light" labelledby="products-title">
+        <Container>
+          <SectionHeader id="products-title" index={idx()} eyebrow={copy.products.eyebrow} title={copy.products.title} intro={copy.products.intro}>
+            <Button href={routePath(locale, 'products')} variant="link">
+              {t.cta.allProducts}
+            </Button>
+          </SectionHeader>
+          <div class="home-products" data-reveal-stagger="80">
+            {products.slice(0, 3).map((product) => (
+              <div data-reveal>
+                <ProductCard product={product} locale={locale} />
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section labelledby="stack-title">
+    <Container>
+      <SectionHeader id="stack-title" index={idx()} eyebrow={copy.stack.eyebrow} title={copy.stack.title} intro={copy.stack.intro} />
+      <TechStack locale={locale} />
+    </Container>
+  </Section>
+
+  <Section labelledby="industries-title" spacing="flush-top">
+    <Container>
+      <SectionHeader id="industries-title" index={idx()} eyebrow={copy.industries.eyebrow} title={copy.industries.title} intro={copy.industries.intro} />
+      <IndustryGrid industries={industries} />
+    </Container>
+  </Section>
+
+  <Section labelledby="principles-title" class="home-principles">
+    <Container>
+      <Principles index={idx()} eyebrow={copy.principles.eyebrow} title={copy.principles.title} items={copy.principles.items} />
+    </Container>
+  </Section>
+
+  {
+    latestPosts.length > 0 && (
+      <Section labelledby="insights-title" spacing="flush-top">
+        <Container>
+          <SectionHeader id="insights-title" index={idx()} eyebrow={copy.insights.eyebrow} title={copy.insights.title}>
+            <Button href={routePath(locale, 'insights')} variant="link">
+              {t.cta.allInsights}
+            </Button>
+          </SectionHeader>
+          <div class="home-posts">
+            {latestPosts.map((post) => (
+              <PostRow post={post} locale={locale} />
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section labelledby="faq-title" spacing="flush-top">
+    <Container>
+      <FAQ index={idx()} eyebrow={copy.faq.eyebrow} title={copy.faq.title} items={copy.faq.items} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={copy.cta.title} text={copy.cta.text} id="home-cta-title" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .home-work {
+    display: grid;
+    gap: var(--space-2xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .home-work {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .home-work__item--0 {
+      grid-column: 1 / span 7;
+    }
+
+    .home-work__item--1 {
+      grid-column: 9 / span 4;
+      margin-block-start: 12rem;
+    }
+  }
+
+  .home-products {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .home-products {
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    }
+  }
+
+  .home-posts {
+    border-top: 1px solid var(--color-line);
+  }
+</style>

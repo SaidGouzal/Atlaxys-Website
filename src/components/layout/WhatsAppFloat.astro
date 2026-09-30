@@ -1,0 +1,107 @@
+---
+/**
+ * Floating WhatsApp button — quiet, not a popup. Appears after the visitor
+ * has scrolled past the first screen and steps aside while the consent
+ * banner is visible. The number is configured once in src/config/site.ts.
+ */
+import { whatsappLink } from '@/config/site';
+import { useTranslations, type Locale } from '@/i18n';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+  message?: string;
+}
+
+const { locale, message } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<aside aria-label={t.cta.whatsappShort}>
+<a
+  href={whatsappLink(message ?? t.whatsapp.message)}
+  class="wa-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  data-wa-float
+  data-track="whatsapp_click"
+  data-track-location="floating"
+>
+  <Icon name="whatsapp" size={24} />
+  <span class="wa-float__label">{t.cta.whatsappShort}</span>
+  <span class="visually-hidden">{t.whatsapp.floatingLabel} {t.a11y.newTab}</span>
+</a>
+</aside>
+
+<script>
+  const button = document.querySelector<HTMLElement>('[data-wa-float]');
+  if (button) {
+    const update = () => button.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.6);
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .wa-float {
+    position: fixed;
+    inset-block-end: max(1rem, env(safe-area-inset-bottom));
+    inset-inline-end: max(1rem, env(safe-area-inset-right));
+    z-index: var(--z-float);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 3.25rem;
+    padding-inline: 0.9rem;
+    background: var(--ink-800);
+    color: var(--color-text);
+    border: 1px solid var(--color-line-strong);
+    box-shadow: var(--shadow-float);
+    text-decoration: none;
+    font-weight: 560;
+    font-size: var(--step--1);
+    opacity: 0;
+    transform: translateY(1rem);
+    pointer-events: none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    transition:
+      opacity var(--dur-3) var(--ease-out),
+      transform var(--dur-3) var(--ease-out),
+      background-color var(--dur-2);
+  }
+
+  :global([dir='rtl']) .wa-float {
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
+  }
+
+  .wa-float :global(.icon) {
+    color: var(--color-accent);
+  }
+
+  .wa-float.is-visible,
+  .wa-float:focus-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .wa-float:hover {
+    background: var(--ink-700);
+  }
+
+  :global(body.has-consent-banner) .wa-float {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 29.99rem) {
+    .wa-float__label {
+      display: none;
+    }
+    .wa-float {
+      width: 3.25rem;
+      justify-content: center;
+      padding: 0;
+    }
+  }
+</style>

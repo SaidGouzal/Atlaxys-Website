@@ -1,0 +1,76 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProductCard from '@/components/cards/ProductCard.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import EmptyState from '@/components/ui/EmptyState.astro';
+import Section from '@/components/ui/Section.astro';
+import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy, getProducts } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+import { itemListNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, home, products] = await Promise.all([getPageCopy(locale, 'products'), getPageCopy(locale, 'home'), getProducts(locale)]);
+const trail = crumbs(locale, 'products');
+const path = routePath(locale, 'products');
+---
+
+<BaseLayout
+  locale={locale}
+  page="products"
+  pageType="CollectionPage"
+  breadcrumbs={trail}
+  schema={[itemListNode(path, products.map((p) => ({ name: p.name, url: p.url })))]}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/products/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb}>
+    <Fragment slot="actions">
+      <Button href={routePath(locale, 'services')} variant="link">{t.nav.allServices}</Button>
+    </Fragment>
+  </PageHero>
+
+  <Section theme="light" aria-label={t.labels.products}>
+    <Container>
+      {
+        products.length > 0 ? (
+          <ul role="list" class="product-grid" data-reveal-stagger="80">
+            {products.map((product) => (
+              <li data-reveal>
+                <ProductCard product={product} locale={locale} headingLevel="h2" />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState text={t.empty.products}>
+            <Button href={routePath(locale, 'contact')}>{t.cta.talkToUs}</Button>
+          </EmptyState>
+        )
+      }
+    </Container>
+  </Section>
+
+  <Section>
+    <Container>
+      <CTABlock locale={locale} title={t.cta.requestDemo} text={home.products.intro ?? ''} id="products-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .product-grid {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    }
+  }
+</style>

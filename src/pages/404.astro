@@ -1,0 +1,176 @@
+---
+/**
+ * 404. One page for every language: the path prefix (/fr/…, /ar/…) decides
+ * which copy is shown, and a disconnected trace animates where the route
+ * should have been. Served with a 404 status by the Node server.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import { localeMeta, locales, routePath, useTranslations } from '@/i18n';
+
+const copies = locales.map((l) => {
+  const t = useTranslations(l);
+  return {
+    locale: l,
+    dir: localeMeta[l].dir,
+    t,
+    links: (['services', 'work', 'insights', 'contact'] as const).map((k) => ({ label: t.nav[k], href: routePath(l, k) })),
+  };
+});
+const en = useTranslations('en');
+---
+
+<BaseLayout locale="en" page="404" footerCta={false} seo={{ title: '404 — Page not found', description: en.notFound.text, noindex: true }}>
+  <section class="nf">
+    <svg class="nf__art" viewBox="0 0 900 260" fill="none" aria-hidden="true" focusable="false">
+      <path class="nf__trace" d="M0 190 H250 L300 140 H410" pathLength="1" />
+      <circle class="nf__end" cx="422" cy="140" r="11" />
+      <path class="nf__gap" d="M450 140 H520" stroke-dasharray="4 10" />
+      <circle class="nf__lost" cx="548" cy="140" r="11" />
+      <path class="nf__trace nf__trace--2" d="M560 140 H640 L690 90 H900" pathLength="1" />
+      <text x="0" y="120" class="nf__code">404</text>
+    </svg>
+
+    {
+      copies.map((c) => (
+        <div class="container nf__copy" lang={localeMeta[c.locale].hreflang} dir={c.dir} data-nf-locale={c.locale} hidden={c.locale !== 'en'}>
+          <h1 class="h2 nf__title">{c.t.notFound.title}</h1>
+          <p class="lead">{c.t.notFound.text}</p>
+          <p class="nf__suggest">{c.t.notFound.suggestions}</p>
+          <ul role="list" class="nf__links">
+            {c.links.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+          <Button href={routePath(c.locale, 'home')} icon="arrow-left">
+            {c.t.cta.backHome}
+          </Button>
+        </div>
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var seg = location.pathname.split('/')[1];
+    var copy = document.querySelector('[data-nf-locale="' + seg + '"]');
+    if (!copy || seg === 'en') return;
+    document.querySelectorAll('[data-nf-locale]').forEach(function (el) {
+      el.hidden = el !== copy;
+    });
+    document.documentElement.lang = copy.getAttribute('lang');
+  })();
+</script>
+
+<style>
+  .nf {
+    min-height: 90svh;
+    display: grid;
+    align-content: center;
+    gap: var(--space-xl);
+    padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-2xl);
+    overflow: hidden;
+  }
+
+  .nf__art {
+    width: min(100%, 64rem);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    overflow: visible;
+    direction: ltr;
+  }
+
+  .nf__trace {
+    stroke: var(--color-line-strong);
+    stroke-width: 2;
+  }
+
+  .nf__trace:first-child {
+    stroke: var(--signal-500);
+  }
+
+  .nf__end {
+    stroke: var(--signal-500);
+    stroke-width: 2.5;
+    fill: var(--ink-950);
+  }
+
+  .nf__gap {
+    stroke: var(--steel-600);
+    stroke-width: 2;
+  }
+
+  .nf__lost {
+    stroke: var(--steel-600);
+    stroke-width: 2.5;
+    fill: var(--ink-950);
+  }
+
+  .nf__code {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 120px;
+    fill: var(--steel-50);
+    letter-spacing: -0.03em;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .nf__trace {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: nf-route 1.4s var(--ease-signal) 0.2s forwards;
+    }
+
+    .nf__trace--2 {
+      animation-delay: 0.9s;
+    }
+
+    .nf__end {
+      animation: nf-blink 1.6s steps(2, jump-none) 1.6s infinite;
+    }
+  }
+
+  @keyframes nf-route {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes nf-blink {
+    50% {
+      stroke: var(--steel-600);
+    }
+  }
+
+  .nf__copy {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+  }
+
+  .nf__title {
+    max-width: 20ch;
+  }
+
+  .nf__suggest {
+    color: var(--color-muted);
+  }
+
+  .nf__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-block-end: var(--space-s);
+  }
+
+  .nf__links a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.25em;
+  }
+</style>

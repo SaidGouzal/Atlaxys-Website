@@ -1,0 +1,81 @@
+---
+/**
+ * Industry pages — generated only for industries with `"publishPage": true`
+ * (off by default, so thin pages are never published). Enable one when it has
+ * enough genuinely useful, sector-specific content.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CaseCard from '@/components/cards/CaseCard.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import ServiceIndex from '@/components/sections/ServiceIndex.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import { locales, useTranslations, type Locale } from '@/i18n';
+import { getCaseStudies, getIndustries, getServices, type Industry } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of locales) {
+    for (const industry of (await getIndustries(lang)).filter((i) => i.url)) {
+      paths.push({ params: { lang, slug: industry.key }, props: { industry } });
+    }
+  }
+  return paths;
+}
+
+interface Props {
+  industry: Industry;
+}
+
+const { industry } = Astro.props;
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [services, caseStudies] = await Promise.all([getServices(locale), getCaseStudies(locale)]);
+const relevantServices = services.filter((s) => industry.services.includes(s.key));
+const work = caseStudies.filter((c) => c.data.industry === industry.key);
+const trail = crumbs(locale, { name: industry.name, url: industry.url! });
+---
+
+<BaseLayout locale={locale} page="industry" breadcrumbs={trail} seo={{ title: industry.name, description: industry.summary }}>
+  <PageHero eyebrow={t.labels.industry} title={industry.name} lead={industry.summary} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+  {
+    relevantServices.length > 0 && (
+      <Section>
+        <Container>
+          <ServiceIndex services={relevantServices} />
+        </Container>
+      </Section>
+    )
+  }
+  {
+    work.length > 0 && (
+      <Section spacing="flush-top">
+        <Container class="industry-work">
+          {work.map((c) => (
+            <CaseCard item={c} locale={locale} />
+          ))}
+        </Container>
+      </Section>
+    )
+  }
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="industry-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  :global(.industry-work) {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    :global(.industry-work) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,582 @@
+---
+/**
+ * Lead form — contact page ("full") and campaign landing pages ("compact").
+ *
+ * Accessibility: real <label>s, optional fields marked as such, native
+ * constraint attributes, inline errors linked with aria-describedby, an error
+ * summary that receives focus, and a polite live region for status.
+ * Progressive enhancement: without JavaScript the form still POSTs to the
+ * endpoint, which redirects to the thank-you page.
+ */
+import { PUBLIC_CONTACT_ENDPOINT } from 'astro:env/client';
+import { budgetRanges, countryCodes, priorityCountries, projectTypes, timelines, type ProjectType } from '@/config/forms';
+import { mailtoLink, site, whatsappLink } from '@/config/site';
+import { countryName, localeMeta, useTranslations, type Locale } from '@/i18n';
+import { getLegalUrl } from '@/lib/content';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+  variant?: 'full' | 'compact';
+  id?: string;
+  /** Analytics name of the form, e.g. "contact" or "landing". */
+  name?: string;
+  landing?: string;
+  campaign?: string;
+  projectType?: ProjectType;
+  whatsappMessage?: string;
+}
+
+const { locale, variant = 'full', id = 'lead-form', name = 'contact', landing = '', campaign = '', projectType, whatsappMessage } = Astro.props;
+const t = useTranslations(locale);
+const f = t.form;
+const endpoint = PUBLIC_CONTACT_ENDPOINT || '/api/contact/';
+const privacyUrl = await getLegalUrl(locale, 'privacy');
+const full = variant === 'full';
+const MESSAGE_MIN = full ? 20 : 0;
+
+const collator = new Intl.Collator(localeMeta[locale].intl);
+const priority = priorityCountries.map((code) => ({ code, name: countryName(code, locale) }));
+const others = countryCodes
+  .filter((c) => !priorityCountries.includes(c))
+  .map((code) => ({ code, name: countryName(code, locale) }))
+  .sort((a, b) => collator.compare(a.name, b.name));
+
+const messages = {
+  required: f.errorRequired,
+  email: f.errorEmail,
+  tooShort: f.errorTooShort(MESSAGE_MIN),
+  choose: f.errorChoose,
+  offline: f.offlineText,
+  rateLimited: f.rateLimitedText,
+  submitting: f.submitting,
+};
+const fid = (field: string) => `${id}-${field}`;
+const formState = Astro.url.searchParams.get('form');
+---
+
+<div class="lead" id={id} data-lead-root>
+  <form
+    class:list={['lead-form', `lead-form--${variant}`]}
+    action={endpoint}
+    method="post"
+    novalidate
+    data-lead-form
+    data-form-name={name}
+    data-messages={JSON.stringify(messages)}
+  >
+    <div class="lead-form__summary" role="alert" tabindex="-1" hidden data-error-summary>
+      <p class="lead-form__summary-title"><Icon name="alert-circle" size={18} /> {f.errorSummary}</p>
+      <ul></ul>
+    </div>
+
+    {
+      formState && formState !== 'ok' && (
+        <p class="lead-form__server-note" role="alert">
+          {formState === 'rate_limited' ? f.rateLimitedText : f.errorText}
+        </p>
+      )
+    }
+
+    <div class="lead-form__grid">
+      <div class="field">
+        <label for={fid('name')} class="field__label">{f.name}</label>
+        <input id={fid('name')} name="name" type="text" autocomplete="name" required minlength="2" maxlength="120" aria-describedby={`${fid('name')}-error`} />
+        <p class="field__error" id={`${fid('name')}-error`} hidden></p>
+      </div>
+
+      <div class="field">
+        <label for={fid('email')} class="field__label">{f.email}</label>
+        <input
+          id={fid('email')}
+          name="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          required
+          maxlength="200"
+          dir="ltr"
+          aria-describedby={`${fid('email')}-error`}
+        />
+        <p class="field__error" id={`${fid('email')}-error`} hidden></p>
+      </div>
+
+      {
+        full && (
+          <div class="field">
+            <label for={fid('company')} class="field__label">
+              {f.company} <span class="field__optional">({f.optional})</span>
+            </label>
+            <input id={fid('company')} name="company" type="text" autocomplete="organization" maxlength="160" />
+          </div>
+        )
+      }
+
+      <div class="field">
+        <label for={fid('phone')} class="field__label">
+          {f.phone} <span class="field__optional">({f.optional})</span>
+        </label>
+        <input id={fid('phone')} name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" dir="ltr" pattern="[+0-9 ().-]*" aria-describedby={`${fid('phone')}-error`} />
+        <p class="field__error" id={`${fid('phone')}-error`} hidden></p>
+      </div>
+
+      {
+        full && (
+          <div class="field">
+            <label for={fid('country')} class="field__label">
+              {f.country} <span class="field__optional">({f.optional})</span>
+            </label>
+            <div class="field__select">
+              <select id={fid('country')} name="country" autocomplete="country">
+                <option value="">{f.selectCountry}</option>
+                <optgroup label="—">
+                  {priority.map((c) => (
+                    <option value={c.code}>{c.name}</option>
+                  ))}
+                </optgroup>
+                <optgroup label={f.otherCountries}>
+                  {others.map((c) => (
+                    <option value={c.code}>{c.name}</option>
+                  ))}
+                </optgroup>
+              </select>
+              <Icon name="chevron-down" size={18} />
+            </div>
+          </div>
+        )
+      }
+    </div>
+
+    <fieldset class="field field--choices">
+      <legend class="field__label">
+        {f.projectType} <span class="field__optional">({f.optional})</span>
+      </legend>
+      <div class="choices">
+        {
+          projectTypes.map((type) => (
+            <label class="choice">
+              <input type="radio" name="projectType" value={type} checked={projectType === type} />
+              <span>{f.options.projectTypes[type]}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+
+    {
+      full && (
+        <div class="lead-form__grid">
+          <div class="field">
+            <label for={fid('budget')} class="field__label">
+              {f.budget} <span class="field__optional">({f.optional})</span>
+            </label>
+            <div class="field__select">
+              <select id={fid('budget')} name="budget" aria-describedby={`${fid('budget')}-hint`}>
+                <option value="">{f.select}</option>
+                {budgetRanges.map((b) => (
+                  <option value={b.value}>{f.options.budgets[b.value]}</option>
+                ))}
+              </select>
+              <Icon name="chevron-down" size={18} />
+            </div>
+            <p class="field__hint" id={`${fid('budget')}-hint`}>
+              {f.budgetHint}
+            </p>
+          </div>
+          <div class="field">
+            <label for={fid('timeline')} class="field__label">
+              {f.timeline} <span class="field__optional">({f.optional})</span>
+            </label>
+            <div class="field__select">
+              <select id={fid('timeline')} name="timeline">
+                <option value="">{f.select}</option>
+                {timelines.map((tl) => (
+                  <option value={tl}>{f.options.timelines[tl]}</option>
+                ))}
+              </select>
+              <Icon name="chevron-down" size={18} />
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    <div class="field">
+      <label for={fid('message')} class="field__label">
+        {f.message}
+        {!full && <span class="field__optional">({f.optional})</span>}
+      </label>
+      <p class="field__hint" id={`${fid('message')}-hint`}>{f.messageHint}</p>
+      <textarea
+        id={fid('message')}
+        name="message"
+        rows={full ? 6 : 4}
+        maxlength="5000"
+        required={full}
+        minlength={full ? MESSAGE_MIN : undefined}
+        aria-describedby={`${fid('message')}-hint ${fid('message')}-error`}></textarea>
+      <p class="field__error" id={`${fid('message')}-error`} hidden></p>
+    </div>
+
+    <!-- Spam trap: hidden from people and assistive technology. -->
+    <div class="lead-form__hp" aria-hidden="true">
+      <label for={fid('website')}>{f.honeypot}</label>
+      <input id={fid('website')} name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <input type="hidden" name="locale" value={locale} />
+    <input type="hidden" name="source" value={Astro.url.pathname} />
+    <input type="hidden" name="landing" value={landing} />
+    <input type="hidden" name="campaign" value={campaign} />
+    <input type="hidden" name="startedAt" value="" data-started-at />
+
+    <div class="lead-form__footer">
+      <p class="lead-form__privacy">
+        {f.privacyBefore} <a href={privacyUrl}>{f.privacyLink}</a>{f.privacyAfter}
+      </p>
+      <Button type="submit" size="lg" icon="arrow-right" data-submit>
+        <span data-submit-label>{f.submit}</span>
+      </Button>
+    </div>
+    <p class="visually-hidden" role="status" aria-live="polite" data-form-status></p>
+  </form>
+
+  <div class="lead-state lead-state--success" hidden tabindex="-1" data-success>
+    <span class="lead-state__icon" aria-hidden="true"><Icon name="check" size={28} /></span>
+    <h3 class="lead-state__title">{f.successTitle}</h3>
+    <p>{f.successText}</p>
+    <a href={whatsappLink(whatsappMessage ?? t.whatsapp.message)} target="_blank" rel="noopener noreferrer" class="lead-state__link" data-track="whatsapp_click">
+      <Icon name="whatsapp" size={18} />
+      {t.cta.whatsapp}
+      <span class="visually-hidden">{t.a11y.newTab}</span>
+    </a>
+  </div>
+
+  <div class="lead-state lead-state--error" hidden role="alert" data-failure>
+    <h3 class="lead-state__title"><Icon name="alert-circle" size={22} /> {f.errorTitle}</h3>
+    <p data-failure-text>{f.errorText}</p>
+    <p class="lead-state__links">
+      <a href={mailtoLink()} class="ltr">{site.contact.email}</a>
+      <a href={whatsappLink(whatsappMessage ?? t.whatsapp.message)} target="_blank" rel="noopener noreferrer">{t.cta.whatsapp}</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  import { initLeadForms } from '@/scripts/forms/lead-form';
+  initLeadForms();
+</script>
+
+<style>
+  .lead-form {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .lead-form__grid {
+    display: grid;
+    gap: var(--space-l) var(--space-m);
+  }
+
+  @media (min-width: 40rem) {
+    .lead-form__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .field {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    min-width: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .field__label {
+    font-weight: 560;
+    font-size: var(--step--1);
+    color: var(--color-text);
+    padding: 0;
+  }
+
+  .field__optional {
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .field__hint {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+    margin-block-start: -0.2rem;
+  }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    min-height: 3.25rem;
+    padding: 0.8rem 0.95rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-1);
+    color: var(--color-text);
+    font-size: max(16px, var(--step-0)); /* ≥16px prevents iOS zoom on focus */
+    line-height: 1.4;
+    transition:
+      border-color var(--dur-2),
+      box-shadow var(--dur-2);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  .field input:hover,
+  .field textarea:hover,
+  .field select:hover {
+    border-color: var(--color-muted);
+  }
+
+  .field input:focus-visible,
+  .field textarea:focus-visible,
+  .field select:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 1px;
+    border-color: var(--color-focus);
+  }
+
+  .field [aria-invalid='true'] {
+    border-color: var(--color-danger);
+    box-shadow: inset 3px 0 0 var(--color-danger);
+  }
+
+  :global([dir='rtl']) .field [aria-invalid='true'] {
+    box-shadow: inset -3px 0 0 var(--color-danger);
+  }
+
+  .field__error {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--step--1);
+    color: var(--color-danger);
+  }
+
+  .field__error::before {
+    content: '!';
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--color-danger);
+    color: var(--ink-950);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .field__select {
+    position: relative;
+  }
+
+  .field__select select {
+    appearance: none;
+    padding-inline-end: 2.75rem;
+    cursor: pointer;
+  }
+
+  .field__select :global(.icon) {
+    position: absolute;
+    inset-inline-end: 0.9rem;
+    inset-block-start: 50%;
+    translate: 0 -50%;
+    pointer-events: none;
+    color: var(--color-muted);
+  }
+
+  .field--choices .field__label {
+    margin-block-end: 0.75rem;
+  }
+
+  .choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .choice {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .choice input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .choice span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--color-control-border);
+    font-size: var(--step--1);
+    color: var(--color-text-2);
+    transition:
+      border-color var(--dur-2),
+      background-color var(--dur-2),
+      color var(--dur-2);
+  }
+
+  .choice:hover span {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+
+  .choice input:checked + span {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+    font-weight: 560;
+  }
+
+  .choice input:focus-visible + span {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .lead-form__hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .lead-form__footer {
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+  }
+
+  @media (min-width: 48rem) {
+    .lead-form__footer {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .lead-form__privacy {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+    max-width: 48ch;
+  }
+
+  .lead-form__privacy a {
+    color: var(--color-text-2);
+  }
+
+  .lead-form__summary,
+  .lead-form__server-note {
+    padding: var(--space-m);
+    border: 1px solid var(--color-danger);
+    border-inline-start-width: 4px;
+    background: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  }
+
+  .lead-form__summary:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .lead-form__summary-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .lead-form__summary ul {
+    margin-block-start: 0.5rem;
+    padding-inline-start: 1.75rem;
+  }
+
+  .lead-form__summary a {
+    color: var(--color-danger);
+  }
+
+  :global([data-submit][aria-busy='true']) {
+    cursor: progress;
+  }
+
+  :global([data-submit][aria-busy='true'] .btn__icon) {
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .lead-state {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-xl) var(--space-l);
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-surface);
+  }
+
+  .lead-state:focus {
+    outline: none;
+  }
+
+  .lead-state__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .lead-state__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--step-2);
+    font-weight: 700;
+  }
+
+  .lead-state--error {
+    border-color: var(--color-danger);
+  }
+
+  .lead-state--error .lead-state__title :global(.icon) {
+    color: var(--color-danger);
+  }
+
+  .lead-state__link,
+  .lead-state__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    color: var(--color-text);
+    font-weight: 560;
+  }
+
+  .lead-state__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+</style>

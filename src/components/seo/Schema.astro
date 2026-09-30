@@ -1,0 +1,17 @@
+---
+/**
+ * JSON-LD output. Nodes come from src/lib/seo/schema.ts builders; the
+ * serializer escapes `<`, `>` and `&` so content can never break out of the
+ * script element.
+ */
+import { serializeGraph, type JsonLdNode } from '@/lib/seo/schema';
+
+interface Props {
+  nodes: (JsonLdNode | undefined)[];
+}
+
+const { nodes } = Astro.props;
+const json = serializeGraph(nodes);
+---
+
+<script type="application/ld+json" set:html={json} is:inline />

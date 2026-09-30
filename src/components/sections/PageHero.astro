@@ -1,0 +1,157 @@
+---
+/**
+ * Inner-page hero: breadcrumbs, eyebrow, H1 (CSS-animated, LCP-safe), lead,
+ * and an optional aside slot (spec list, actions).
+ */
+import type { Crumb } from '@/lib/seo/schema';
+import Breadcrumbs from '../seo/Breadcrumbs.astro';
+import SignalRule from '../ui/SignalRule.astro';
+
+interface Props {
+  title: string;
+  lead?: string;
+  eyebrow?: string;
+  breadcrumbs?: Crumb[];
+  breadcrumbLabel?: string;
+  size?: 'lg' | 'md';
+}
+
+const { title, lead, eyebrow, breadcrumbs, breadcrumbLabel = 'Breadcrumb', size = 'lg' } = Astro.props;
+const hasAside = Astro.slots.has('aside');
+const hasActions = Astro.slots.has('actions');
+---
+
+<header class:list={['page-hero', `page-hero--${size}`, { 'page-hero--aside': hasAside }]}>
+  <div class="page-hero__grid-bg bg-grid" aria-hidden="true"></div>
+  <div class="container page-hero__inner">
+    {
+      breadcrumbs && breadcrumbs.length > 1 && (
+        <div class="page-hero__crumbs">
+          <Breadcrumbs items={breadcrumbs} label={breadcrumbLabel} />
+        </div>
+      )
+    }
+    <div class="page-hero__main">
+      {
+        eyebrow && (
+          <p class="eyebrow page-hero__eyebrow">
+            <SignalRule length={56} animate={false} />
+            <span>{eyebrow}</span>
+          </p>
+        )
+      }
+      <h1 class:list={['page-hero__title', size === 'lg' ? 'h1' : 'h2']}>{title}</h1>
+      {lead && <p class="lead page-hero__lead">{lead}</p>}
+      {
+        hasActions && (
+          <div class="page-hero__actions">
+            <slot name="actions" />
+          </div>
+        )
+      }
+    </div>
+    {
+      hasAside && (
+        <div class="page-hero__aside">
+          <slot name="aside" />
+        </div>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .page-hero {
+    position: relative;
+    isolation: isolate;
+    padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-2xl);
+    border-bottom: 1px solid var(--color-line);
+    overflow: hidden;
+  }
+
+  .page-hero__grid-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    mask-image: radial-gradient(80% 90% at 85% 0%, #000 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(80% 90% at 85% 0%, #000 0%, transparent 70%);
+  }
+
+  :global([dir='rtl']) .page-hero__grid-bg {
+    mask-image: radial-gradient(80% 90% at 15% 0%, #000 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(80% 90% at 15% 0%, #000 0%, transparent 70%);
+  }
+
+  .page-hero__inner {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .page-hero__main {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+
+  .page-hero__title {
+    max-width: 18ch;
+  }
+
+  .page-hero--md .page-hero__title {
+    max-width: 24ch;
+  }
+
+  .page-hero__lead {
+    max-width: 52ch;
+  }
+
+  .page-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-l);
+    margin-block-start: var(--space-xs);
+  }
+
+  @media (min-width: 64rem) {
+    .page-hero--aside .page-hero__inner {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      column-gap: var(--grid-gap);
+      align-items: end;
+    }
+
+    .page-hero__crumbs {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .page-hero__eyebrow,
+    .page-hero__title,
+    .page-hero__lead,
+    .page-hero__actions,
+    .page-hero__aside {
+      animation: page-hero-in 0.9s var(--ease-out) both;
+    }
+
+    .page-hero__title {
+      animation-delay: 0.06s;
+    }
+
+    .page-hero__lead {
+      animation-delay: 0.16s;
+    }
+
+    .page-hero__actions,
+    .page-hero__aside {
+      animation-delay: 0.26s;
+    }
+  }
+
+  @keyframes page-hero-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0);
+    }
+  }
+</style>

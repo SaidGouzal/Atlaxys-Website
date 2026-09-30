@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Fitness & wellness", "fr": "Fitness & bien-être", "ar": "اللياقة والعافية" },
+  "summary": {
+    "en": "Memberships, access control, bookings and payments for clubs and studios.",
+    "fr": "Adhésions, contrôle d’accès, réservations et paiements pour clubs et studios.",
+    "ar": "الاشتراكات ومراقبة الدخول والحجوزات والمدفوعات للنوادي والاستوديوهات."
+  },
+  "services": ["software-engineering"],
+  "order": 3
+}

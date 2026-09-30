@@ -1,0 +1,433 @@
+---
+/**
+ * Home hero. The headline is the LCP element: it is server-rendered and
+ * animated with CSS only (no JavaScript on the critical path). Words wrapped
+ * in *asterisks* in the content file get the signal-trace underline.
+ */
+import { localeMeta, routePath, useTranslations, type Locale } from '@/i18n';
+import Button from '../ui/Button.astro';
+import SignalField from './SignalField.astro';
+
+interface Props {
+  locale: Locale;
+  copy: {
+    eyebrow: string;
+    title: string;
+    lead: string;
+    primaryCta: string;
+    secondaryCta: string;
+    capabilities: string[];
+  };
+}
+
+const { locale, copy } = Astro.props;
+const t = useTranslations(locale);
+// Per-word masks are inline-blocks; in right-to-left text they would reorder
+// any Latin words (brand names, acronyms). RTL headlines animate as a whole.
+const splitWords = localeMeta[locale].dir === 'ltr';
+
+// "We build the software your business *runs on*." → segments
+const segments = copy.title.split('*').map((text, i) => ({ text, signal: i % 2 === 1 })).filter((s) => s.text);
+let wordIndex = 0;
+const parts = segments.map((segment) => ({
+  signal: segment.signal,
+  words: segment.text
+    .trim()
+    .split(/\s+/)
+    .map((word) => ({ word, i: wordIndex++ })),
+  leadingSpace: /^\s/.test(segment.text),
+  trailingSpace: /\s$/.test(segment.text),
+}));
+---
+
+<section class="hero" data-hero aria-labelledby="hero-title">
+  <SignalField />
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <div class="container hero__content">
+    <p class="eyebrow hero__eyebrow">
+      <span class="hero__pulse" aria-hidden="true"></span>
+      <span>{copy.eyebrow}</span>
+    </p>
+
+    <h1 id="hero-title" class:list={['display display-hero hero__title', { 'hero__title--whole': !splitWords }]}>
+      {
+        !splitWords &&
+          segments.map((segment) =>
+            segment.signal ? (
+              <span class="signal-word">
+                {segment.text.trim()}
+                <span class="signal-word__trace" aria-hidden="true" />
+                <span class="signal-word__node" aria-hidden="true" />
+              </span>
+            ) : (
+              segment.text
+            ),
+          )
+      }
+      {
+        splitWords &&
+        parts.map((part) =>
+          part.signal ? (
+            <>
+              {part.leadingSpace && ' '}
+              <span class="signal-word">
+                {part.words.map(({ word, i }, wi) => (
+                  <>
+                    <span class="w">
+                      <span style={`--w: ${i}`}>{word}</span>
+                    </span>
+                    {wi < part.words.length - 1 && ' '}
+                  </>
+                ))}
+                <span class="signal-word__trace" aria-hidden="true" />
+                <span class="signal-word__node" aria-hidden="true" />
+              </span>
+              {part.trailingSpace && ' '}
+            </>
+          ) : (
+            <>
+              {part.leadingSpace && ' '}
+              {part.words.map(({ word, i }, wi) => (
+                <>
+                  <span class="w">
+                    <span style={`--w: ${i}`}>{word}</span>
+                  </span>
+                  {wi < part.words.length - 1 && ' '}
+                </>
+              ))}
+              {part.trailingSpace && ' '}
+            </>
+          ),
+        )
+      }
+    </h1>
+
+    <p class="lead hero__lead">{copy.lead}</p>
+
+    <div class="hero__actions">
+      <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">
+        {copy.primaryCta}
+      </Button>
+      <Button href="#process" variant="link" icon="arrow-down">
+        {copy.secondaryCta}
+      </Button>
+    </div>
+  </div>
+
+  <div class="container hero__footer">
+    <ul role="list" class="hero__capabilities">
+      {
+        copy.capabilities.map((cap, i) => (
+          <li style={`--c: ${i}`}>
+            <span class="hero__node" aria-hidden="true" />
+            {cap}
+          </li>
+        ))
+      }
+    </ul>
+    <a href="#statement" class="hero__scroll mono">
+      <span>{t.a11y.scrollHint}</span>
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+<script>
+  import { initHeroField } from '@/scripts/hero';
+  initHeroField();
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: max(100svh, 40rem);
+    padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-l);
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .hero__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, var(--ink-950) 0%, rgb(8 9 11 / 0.86) 32%, rgb(8 9 11 / 0.2) 64%, transparent 100%),
+      linear-gradient(0deg, var(--ink-950) 0%, transparent 28%),
+      linear-gradient(180deg, var(--ink-950) 0%, transparent 18%),
+      linear-gradient(-90deg, rgb(8 9 11 / 0.7) 0%, transparent 12%);
+  }
+
+  :global([dir='rtl']) .hero__veil {
+    background:
+      linear-gradient(-90deg, var(--ink-950) 0%, rgb(8 9 11 / 0.86) 32%, rgb(8 9 11 / 0.2) 64%, transparent 100%),
+      linear-gradient(0deg, var(--ink-950) 0%, transparent 28%),
+      linear-gradient(180deg, var(--ink-950) 0%, transparent 18%),
+      linear-gradient(90deg, rgb(8 9 11 / 0.7) 0%, transparent 12%);
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-content: center;
+    gap: var(--space-l);
+  }
+
+  .hero__eyebrow {
+    color: var(--color-text-2);
+  }
+
+  .hero__pulse {
+    position: relative;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+  }
+
+  .hero__pulse::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  .hero__title {
+    max-width: 15ch;
+  }
+
+  :global(:lang(ar)) .hero__title {
+    max-width: 16ch;
+  }
+
+  .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-block-end: 0.06em;
+    margin-block-end: -0.06em;
+  }
+
+  .w > span {
+    display: inline-block;
+  }
+
+  .signal-word {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    color: var(--color-text);
+  }
+
+  /* The trace runs under the words, past the full stop, into a ring node. */
+  .signal-word {
+    --trace-gap: -0.09em;
+    --node: max(10px, 0.16em);
+  }
+
+  .signal-word__trace {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: var(--trace-gap);
+    width: calc(100% + 0.38em);
+    height: max(2px, 0.035em);
+    background: var(--color-accent);
+    transform-origin: left center;
+  }
+
+  :global([dir='rtl']) .signal-word__trace {
+    transform-origin: right center;
+  }
+
+  .signal-word__node {
+    position: absolute;
+    inset-inline-start: calc(100% + 0.38em);
+    inset-block-end: calc(var(--trace-gap) - var(--node) / 2 + max(1px, 0.0175em));
+    width: var(--node);
+    height: var(--node);
+    border: max(2px, 0.03em) solid var(--color-accent);
+    border-radius: 50%;
+    background: var(--color-bg);
+  }
+
+  .hero__lead {
+    max-width: 40ch;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-l);
+  }
+
+  .hero__footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-l);
+    padding-block-start: var(--space-xl);
+  }
+
+  .hero__capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.75rem;
+    padding-block-start: var(--space-m);
+    border-top: 1px solid var(--color-line);
+    width: 100%;
+    max-width: 58rem;
+    font-size: var(--step--1);
+    color: var(--color-text-2);
+  }
+
+  .hero__capabilities li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero__node {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    border: 1.25px solid var(--color-accent);
+  }
+
+  .hero__scroll {
+    display: none;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .hero__scroll-line {
+    position: relative;
+    width: 1px;
+    height: 3rem;
+    background: var(--color-line-strong);
+    overflow: hidden;
+  }
+
+  .hero__scroll-line::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    height: 40%;
+    background: var(--color-accent);
+    transform: translateY(-100%);
+  }
+
+  @media (min-width: 64rem) {
+    .hero__scroll {
+      display: inline-flex;
+    }
+    .hero__content {
+      padding-block-start: var(--space-xl);
+    }
+  }
+
+  /* ---- Entrance (CSS only; skipped with reduced motion) ------------- */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__eyebrow,
+    .hero__lead,
+    .hero__actions,
+    .hero__capabilities li,
+    .hero__scroll {
+      animation: hero-rise 1s var(--ease-out) both;
+    }
+
+    .hero__eyebrow {
+      animation-delay: 0.05s;
+    }
+
+    .w > span {
+      animation: hero-word 1.1s var(--ease-out) both;
+      animation-delay: calc(0.12s + var(--w) * 0.055s);
+    }
+
+    .hero__title--whole {
+      animation: hero-rise 1.1s var(--ease-out) 0.12s both;
+    }
+
+    .signal-word__trace {
+      animation: hero-trace 1.1s var(--ease-signal) 0.95s both;
+    }
+
+    .signal-word__node {
+      animation: hero-node 0.5s var(--ease-out) 1.85s both;
+    }
+
+    .hero__lead {
+      animation-delay: 0.55s;
+    }
+
+    .hero__actions {
+      animation-delay: 0.7s;
+    }
+
+    .hero__capabilities li {
+      animation-delay: calc(0.9s + var(--c) * 0.06s);
+    }
+
+    .hero__scroll {
+      animation-delay: 1.3s;
+    }
+
+    .hero__scroll-line::after {
+      animation: scroll-signal 2.2s var(--ease-signal) 2s infinite;
+    }
+
+    .hero__pulse::after {
+      animation: pulse 2.4s var(--ease-out) infinite;
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1.25rem, 0);
+    }
+  }
+
+  @keyframes hero-word {
+    from {
+      transform: translate3d(0, 108%, 0);
+    }
+  }
+
+  @keyframes hero-trace {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes hero-node {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+  }
+
+  @keyframes scroll-signal {
+    to {
+      transform: translateY(260%);
+    }
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.2;
+    }
+  }
+</style>

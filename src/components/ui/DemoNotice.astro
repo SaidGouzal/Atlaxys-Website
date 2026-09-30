@@ -1,0 +1,51 @@
+---
+/**
+ * Visible notice for demo / placeholder content (see `demo: true` in content
+ * files). Guarantees fictional material is never presented as real.
+ * Controlled globally by `site.showDemoNotices`.
+ */
+import { site } from '@/config/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  label: string;
+  text: string;
+  class?: string;
+}
+const { label, text, class: className } = Astro.props;
+---
+
+{
+  site.showDemoNotices && (
+    <aside class:list={['demo-notice', className]} role="note">
+      <Icon name="info" size={18} class="demo-notice__icon" />
+      <p>
+        <strong class="demo-notice__label">{label}.</strong> {text}
+      </p>
+    </aside>
+  )
+}
+
+<style>
+  .demo-notice {
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-start;
+    padding: var(--space-s) var(--space-m);
+    border: 1px dashed color-mix(in srgb, var(--color-accent) 60%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+    font-size: var(--step--1);
+    color: var(--color-text-2);
+    max-width: 70ch;
+  }
+
+  .demo-notice__icon {
+    color: var(--color-accent);
+    margin-block-start: 0.15em;
+  }
+
+  .demo-notice__label {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+</style>

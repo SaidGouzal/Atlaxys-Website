@@ -1,0 +1,424 @@
+---
+/**
+ * Product page template. Add a JSON file to src/content/products/ and this
+ * page, the products index, the home page section, search, the sitemap and
+ * related-content links all pick it up.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import RelatedContent from '@/components/sections/RelatedContent.astro';
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import DemoNotice from '@/components/ui/DemoNotice.astro';
+import MediaFrame from '@/components/ui/MediaFrame.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import SpecList from '@/components/ui/SpecList.astro';
+import Tag from '@/components/ui/Tag.astro';
+import { formatNumber, locales, routePath, useTranslations } from '@/i18n';
+import { getProductPaths, type AlternateMap, type Product } from '@/lib/content';
+import { getRelated } from '@/lib/content/related';
+import { crumbs } from '@/lib/seo/crumbs';
+import { faqNode, ids, softwareApplicationNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = getProductPaths;
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const { locale } = product;
+const t = useTranslations(locale);
+const related = await getRelated(
+  locale,
+  { type: 'product', key: product.key },
+  { services: product.services, caseStudies: product.caseStudies, posts: product.posts },
+);
+const trail = crumbs(locale, 'products', { name: product.name, url: product.url });
+const alternates = Object.fromEntries(locales.map((l) => [l, `/${l}/products/${product.slug}/`])) as AlternateMap;
+
+const statusLabel = {
+  available: t.labels.statusAvailable,
+  beta: t.labels.statusBeta,
+  'in-development': t.labels.statusInDevelopment,
+  'coming-soon': t.labels.statusComingSoon,
+}[product.status];
+
+const priced = product.pricing?.plans.find((p) => typeof p.price === 'number');
+const periodLabel = { month: t.labels.perMonth, year: t.labels.perYear, 'one-time': t.labels.oneTime } as const;
+const money = (value: number, currency: string) =>
+  formatNumber(value, locale, { style: 'currency', currency, maximumFractionDigits: 0 });
+const demoHref = `${routePath(locale, 'contact')}?product=${encodeURIComponent(product.slug)}`;
+
+const specs = [
+  { label: t.labels.category, value: product.category },
+  { label: t.labels.status, value: statusLabel },
+  ...(product.platforms.length ? [{ label: t.labels.platforms, value: product.platforms }] : []),
+  ...(product.audience ? [{ label: t.labels.audience, value: product.audience }] : []),
+  ...(product.technologies.length ? [{ label: t.labels.technologies, value: product.technologies }] : []),
+];
+---
+
+<BaseLayout
+  locale={locale}
+  page="product"
+  pageType="ItemPage"
+  breadcrumbs={trail}
+  primaryId={ids.primary(product.url, 'software')}
+  schema={[
+    softwareApplicationNode({
+      url: product.url,
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      platforms: product.platforms,
+      image: product.cover?.src.src,
+      offer: priced && product.pricing ? { price: priced.price!, currency: product.pricing.currency } : undefined,
+      locale,
+    }),
+    faqNode(product.url, product.faqs),
+  ]}
+  seo={{
+    title: product.seo.title ?? `${product.name} — ${product.tagline}`,
+    description: product.seo.description ?? product.description,
+    alternates,
+    type: 'product',
+    modifiedTime: product.updatedAt,
+  }}
+>
+  <header class="product-hero">
+    <div class="container">
+      <Breadcrumbs items={trail} label={t.a11y.breadcrumb} />
+      <div class="product-hero__grid">
+        <div class="product-hero__main">
+          <p class="product-hero__meta">
+            <span class="mono">{t.labels.product} · {product.category}</span>
+            <Tag status={product.status}>{statusLabel}</Tag>
+          </p>
+          <h1 class="product-hero__name">{product.name}</h1>
+          <p class="lead">{product.tagline}</p>
+          <div class="product-hero__actions">
+            <Button href={demoHref} size="lg" magnetic>{t.cta.requestDemo}</Button>
+            {
+              product.demoUrl && (
+                <Button href={product.demoUrl} variant="secondary" icon="external" target="_blank">
+                  {t.cta.openDemo}
+                </Button>
+              )
+            }
+            {
+              product.downloadUrl && (
+                <Button href={product.downloadUrl} variant="link" icon="download">
+                  {t.cta.download}
+                </Button>
+              )
+            }
+          </div>
+        </div>
+      </div>
+      {product.demo && <DemoNotice label={t.labels.illustrative} text={t.labels.demoProductNote} class="product-hero__notice" />}
+    </div>
+  </header>
+
+  <Section spacing="tight">
+    <Container>
+      <MediaFrame
+        image={product.cover}
+        aspect="16 / 8"
+        priority
+        sizes="(min-width: 1440px) 1344px, 100vw"
+        placeholderLabel={`${product.name} — ${t.labels.mediaPlaceholder}`}
+      />
+    </Container>
+  </Section>
+
+  <Section labelledby="overview-title">
+    <Container class="overview">
+      <div class="overview__text">
+        <h2 id="overview-title" class="h3">{product.tagline}</h2>
+        <p class="overview__desc">{product.description}</p>
+      </div>
+      <div data-reveal>
+        <SpecList items={specs} />
+      </div>
+    </Container>
+  </Section>
+
+  {
+    product.features.length > 0 && (
+      <Section theme="light" labelledby="features-title">
+        <Container>
+          <SectionHeader id="features-title" index="01" eyebrow={product.name} title={t.labels.features} size="md" />
+          <ul role="list" class="features" data-reveal-stagger="70">
+            {product.features.map((f, i) => (
+              <li class="feature" data-reveal>
+                <span class="mono tabular feature__index">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="feature__title">{f.title}</h3>
+                <p>{f.description}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+    )
+  }
+
+  {
+    product.images.length > 0 && (
+      <Section labelledby="gallery-title">
+        <Container>
+          <h2 id="gallery-title" class="eyebrow gallery-title">
+            {t.labels.gallery}
+          </h2>
+          <div class="gallery">
+            {product.images.map((img) => (
+              <MediaFrame image={img} caption={img.caption} aspect="16 / 10" sizes="(min-width: 1024px) 50vw, 100vw" />
+            ))}
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  {
+    product.pricing && (
+      <Section labelledby="pricing-title">
+        <Container>
+          <SectionHeader id="pricing-title" index="02" eyebrow={t.labels.pricing} title={product.pricing.plans.length ? product.name : t.labels.priceOnRequest} intro={product.pricing.note} size="md" />
+          {product.pricing.plans.length > 0 ? (
+            <ul role="list" class="plans">
+              {product.pricing.plans.map((plan) => (
+                <li class:list={['plan', { 'plan--highlight': plan.highlighted }]}>
+                  <h3 class="plan__name">{plan.name}</h3>
+                  <p class="plan__price">
+                    {typeof plan.price === 'number' ? (
+                      <>
+                        <span class="plan__amount">{money(plan.price, product.pricing!.currency)}</span>
+                        {plan.period && <span class="plan__period">{periodLabel[plan.period]}</span>}
+                      </>
+                    ) : (
+                      t.labels.priceOnRequest
+                    )}
+                  </p>
+                  <ul role="list" class="plan__features">
+                    {plan.features.map((feature) => (
+                      <li>{feature}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Button href={demoHref}>{t.cta.requestDemo}</Button>
+          )}
+        </Container>
+      </Section>
+    )
+  }
+
+  {
+    product.faqs.length > 0 && (
+      <Section spacing="flush-top" labelledby="product-faq">
+        <Container>
+          <FAQ id="product-faq" eyebrow={product.name} title={t.labels.faq} items={product.faqs} />
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section spacing="flush-top">
+    <Container>
+      <RelatedContent locale={locale} related={related} show={['services', 'caseStudies', 'posts']} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.cta.requestDemo} text={product.tagline} id="product-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .product-hero {
+    padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-l);
+  }
+
+  .product-hero__grid {
+    display: grid;
+    gap: var(--space-l);
+    margin-block-start: var(--space-xl);
+  }
+
+  .product-hero__main {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .product-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    color: var(--color-muted);
+  }
+
+  .product-hero__name {
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-size: clamp(3rem, 1.5rem + 7vw, 8.5rem);
+    line-height: 0.9;
+  }
+
+  :global(:lang(ar)) .product-hero__name {
+    font-family: 'Archivo', var(--font-sans);
+  }
+
+  .product-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-m);
+    margin-block-start: var(--space-xs);
+  }
+
+  .product-hero :global(.product-hero__notice) {
+    margin-block-start: var(--space-l);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .product-hero__main > * {
+      animation: product-in 0.9s var(--ease-out) both;
+    }
+    .product-hero__main > :nth-child(2) {
+      animation-delay: 0.06s;
+    }
+    .product-hero__main > :nth-child(3) {
+      animation-delay: 0.14s;
+    }
+    .product-hero__main > :nth-child(4) {
+      animation-delay: 0.22s;
+    }
+  }
+
+  @keyframes product-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+  }
+
+  .overview {
+    display: grid;
+    gap: var(--space-xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .overview {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    }
+  }
+
+  .overview__text {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+
+  .overview__desc {
+    color: var(--color-text-2);
+    font-size: var(--step-1);
+    line-height: 1.6;
+    max-width: 58ch;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: var(--grid-gap);
+  }
+
+  .feature {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+  }
+
+  .feature__index {
+    color: var(--color-accent);
+  }
+
+  .feature__title {
+    font-size: var(--step-1);
+    font-weight: 680;
+  }
+
+  .feature p {
+    color: var(--color-text-2);
+  }
+
+  .gallery-title {
+    margin-block-end: var(--space-l);
+  }
+
+  .gallery {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .plans {
+    display: grid;
+    gap: var(--grid-gap);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+
+  .plan {
+    display: grid;
+    align-content: start;
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border: 1px solid var(--color-line);
+  }
+
+  .plan--highlight {
+    border-color: var(--color-accent);
+  }
+
+  .plan__name {
+    font-size: var(--step-1);
+    font-weight: 650;
+  }
+
+  .plan__amount {
+    font-family: var(--font-display);
+    font-stretch: 115%;
+    font-weight: 740;
+    font-size: var(--step-3);
+  }
+
+  .plan__period {
+    color: var(--color-muted);
+    margin-inline-start: 0.4rem;
+  }
+
+  .plan__features {
+    display: grid;
+    gap: 0.4rem;
+    color: var(--color-text-2);
+    font-size: var(--step--1);
+  }
+</style>

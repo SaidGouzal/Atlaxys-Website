@@ -1,0 +1,83 @@
+---
+/**
+ * Visible breadcrumb trail. The matching BreadcrumbList JSON-LD is emitted by
+ * the page graph (breadcrumbNode) from the same `items` array.
+ */
+import type { Crumb } from '@/lib/seo/schema';
+
+interface Props {
+  items: Crumb[];
+  label: string;
+  class?: string;
+}
+
+const { items, label, class: className } = Astro.props;
+---
+
+<nav class:list={['breadcrumbs', className]} aria-label={label}>
+  <ol role="list">
+    {
+      items.map((item, i) => (
+        <li>
+          {i < items.length - 1 ? (
+            <a href={item.url}>{item.name}</a>
+          ) : (
+            <span aria-current="page">{item.name}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :global(:lang(ar)) .breadcrumbs ol {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .breadcrumbs li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .breadcrumbs li + li::before {
+    content: '';
+    width: 0.9rem;
+    height: 1px;
+    background: var(--color-line-strong);
+  }
+
+  .breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+    padding-block: 0.4rem;
+    transition: color var(--dur-2);
+  }
+
+  .breadcrumbs a:hover {
+    color: var(--color-text);
+  }
+
+  .breadcrumbs [aria-current='page'] {
+    color: var(--color-text-2);
+    max-width: 40ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

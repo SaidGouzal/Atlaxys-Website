@@ -1,0 +1,12 @@
+{
+  "page": "services",
+  "seo": {
+    "title": "Services — Software engineering, AI automation, DevOps & consulting",
+    "description": "Software engineering, AI and workflow automation, DevOps and cloud, and technology consulting — delivered by one engineering team based in Morocco, for clients worldwide."
+  },
+  "hero": {
+    "eyebrow": "Services",
+    "title": "What we build with you.",
+    "lead": "Four practices that share one engineering team, one delivery process and one standard of quality. Pick one — most projects draw on several."
+  }
+}

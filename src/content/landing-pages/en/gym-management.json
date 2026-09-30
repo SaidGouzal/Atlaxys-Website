@@ -1,0 +1,66 @@
+{
+  "translationKey": "landing-gym-management",
+  "campaign": "gym-management",
+  "seo": {
+    "title": "Gym management software — memberships, check-in and billing",
+    "description": "Nexus Gym runs your club's front desk: memberships, check-in, payments, classes and reports — and keeps working when the internet does not.",
+    "noindex": true
+  },
+  "hero": {
+    "eyebrow": "Nexus Gym — gym management software",
+    "title": "Run your gym from one screen, even when the internet is down.",
+    "lead": "Memberships, check-in, payments, classes and owner reports in one desktop application, built for clubs and studios.",
+    "bullets": ["Free demo with our team", "Your members imported for you", "Works offline at the front desk"],
+    "primaryCta": "Book a free demo",
+    "whatsappCta": "Ask on WhatsApp",
+    "whatsappMessage": "Hello Atlaxys, I would like a demo of Nexus Gym."
+  },
+  "problem": {
+    "title": "Still managing your club like this?",
+    "points": [
+      "Paper registers or spreadsheets at the front desk",
+      "Expired memberships you only notice weeks later",
+      "Cash that never quite matches at the end of the day",
+      "No clear view of revenue, renewals or attendance"
+    ]
+  },
+  "solution": {
+    "title": "Everything the front desk and the owner need",
+    "text": "Nexus Gym brings members, subscriptions, check-in and payments into one application.",
+    "points": [
+      { "title": "Members & subscriptions", "text": "Plans, freezes, renewals and reminders." },
+      { "title": "Fast check-in", "text": "Card, QR code or name search, with instant status." },
+      { "title": "Payments & cash report", "text": "Receipts, invoices and a daily cash summary." },
+      { "title": "Owner dashboard", "text": "Revenue, active members and renewals due." }
+    ]
+  },
+  "proof": {
+    "title": "See the product",
+    "products": ["nexus-gym"]
+  },
+  "process": {
+    "title": "Getting started",
+    "steps": [
+      { "title": "Book a demo", "text": "We show Nexus Gym with a club like yours." },
+      { "title": "Setup", "text": "Plans, prices and your members imported." },
+      { "title": "Training", "text": "Your front-desk team trained in one session." },
+      { "title": "Support", "text": "Help when you need it, updates included." }
+    ]
+  },
+  "faq": {
+    "title": "Questions",
+    "items": [
+      { "question": "Does it need internet?", "answer": "No. The front desk works on a local database; internet is only needed for updates and optional backups." },
+      { "question": "Can you import our current members?", "answer": "Yes. We import members and subscriptions from your spreadsheets or previous system." },
+      { "question": "How much does it cost?", "answer": "Licensing depends on the number of branches and workstations. Book a demo and we will send a quote." }
+    ]
+  },
+  "form": {
+    "title": "Book a free demo",
+    "projectType": "business-software",
+    "variant": "compact"
+  },
+  "sections": ["hero", "problem", "solution", "proof", "process", "faq", "form"],
+  "services": ["software-engineering"],
+  "tracking": { "contentName": "nexus-gym" }
+}

@@ -1,0 +1,72 @@
+# DigitalOcean App Platform — app spec (recommended setup)
+#
+# One Web Service: prerendered pages + the /api/contact/ lead endpoint, with
+# security headers applied by server/start.mjs.
+#
+# Deploy:
+#   doctl apps create --spec .do/app.yaml          # first time
+#   doctl apps update <APP_ID> --spec .do/app.yaml # later changes
+# or: Control Panel → Create App → GitHub repo → "Edit app spec" → paste.
+#
+# Replace the github.repo value and the domain before deploying.
+name: atlaxys-website
+region: fra # Frankfurt — closest DigitalOcean region to Morocco and Western Europe
+
+domains:
+  - domain: atlaxys.com
+    type: PRIMARY
+  - domain: www.atlaxys.com
+    type: ALIAS
+
+services:
+  - name: web
+    github:
+      repo: YOUR-GITHUB-ORG/atlaxys-website
+      branch: main
+      deploy_on_push: true
+    environment_slug: node-js
+    build_command: npm ci && npm run build
+    run_command: npm start
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    health_check:
+      http_path: /healthz
+      initial_delay_seconds: 5
+      period_seconds: 10
+    envs:
+      - key: NODE_ENV
+        value: production
+        scope: RUN_AND_BUILD_TIME
+      - key: SITE_URL
+        value: https://atlaxys.com
+        scope: RUN_AND_BUILD_TIME
+      # Public analytics IDs (inlined at build time) — optional.
+      - key: PUBLIC_GA4_ID
+        value: ''
+        scope: BUILD_TIME
+      - key: PUBLIC_GTM_ID
+        value: ''
+        scope: BUILD_TIME
+      - key: PUBLIC_META_PIXEL_ID
+        value: ''
+        scope: BUILD_TIME
+      - key: PUBLIC_LINKEDIN_PARTNER_ID
+        value: ''
+        scope: BUILD_TIME
+      # Lead delivery (runtime). Set at least one channel.
+      - key: LEAD_EMAIL_TO
+        value: hello@atlaxys.com
+        scope: RUN_TIME
+      - key: LEAD_EMAIL_FROM
+        value: Atlaxys Website <website@atlaxys.com>
+        scope: RUN_TIME
+      - key: RESEND_API_KEY
+        type: SECRET
+        scope: RUN_TIME
+      - key: LEAD_WEBHOOK_URL
+        type: SECRET
+        scope: RUN_TIME
+      - key: LEAD_WEBHOOK_SECRET
+        type: SECRET
+        scope: RUN_TIME

@@ -1,0 +1,11 @@
+{
+  "page": "search",
+  "seo": {
+    "title": "Search",
+    "description": "Search Atlaxys services, products, case studies and articles."
+  },
+  "hero": {
+    "eyebrow": "Search",
+    "title": "Find what you are looking for."
+  }
+}

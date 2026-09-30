@@ -1,0 +1,78 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CaseCard from '@/components/cards/CaseCard.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import EmptyState from '@/components/ui/EmptyState.astro';
+import Section from '@/components/ui/Section.astro';
+import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getCaseStudies, getIndustries, getPageCopy } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+import { itemListNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, caseStudies, industries] = await Promise.all([getPageCopy(locale, 'work'), getCaseStudies(locale), getIndustries(locale)]);
+const industryById = new Map(industries.map((i) => [i.key, i]));
+const trail = crumbs(locale, 'work');
+const path = routePath(locale, 'work');
+---
+
+<BaseLayout
+  locale={locale}
+  page="work"
+  pageType="CollectionPage"
+  breadcrumbs={trail}
+  schema={[itemListNode(path, caseStudies.map((c) => ({ name: c.data.title, url: c.url })))]}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/work/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+
+  <Section aria-label={t.labels.caseStudies}>
+    <Container>
+      {
+        caseStudies.length > 0 ? (
+          <ul role="list" class="work-grid">
+            {caseStudies.map((item, i) => (
+              <li class:list={['work-grid__item', { 'work-grid__item--offset': i % 2 === 1 }]} data-reveal>
+                <CaseCard item={item} industry={industryById.get(item.data.industry)} locale={locale} headingLevel="h2" size={i === 0 ? 'lg' : 'md'} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState text={t.empty.work}>
+            <Button href={routePath(locale, 'contact')}>{t.cta.talkToUs}</Button>
+          </EmptyState>
+        )
+      }
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="work-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .work-grid {
+    display: grid;
+    gap: var(--space-3xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .work-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .work-grid__item--offset {
+      margin-block-start: 10rem;
+    }
+  }
+</style>

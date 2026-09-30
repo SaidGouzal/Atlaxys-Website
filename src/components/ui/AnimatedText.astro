@@ -1,0 +1,25 @@
+---
+/**
+ * Heading or paragraph revealed line by line (GSAP SplitText, masked lines).
+ * Text stays fully accessible: SplitText keeps an aria-label on the element
+ * and hides the split fragments. With reduced motion, text is simply shown.
+ */
+interface Props {
+  as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  class?: string;
+  id?: string;
+  /** Scrub word highlighting with scroll instead of a one-off reveal. */
+  mode?: 'lines' | 'scrub';
+}
+
+const { as: Tag = 'h2', class: className, id, mode = 'lines' } = Astro.props;
+---
+
+<Tag
+  id={id}
+  class={className}
+  data-split={mode === 'lines' ? '' : undefined}
+  data-scrub-words={mode === 'scrub' ? '' : undefined}
+>
+  <slot />
+</Tag>

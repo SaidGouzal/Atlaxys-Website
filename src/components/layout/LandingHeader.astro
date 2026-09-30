@@ -1,0 +1,95 @@
+---
+/**
+ * Lean header for campaign landing pages: brand + one action. No mega-menu
+ * to leak attention; the logo still leads home for visitors who want context.
+ */
+import { whatsappLink } from '@/config/site';
+import { routePath, useTranslations, type Locale } from '@/i18n';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<header class="landing-header">
+  <div class="container landing-header__bar">
+    <a href={routePath(locale, 'home')} aria-label={t.a11y.homeLink} class="landing-header__logo">
+      <Logo width={124} />
+    </a>
+    <div class="landing-header__actions">
+      <a
+        href={whatsappLink(t.whatsapp.message)}
+        class="landing-header__wa"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="whatsapp_click"
+        data-track-location="landing-header"
+      >
+        <Icon name="whatsapp" size={20} />
+        <span class="landing-header__wa-label">{t.cta.whatsappShort}</span>
+        <span class="visually-hidden">{t.a11y.newTab}</span>
+      </a>
+      <Button href="#lead-form" icon="arrow-down" class="landing-header__cta">{t.landing.menuContact}</Button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .landing-header {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-header);
+    height: var(--header-height);
+  }
+
+  .landing-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    gap: var(--space-s);
+  }
+
+  .landing-header__logo :global(.logo) {
+    width: 124px;
+  }
+
+  .landing-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .landing-header__wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 560;
+    font-size: var(--step--1);
+    border: 1px solid var(--color-line-strong);
+  }
+
+  .landing-header__wa :global(.icon) {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 29.99rem) {
+    .landing-header__wa-label {
+      display: none;
+    }
+    .landing-header__actions :global(.landing-header__cta) {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Real estate & construction", "fr": "Immobilier & construction", "ar": "العقار والبناء" },
+  "summary": {
+    "en": "Project tracking, sales pipelines and client portals for developers and agencies.",
+    "fr": "Suivi de chantiers, pipeline commercial et portails clients pour promoteurs et agences.",
+    "ar": "تتبّع المشاريع ومسار المبيعات وبوابات العملاء للمنعشين والوكالات العقارية."
+  },
+  "services": ["software-engineering"],
+  "order": 5
+}

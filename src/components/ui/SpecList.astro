@@ -1,0 +1,59 @@
+---
+/**
+ * Specification list (<dl>): label / value rows in the "engineering sheet"
+ * style. Used for case-study metadata, product specs and "at a glance" facts —
+ * structured content that search engines and AI assistants parse reliably.
+ */
+interface Props {
+  items: { label: string; value: string | string[] }[];
+  columns?: 1 | 2;
+  class?: string;
+}
+const { items, columns = 1, class: className } = Astro.props;
+---
+
+<dl class:list={['spec-list', `spec-list--cols-${columns}`, className]}>
+  {
+    items.map((item) => (
+      <div class="spec-list__row">
+        <dt class="spec-list__label mono">{item.label}</dt>
+        <dd class="spec-list__value">{Array.isArray(item.value) ? item.value.join(' · ') : item.value}</dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .spec-list {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .spec-list--cols-2 {
+    column-gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .spec-list--cols-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .spec-list__row {
+    display: grid;
+    grid-template-columns: minmax(7rem, 11rem) 1fr;
+    gap: var(--space-s);
+    padding-block: var(--space-s);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .spec-list__label {
+    color: var(--color-muted);
+    padding-block-start: 0.2em;
+  }
+
+  .spec-list__value {
+    margin: 0;
+    color: var(--color-text);
+  }
+</style>

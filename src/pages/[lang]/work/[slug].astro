@@ -1,0 +1,468 @@
+---
+/**
+ * Case-study template: Challenge → Thinking → Architecture → Execution →
+ * Technology → Outcome. Each chapter comes from structured fields in the
+ * content file, so every case study tells the whole engineering story.
+ */
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArchitectureDiagram from '@/components/sections/ArchitectureDiagram.astro';
+import BlueprintCover from '@/components/sections/BlueprintCover.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import RelatedContent from '@/components/sections/RelatedContent.astro';
+import Container from '@/components/ui/Container.astro';
+import DemoNotice from '@/components/ui/DemoNotice.astro';
+import MediaFrame from '@/components/ui/MediaFrame.astro';
+import Section from '@/components/ui/Section.astro';
+import SpecList from '@/components/ui/SpecList.astro';
+import { formatDate, useTranslations } from '@/i18n';
+import { getCaseStudyAlternates, getCaseStudyPaths, getIndustries, type CaseStudy } from '@/lib/content';
+import { getRelated } from '@/lib/content/related';
+import { crumbs } from '@/lib/seo/crumbs';
+import { articleNode, ids } from '@/lib/seo/schema';
+
+export const getStaticPaths = getCaseStudyPaths;
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+const { locale, data } = caseStudy;
+const t = useTranslations(locale);
+const { Content } = await render(caseStudy.entry);
+const hasBody = Boolean(caseStudy.entry.body?.trim());
+const [alternates, related, industries] = await Promise.all([
+  getCaseStudyAlternates(caseStudy.key),
+  getRelated(locale, { type: 'caseStudy', key: caseStudy.key }, { ...data.related, services: data.services, products: data.products }),
+  getIndustries(locale),
+]);
+const industry = industries.find((i) => i.key === data.industry);
+const trail = crumbs(locale, 'work', { name: data.title, url: caseStudy.url });
+
+const specs = [
+  { label: t.labels.client, value: data.client.name },
+  ...(industry ? [{ label: t.labels.industry, value: industry.name }] : []),
+  ...(data.year ? [{ label: t.labels.year, value: String(data.year) }] : []),
+  ...(data.duration ? [{ label: t.labels.duration, value: data.duration }] : []),
+  ...(data.role ? [{ label: t.labels.ourRole, value: data.role }] : []),
+  ...(related.services.length ? [{ label: t.labels.services, value: related.services.map((s) => s.data.title) }] : []),
+];
+
+const chapters = [
+  { id: 'challenge', label: t.labels.challenge },
+  { id: 'thinking', label: t.labels.thinking },
+  { id: 'architecture', label: t.labels.architecture },
+  ...(data.execution.length ? [{ id: 'execution', label: t.labels.execution }] : []),
+  ...(data.stack.length ? [{ id: 'technology', label: t.labels.technology }] : []),
+  { id: 'outcome', label: t.labels.outcome },
+];
+const num = (id: string) => String(chapters.findIndex((c) => c.id === id) + 1).padStart(2, '0');
+---
+
+<BaseLayout
+  locale={locale}
+  page="case-study"
+  breadcrumbs={trail}
+  primaryId={ids.primary(caseStudy.url, 'article')}
+  schema={[
+    articleNode({
+      url: caseStudy.url,
+      type: 'Article',
+      headline: data.title,
+      description: data.summary,
+      datePublished: data.publishedAt,
+      section: t.labels.caseStudy,
+      keywords: data.stack,
+      image: data.cover?.src.src,
+      locale,
+    }),
+  ]}
+  seo={{
+    title: data.seo.title ?? data.title,
+    description: data.seo.description ?? data.summary,
+    alternates,
+    type: 'article',
+    publishedTime: data.publishedAt,
+    noindex: data.seo.noindex,
+    section: t.labels.caseStudy,
+  }}
+>
+  <PageHero eyebrow={`${t.labels.caseStudy} · ${data.client.descriptor}`} title={data.title} lead={data.summary} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} size="md">
+    <div slot="aside">
+      <SpecList items={specs} />
+    </div>
+  </PageHero>
+
+  {
+    data.demo && (
+      <Container>
+        <DemoNotice label={t.labels.illustrative} text={t.labels.illustrativeNote} class="cs-notice" />
+      </Container>
+    )
+  }
+
+  <Section spacing="tight">
+    <Container>
+      <MediaFrame image={data.cover} aspect="16 / 8" priority sizes="(min-width: 1440px) 1344px, 100vw">
+        {!data.cover && <BlueprintCover layers={data.architecture.layers} seed={caseStudy.key} />}
+      </MediaFrame>
+    </Container>
+  </Section>
+
+  <Section spacing="tight">
+    <Container class="cs">
+      <nav class="cs__toc" aria-label={t.labels.caseStudy}>
+        <ol role="list">
+          {
+            chapters.map((c) => (
+              <li>
+                <a href={`#${c.id}`}>
+                  <span class="mono tabular">{num(c.id)}</span> {c.label}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <div class="cs__chapters">
+        <section id="challenge" class="chapter" aria-labelledby="challenge-h">
+          <h2 id="challenge-h" class="chapter__label eyebrow"><span class="tabular">{num('challenge')}</span> {t.labels.challenge}</h2>
+          <p class="chapter__lead" data-reveal>{data.challenge}</p>
+        </section>
+
+        <section id="thinking" class="chapter" aria-labelledby="thinking-h">
+          <h2 id="thinking-h" class="chapter__label eyebrow"><span class="tabular">{num('thinking')}</span> {t.labels.thinking}</h2>
+          <p class="chapter__text" data-reveal>{data.thinking}</p>
+        </section>
+
+        <section id="architecture" class="chapter" aria-labelledby="architecture-h">
+          <h2 id="architecture-h" class="chapter__label eyebrow"><span class="tabular">{num('architecture')}</span> {t.labels.architecture}</h2>
+          <ArchitectureDiagram layers={data.architecture.layers} caption={data.architecture.summary} label={t.labels.architecture} />
+        </section>
+
+        {
+          data.execution.length > 0 && (
+            <section id="execution" class="chapter" aria-labelledby="execution-h">
+              <h2 id="execution-h" class="chapter__label eyebrow">
+                <span class="tabular">{num('execution')}</span> {t.labels.execution}
+              </h2>
+              <ol role="list" class="phases">
+                {data.execution.map((phase, i) => (
+                  <li class="phase" data-reveal>
+                    <span class="phase__node" aria-hidden="true" />
+                    <h3 class="phase__title">
+                      <span class="mono tabular">{String(i + 1).padStart(2, '0')}</span> {phase.phase}
+                    </h3>
+                    <p>{phase.detail}</p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )
+        }
+
+        {
+          data.stack.length > 0 && (
+            <section id="technology" class="chapter" aria-labelledby="technology-h">
+              <h2 id="technology-h" class="chapter__label eyebrow">
+                <span class="tabular">{num('technology')}</span> {t.labels.technology}
+              </h2>
+              <ul role="list" class="stack ltr">
+                {data.stack.map((tech) => (
+                  <li>{tech}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <section id="outcome" class="chapter" aria-labelledby="outcome-h">
+          <h2 id="outcome-h" class="chapter__label eyebrow"><span class="tabular">{num('outcome')}</span> {t.labels.outcome}</h2>
+          <p class="chapter__lead" data-reveal>{data.outcome.summary}</p>
+          {
+            data.outcome.results.length > 0 && (
+              <ul role="list" class="results">
+                {data.outcome.results.map((r) => (
+                  <li class="result" data-reveal>
+                    <h3 class="result__label">{r.label}</h3>
+                    <p>{r.detail}</p>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </section>
+
+        {
+          data.testimonial && (
+            <figure class="quote">
+              <blockquote>
+                <p>“{data.testimonial.quote}”</p>
+              </blockquote>
+              <figcaption>
+                {data.testimonial.author}
+                {data.testimonial.role && <span> — {data.testimonial.role}</span>}
+              </figcaption>
+            </figure>
+          )
+        }
+
+        {
+          hasBody && (
+            <div class="prose cs__notes">
+              <Content />
+            </div>
+          )
+        }
+
+        <p class="cs__date mono">
+          {t.labels.published} <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt, locale)}</time>
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  {
+    data.gallery.length > 0 && (
+      <Section spacing="flush-top" aria-label={t.labels.gallery}>
+        <Container class="cs-gallery">
+          {data.gallery.map((img) => (
+            <MediaFrame image={img} caption={img.caption} sizes="(min-width: 1024px) 50vw, 100vw" />
+          ))}
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section>
+    <Container>
+      <RelatedContent locale={locale} related={related} show={['services', 'products', 'caseStudies', 'posts']} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="cs-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  :global(.cs-notice) {
+    margin-block-start: var(--space-l);
+  }
+
+  .cs {
+    display: grid;
+    gap: var(--space-xl) var(--grid-gap);
+  }
+
+  .cs__toc {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .cs {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+      align-items: start;
+    }
+
+    .cs__toc {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-l));
+    }
+  }
+
+  .cs__toc ol {
+    display: grid;
+    gap: 0.25rem;
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .cs__toc a {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.45rem 1rem;
+    margin-inline-start: -1px;
+    border-inline-start: 1px solid transparent;
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: var(--step--1);
+    transition:
+      color var(--dur-2),
+      border-color var(--dur-2);
+  }
+
+  .cs__toc a:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+
+  .cs__chapters {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+
+  .chapter {
+    display: grid;
+    gap: var(--space-l);
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  }
+
+  .chapter__label {
+    color: var(--color-text-2);
+    padding-block-end: var(--space-s);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .chapter__label .tabular {
+    color: var(--color-accent);
+  }
+
+  .chapter__lead {
+    font-family: var(--font-display);
+    font-stretch: 106%;
+    font-weight: 540;
+    font-size: clamp(1.35rem, 1rem + 1.4vw, 2.2rem);
+    line-height: 1.3;
+    max-width: 38ch;
+  }
+
+  :global(:lang(ar)) .chapter__lead {
+    font-stretch: 100%;
+    line-height: 1.7;
+  }
+
+  .chapter__text {
+    font-size: var(--step-1);
+    line-height: 1.65;
+    color: var(--color-text-2);
+    max-width: 62ch;
+  }
+
+  .phases {
+    display: grid;
+    border-inline-start: 1px solid var(--color-line-strong);
+  }
+
+  .phase {
+    position: relative;
+    display: grid;
+    gap: var(--space-2xs);
+    padding: 0 0 var(--space-l) var(--space-l);
+  }
+
+  :global([dir='rtl']) .phase {
+    padding: 0 var(--space-l) var(--space-l) 0;
+  }
+
+  .phase__node {
+    position: absolute;
+    inset-inline-start: -5px;
+    inset-block-start: 0.45rem;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    background: var(--color-bg);
+  }
+
+  .phase__title {
+    font-size: var(--step-1);
+    font-weight: 650;
+  }
+
+  .phase__title .mono {
+    color: var(--color-accent);
+    margin-inline-end: 0.4rem;
+  }
+
+  .phase p {
+    color: var(--color-text-2);
+    max-width: 62ch;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  :global([dir='rtl']) .stack {
+    direction: rtl;
+  }
+
+  .stack li {
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--color-line-strong);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    unicode-bidi: isolate;
+  }
+
+  .results {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .results {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .result {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: var(--space-l);
+    border: 1px solid var(--color-line);
+    border-top: 2px solid var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .result__label {
+    font-weight: 650;
+    font-size: var(--step-1);
+  }
+
+  .result p {
+    color: var(--color-text-2);
+  }
+
+  .quote {
+    margin: 0;
+    padding: var(--space-xl);
+    border-inline-start: 3px solid var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .quote blockquote {
+    margin: 0;
+    font-size: var(--step-2);
+    line-height: 1.4;
+  }
+
+  .quote figcaption {
+    margin-block-start: var(--space-m);
+    color: var(--color-muted);
+  }
+
+  .cs__date {
+    color: var(--color-muted);
+  }
+
+  :global(.cs-gallery) {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    :global(.cs-gallery) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

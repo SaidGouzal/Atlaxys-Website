@@ -1,0 +1,77 @@
+---
+/**
+ * Confirmation page after a non-JavaScript form submission. Also usable as a
+ * URL-based conversion goal (it is noindex and excluded from the sitemap).
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { whatsappLink } from '@/config/site';
+import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy } from '@/lib/content';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const copy = await getPageCopy(locale, 'contact');
+---
+
+<BaseLayout
+  locale={locale}
+  page="thank-you"
+  footerCta={false}
+  seo={{ title: copy.thankYou.seoTitle, description: copy.thankYou.text, noindex: true, alternates: mirroredAlternates('/contact/thank-you/') }}
+>
+  <section class="thanks">
+    <Container width="narrow">
+      <span class="thanks__icon" aria-hidden="true"><Icon name="check" size={32} /></span>
+      <h1 class="h2 thanks__title">{copy.thankYou.title}</h1>
+      <p class="lead">{copy.thankYou.text}</p>
+      <div class="thanks__actions">
+        <Button href={routePath(locale, 'work')}>{t.cta.seeWork}</Button>
+        <Button
+          href={whatsappLink(t.whatsapp.message)}
+          variant="secondary"
+          icon="whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track="whatsapp_click"
+        >
+          {t.cta.whatsapp}
+        </Button>
+      </div>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks {
+    min-height: 80svh;
+    display: grid;
+    align-content: center;
+    padding-block: calc(var(--header-height) + var(--space-2xl)) var(--space-2xl);
+  }
+
+  .thanks :global(.container) {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .thanks__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+</style>

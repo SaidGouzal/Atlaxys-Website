@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Retail & distribution", "fr": "Commerce & distribution", "ar": "التجارة والتوزيع" },
+  "summary": {
+    "en": "Stock, orders and invoicing across shops, warehouses and online channels.",
+    "fr": "Stocks, commandes et facturation entre boutiques, entrepôts et canaux en ligne.",
+    "ar": "المخزون والطلبات والفوترة عبر المحلات والمستودعات والقنوات الرقمية."
+  },
+  "services": ["software-engineering", "ai-automation"],
+  "order": 1
+}

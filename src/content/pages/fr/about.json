@@ -1,0 +1,69 @@
+{
+  "page": "about",
+  "seo": {
+    "title": "À propos d’Atlaxys — Un cabinet de conseil technologique mené par l’ingénierie",
+    "description": "Atlaxys Consulting est un cabinet de conseil technologique et un studio d’ingénierie logicielle basé au Maroc, au service de clients du monde entier. Notre histoire et notre façon de travailler."
+  },
+  "hero": {
+    "eyebrow": "À propos d’Atlaxys",
+    "title": "Du conseil qui aboutit à un logiciel qui fonctionne.",
+    "lead": "Atlaxys est née d’un constat simple : trop de conseils technologiques s’arrêtent à la présentation PowerPoint. Nous avons donc créé une entreprise où ceux qui vous conseillent sont ceux qui construisent le système — et qui en répondent en production."
+  },
+  "story": {
+    "eyebrow": "Notre histoire",
+    "title": "Conçu au Maroc. Pensé pour partout.",
+    "paragraphs": [
+      "Atlaxys Consulting est une société de conseil technologique et d’ingénierie logicielle basée au Maroc. Nous travaillons avec des fondateurs, des PME et des organisations établies qui ont besoin de logiciels qui font un vrai travail : des plateformes utilisées chaque jour par leurs clients, des outils dont leurs équipes dépendent, et des automatisations qui font gagner des heures chaque semaine.",
+      "Le Maroc est notre point d’ancrage et un lieu de plus en plus sérieux pour construire de la technologie — un vivier d’ingénieurs en croissance, des liens profonds avec l’Europe et l’Afrique, et une culture de travail qui passe naturellement du français à l’arabe et à l’anglais. Nous accompagnons directement les entreprises marocaines, et nous travaillons avec des entreprises internationales qui cherchent un partenaire proche d’elles, en fuseau horaire comme en culture.",
+      "Nous sommes volontairement menés par l’ingénierie. Chaque mission est pilotée par des personnes qui écrivent du code, conçoivent des infrastructures et répondent de ce qui se passe en production. C’est ce que nous entendons par du conseil qui aboutit à un logiciel qui fonctionne."
+    ]
+  },
+  "facts": {
+    "title": "Atlaxys en bref",
+    "items": [
+      { "label": "Entreprise", "value": "Atlaxys Consulting" },
+      { "label": "Activité", "value": "Conseil technologique, ingénierie logicielle, automatisation IA, DevOps & cloud, produits numériques" },
+      { "label": "Basée au", "value": "Maroc" },
+      { "label": "Clients", "value": "Maroc, Europe, Moyen-Orient, Afrique et Amérique du Nord" },
+      { "label": "Langues de travail", "value": "Français, arabe, anglais" },
+      { "label": "Modes d’intervention", "value": "Projets au forfait, équipes produit dédiées, conseil technique" }
+    ]
+  },
+  "engagement": {
+    "eyebrow": "Travailler ensemble",
+    "title": "Trois façons de collaborer.",
+    "intro": "Choisissez le modèle adapté à votre étape. Beaucoup de clients commencent par l’un et passent à un autre à mesure que le produit grandit.",
+    "items": [
+      {
+        "title": "Projet",
+        "text": "Un résultat défini, un périmètre écrit, des jalons et un budget forfaitaire ou plafonné.",
+        "bestFor": "Nouveaux produits, migrations et développements bien cadrés."
+      },
+      {
+        "title": "Équipe produit",
+        "text": "Une équipe Atlaxys dédiée, en prolongement de la vôtre, au mois, sur votre feuille de route.",
+        "bestFor": "Feuilles de route évolutives où la vitesse et la continuité comptent."
+      },
+      {
+        "title": "Conseil",
+        "text": "Revues d’architecture, audits techniques et accompagnement de niveau CTO, quelques jours par mois.",
+        "bestFor": "Équipes internes qui veulent un regard technique senior."
+      }
+    ]
+  },
+  "refusals": {
+    "eyebrow": "Principes",
+    "title": "Ce que nous refusons de faire.",
+    "items": [
+      "Vous vendre une plateforme dont vous n’avez pas besoin.",
+      "Cacher des décisions importantes dans le code.",
+      "Prendre en otage votre code, vos données ou vos comptes.",
+      "Promettre des délais que nous ne pouvons pas tenir.",
+      "Livrer ce que nous ne serions pas à l’aise d’exploiter nous-mêmes."
+    ]
+  },
+  "cta": {
+    "title": "Voyons si nous sommes faits pour travailler ensemble.",
+    "text": "Un échange de 30 minutes suffit généralement pour savoir si nous pouvons vous aider — et sinon, nous vous le dirons et vous orienterons vers mieux."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Education & training", "fr": "Éducation & formation", "ar": "التعليم والتكوين" },
+  "summary": {
+    "en": "Enrolment, scheduling, payments and learning platforms for schools and training centres.",
+    "fr": "Inscriptions, emplois du temps, paiements et plateformes d’apprentissage pour écoles et centres de formation.",
+    "ar": "التسجيل والجداول والمدفوعات ومنصّات التعلّم للمدارس ومراكز التكوين."
+  },
+  "services": ["software-engineering"],
+  "order": 7
+}

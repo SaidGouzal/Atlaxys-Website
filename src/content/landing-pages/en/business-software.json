@@ -1,0 +1,82 @@
+{
+  "translationKey": "landing-business-software",
+  "campaign": "custom-business-software",
+  "seo": {
+    "title": "Custom business software — replace spreadsheets with one system",
+    "description": "Sales, stock, operations and reporting in one system designed around how your business works. Built and supported by Atlaxys.",
+    "noindex": true
+  },
+  "hero": {
+    "eyebrow": "Custom business software",
+    "title": "Replace the spreadsheets with one system that fits your business.",
+    "lead": "Sales, stock, operations, field teams and reporting — in one place, designed around how your team actually works, in French, Arabic or English.",
+    "bullets": [
+      "Designed with your team, not for an org chart",
+      "Your existing data migrated for you",
+      "Web, desktop or mobile — even offline"
+    ],
+    "primaryCta": "Discuss your system",
+    "whatsappCta": "Ask on WhatsApp",
+    "whatsappMessage": "Hello Atlaxys, I would like to discuss business software for my company."
+  },
+  "audience": {
+    "title": "Typical clients",
+    "items": ["Distributors and retailers", "Service companies", "Multi-site businesses", "Clubs, schools and clinics"]
+  },
+  "problem": {
+    "title": "The spreadsheet ceiling",
+    "points": [
+      "Nobody trusts the numbers because every team has its own file",
+      "Stock, orders and invoices never quite match",
+      "Only one person knows how the process really works",
+      "Off-the-shelf software forces you to change how you work"
+    ]
+  },
+  "solution": {
+    "title": "One system, built around your workflow",
+    "text": "We map how your business runs today, then build the software that removes double entry and gives everyone the same live information.",
+    "points": [
+      { "title": "Your workflow", "text": "Screens and rules designed around your real process." },
+      { "title": "Roles and permissions", "text": "Everyone sees what they need — nothing more." },
+      { "title": "Live reports", "text": "The numbers managers check every morning, always up to date." },
+      { "title": "Integrations", "text": "Accounting, payments, e-commerce and messaging connected." }
+    ]
+  },
+  "benefits": {
+    "title": "What changes",
+    "items": [
+      { "title": "One version of the truth", "text": "Every team works from the same data." },
+      { "title": "Less typing, fewer errors", "text": "Data entered once and reused everywhere." },
+      { "title": "Software you own", "text": "No per-user licences that grow with your team." }
+    ]
+  },
+  "proof": {
+    "title": "Built on real products",
+    "text": "We also build business software products of our own, such as:",
+    "products": ["nexus-gym", "atlaxys-ops"]
+  },
+  "process": {
+    "title": "How we work",
+    "steps": [
+      { "title": "Visit and mapping", "text": "We see how your team works today." },
+      { "title": "Written scope", "text": "Screens, rules, integrations and a phased estimate." },
+      { "title": "Build in iterations", "text": "Working software to test every two weeks." },
+      { "title": "Migration and training", "text": "Your data moved over and your team onboarded." }
+    ]
+  },
+  "faq": {
+    "title": "Questions",
+    "items": [
+      { "question": "Can you import our existing Excel data?", "answer": "Yes. Data migration is planned as part of the project, with checks against your own totals." },
+      { "question": "Can it work without internet?", "answer": "Yes, when needed — desktop and mobile apps can work offline and sync later." },
+      { "question": "Who maintains the system?", "answer": "We offer maintenance and support plans, or a documented handover to your own team." }
+    ]
+  },
+  "form": {
+    "title": "Tell us about your business",
+    "projectType": "business-software",
+    "variant": "compact"
+  },
+  "services": ["software-engineering"],
+  "tracking": { "contentName": "business-software" }
+}

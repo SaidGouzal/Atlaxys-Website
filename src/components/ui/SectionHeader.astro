@@ -1,0 +1,106 @@
+---
+/**
+ * Section header: indexed eyebrow with the signal trace, display title,
+ * optional intro in the offset column and an optional action slot.
+ */
+import SignalRule from './SignalRule.astro';
+
+interface Props {
+  id?: string;
+  index?: string;
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  level?: 'h1' | 'h2' | 'h3';
+  size?: 'lg' | 'md';
+  split?: boolean;
+  class?: string;
+}
+
+const { id, index, eyebrow, title, intro, level = 'h2', size = 'lg', split = true, class: className } = Astro.props;
+const Heading = level;
+const hasAction = Astro.slots.has('default');
+---
+
+<header class:list={['section-header', `section-header--${size}`, className]}>
+  {
+    (eyebrow || index) && (
+      <p class="eyebrow section-header__eyebrow" data-reveal>
+        {index && <span class="section-header__index tabular">{index}</span>}
+        <SignalRule length={56} />
+        {eyebrow && <span>{eyebrow}</span>}
+      </p>
+    )
+  }
+  <Heading id={id} class:list={['section-header__title', size === 'lg' ? 'h2' : 'h3']} data-split={split ? '' : undefined}>
+    {title}
+  </Heading>
+  {intro && <p class="section-header__intro" data-reveal>{intro}</p>}
+  {
+    hasAction && (
+      <div class="section-header__action" data-reveal>
+        <slot />
+      </div>
+    )
+  }
+</header>
+
+<style>
+  .section-header {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--grid-gap);
+    row-gap: var(--space-m);
+    margin-block-end: clamp(2.5rem, 2rem + 3vw, 5rem);
+    align-items: end;
+  }
+
+  .section-header__eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .section-header__index {
+    color: var(--color-text);
+  }
+
+  .section-header__title {
+    grid-column: 1 / -1;
+    max-width: 18ch;
+  }
+
+  .section-header--md .section-header__title {
+    max-width: 24ch;
+  }
+
+  .section-header__intro {
+    grid-column: 1 / -1;
+    color: var(--color-text-2);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    max-width: 46ch;
+  }
+
+  .section-header__action {
+    grid-column: 1 / -1;
+  }
+
+  @media (min-width: 64rem) {
+    .section-header__title {
+      grid-column: 1 / span 8;
+    }
+
+    .section-header__intro {
+      grid-column: 9 / -1;
+      font-size: var(--step-0);
+      justify-self: start;
+    }
+
+    .section-header__action {
+      grid-column: 9 / -1;
+    }
+
+    .section-header__intro + .section-header__action {
+      grid-row: 3;
+    }
+  }
+</style>

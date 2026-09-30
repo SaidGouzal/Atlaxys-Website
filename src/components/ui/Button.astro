@@ -1,0 +1,202 @@
+---
+/**
+ * Button / link-button.
+ *
+ * Variants
+ *   primary    Signal-orange fill, chamfered corner (the logo's 45° cut).
+ *   secondary  Hairline outline, same chamfer.
+ *   link       Text + arrow with a trace underline.
+ *
+ * Renders <a> when `href` is set, otherwise <button>. The chamfer is drawn by
+ * pseudo-elements so the focus outline is never clipped.
+ */
+import type { HTMLAttributes } from 'astro/types';
+import Icon, { type IconName } from './Icon.astro';
+
+type Common = {
+  variant?: 'primary' | 'secondary' | 'link';
+  size?: 'md' | 'lg';
+  icon?: IconName | false;
+  iconStart?: IconName;
+  magnetic?: boolean;
+  fullWidth?: boolean;
+  class?: string;
+};
+
+type Props = Common &
+  (({ href: string } & Omit<HTMLAttributes<'a'>, 'class'>) | ({ href?: undefined } & Omit<HTMLAttributes<'button'>, 'class'>));
+
+const {
+  variant = 'primary',
+  size = 'md',
+  icon = 'arrow-right',
+  iconStart,
+  magnetic = false,
+  fullWidth = false,
+  class: className,
+  href,
+  ...rest
+} = Astro.props as Common & { href?: string } & Record<string, unknown>;
+
+const Tag = href ? 'a' : 'button';
+const isExternal = typeof href === 'string' && /^https?:\/\//.test(href);
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, { 'btn--full': fullWidth }, className];
+---
+
+<Tag
+  href={href}
+  class:list={classes}
+  data-magnetic={magnetic ? '' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  type={!href && !rest.type ? 'button' : undefined}
+  {...rest}
+>
+  {iconStart && <Icon name={iconStart} size={18} class="btn__icon-start" />}
+  <span class="btn__label"><slot /></span>
+  {icon && <span class="btn__icon"><Icon name={icon} size={18} /></span>}
+</Tag>
+
+<style>
+  .btn {
+    --btn-fg: var(--color-on-primary);
+    --btn-bg: var(--color-primary);
+    --btn-bg-hover: var(--color-primary-hover);
+    --btn-line: transparent;
+    --btn-pad-y: 0.95rem;
+    --btn-pad-x: 1.35rem;
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 3rem;
+    padding: var(--btn-pad-y) var(--btn-pad-x);
+    color: var(--btn-fg);
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    font-weight: 560;
+    line-height: 1.1;
+    letter-spacing: 0.005em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color var(--dur-2) var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn--lg {
+    --btn-pad-y: 1.15rem;
+    --btn-pad-x: 1.7rem;
+    min-height: 3.5rem;
+    font-size: var(--step-1);
+  }
+
+  .btn--full {
+    width: 100%;
+  }
+
+  /* Fill and border layers, chamfered at the inline-end top corner. */
+  .btn--primary::before,
+  .btn--secondary::before,
+  .btn--secondary::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transition: background-color var(--dur-2) var(--ease-out);
+  }
+
+  .btn--primary::before {
+    inset: 0;
+    background: var(--btn-bg);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+
+  .btn--primary:hover::before {
+    background: var(--btn-bg-hover);
+  }
+
+  .btn--primary:active::before {
+    background: var(--color-primary-active);
+  }
+
+  .btn--secondary {
+    --btn-fg: var(--color-text);
+  }
+
+  .btn--secondary::before {
+    inset: 0;
+    background: var(--color-line-strong);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer)) 0, 100% var(--chamfer), 100% 100%, 0 100%);
+  }
+
+  .btn--secondary::after {
+    inset: 1px;
+    background: var(--color-bg);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer) + 0.6px) 0, 100% calc(var(--chamfer) - 0.6px), 100% 100%, 0 100%);
+  }
+
+  .btn--secondary:hover::before {
+    background: var(--color-text);
+  }
+
+  :global([dir='rtl']) .btn--primary::before,
+  :global([dir='rtl']) .btn--secondary::before {
+    clip-path: polygon(var(--chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--chamfer));
+  }
+
+  :global([dir='rtl']) .btn--secondary::after {
+    clip-path: polygon(calc(var(--chamfer) - 0.6px) 0, 100% 0, 100% 100%, 0 100%, 0 calc(var(--chamfer) - 0.6px));
+  }
+
+  /* Text-link variant with a trace underline. */
+  .btn--link {
+    --btn-fg: var(--color-text);
+    padding-inline: 0;
+    min-height: 2.75rem;
+    gap: 0.6rem;
+  }
+
+  .btn--link .btn__label {
+    background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% 1px;
+    background-position-x: left;
+    padding-block-end: 0.2em;
+    transition: background-size var(--dur-3) var(--ease-signal);
+  }
+
+  :global([dir='rtl']) .btn--link .btn__label {
+    background-position-x: right;
+  }
+
+  .btn--link:hover .btn__label {
+    background-size: 100% 1px;
+  }
+
+  .btn--link .btn__icon {
+    color: var(--color-accent);
+  }
+
+  .btn__icon {
+    display: inline-flex;
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+
+  .btn:hover .btn__icon {
+    transform: translateX(0.25rem);
+  }
+
+  :global([dir='rtl']) .btn:hover .btn__icon {
+    transform: translateX(-0.25rem);
+  }
+
+  .btn[aria-disabled='true'],
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    .btn {
+      border: 1px solid ButtonText;
+    }
+  }
+</style>

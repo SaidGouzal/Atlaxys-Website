@@ -1,0 +1,140 @@
+{
+  "page": "home",
+  "seo": {
+    "title": "Atlaxys Consulting — Software engineering, AI automation & cloud",
+    "description": "Technology consultancy and engineering studio based in Morocco. We design, build and run web platforms, mobile apps, business software, AI automations and cloud infrastructure."
+  },
+  "hero": {
+    "eyebrow": "Technology consulting & software engineering",
+    "title": "We build the software your business *runs on*.",
+    "lead": "Atlaxys is an engineering studio based in Morocco, working with companies worldwide. We design the architecture, write the code, automate the busywork — and keep it all running in production.",
+    "primaryCta": "Start a project",
+    "secondaryCta": "See how we work",
+    "capabilities": ["Web platforms", "Mobile apps", "Business software", "AI automation", "Cloud & DevOps"]
+  },
+  "statement": {
+    "eyebrow": "What we do",
+    "text": "We are consultants who write production code. We sit with you on the problem, draw the architecture, build the product and stay for what comes after launch — monitoring, iteration, the next feature. One team, from the first whiteboard session to the thousandth deploy."
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Four practices. One engineering team.",
+    "intro": "Most projects need more than one of these — that is the point. The people who design your architecture are the people who build it and run it."
+  },
+  "process": {
+    "eyebrow": "How we work",
+    "title": "From first question to production. And after.",
+    "intro": "A delivery process designed to surface risk early, while it is still cheap to deal with.",
+    "steps": [
+      {
+        "title": "Discover",
+        "text": "We map the business problem, the users, the constraints and whatever already exists. Before any estimate, we make sure we are solving the right thing.",
+        "outputs": ["Problem statement", "Scope and risks", "First estimate"]
+      },
+      {
+        "title": "Architect",
+        "text": "We design the system — data model, integrations, infrastructure — and write down the trade-offs behind every choice, so you can challenge them.",
+        "outputs": ["Architecture diagram", "Decision log", "Delivery plan"]
+      },
+      {
+        "title": "Build",
+        "text": "Short iterations with working software every one to two weeks, and a staging environment you can click through from the first sprint.",
+        "outputs": ["Iterative releases", "Code review and tests", "Staging environment"]
+      },
+      {
+        "title": "Ship",
+        "text": "Automated pipelines, uneventful releases, and monitoring and alerting in place before real users arrive.",
+        "outputs": ["CI/CD pipeline", "Monitoring and alerts", "Launch checklist"]
+      },
+      {
+        "title": "Operate",
+        "text": "We stay for fixes, improvements, cost reviews and the next roadmap — or hand over cleanly to your team, with documentation they can actually use.",
+        "outputs": ["Maintenance and support", "Documentation", "Roadmap or handover"]
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Problems, worked through.",
+    "intro": "Every case study walks through the challenge, the architecture and the trade-offs — not just the screenshots."
+  },
+  "products": {
+    "eyebrow": "Products",
+    "title": "We also ship our own software.",
+    "intro": "Alongside client work we build and maintain products of our own: ready-made software for specific jobs, held to the same engineering standard."
+  },
+  "stack": {
+    "eyebrow": "Technology",
+    "title": "Proven tools, chosen on purpose.",
+    "intro": "We favour mature, well-supported technology your future team can hire for. Novelty is reserved for the places where it pays for itself."
+  },
+  "industries": {
+    "eyebrow": "Industries",
+    "title": "Where our work tends to land.",
+    "intro": "We are generalist engineers with recurring patterns in a few sectors. If yours is not listed, its underlying problems usually are."
+  },
+  "principles": {
+    "eyebrow": "Why Atlaxys",
+    "title": "What working with us is actually like.",
+    "items": [
+      {
+        "title": "Architecture before code",
+        "text": "Every project starts with a written design you can read, question and keep. Decisions are documented, not tribal knowledge."
+      },
+      {
+        "title": "You own everything",
+        "text": "Source code, cloud accounts, domains and data sit under your organisation from day one. No lock-in, no hostage situations."
+      },
+      {
+        "title": "Production is the finish line",
+        "text": "A demo is not a product. We count work as done when it is deployed, monitored and used by real people."
+      },
+      {
+        "title": "A direct line to the builders",
+        "text": "You talk to the engineers doing the work, in plain language — English, French or Arabic — not through a chain of account managers."
+      },
+      {
+        "title": "Local roots, global hours",
+        "text": "Morocco's time zone overlaps most of the European working day and the North American morning. We work the way international teams expect."
+      }
+    ]
+  },
+  "insights": {
+    "eyebrow": "Insights",
+    "title": "Notes from the build."
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Straight answers.",
+    "items": [
+      {
+        "question": "What does Atlaxys Consulting do?",
+        "answer": "Atlaxys is a technology consulting and software engineering company. We design and build web applications, mobile apps, internal business software, AI-powered automations and cloud infrastructure, and we advise engineering teams on architecture and technical strategy."
+      },
+      {
+        "question": "Where is Atlaxys based, and do you work with international clients?",
+        "answer": "We are based in Morocco and work with clients in Morocco and abroad, including Europe, the Middle East, Africa and North America. Most collaboration happens remotely, with on-site workshops when a project calls for them."
+      },
+      {
+        "question": "Which languages do you work in?",
+        "answer": "English, French and Arabic. Code and technical documentation are written in English by default, or in the language your team prefers."
+      },
+      {
+        "question": "How much does a software project cost?",
+        "answer": "It depends on scope, integrations and how much is still unknown. After a short scoping call we send a written estimate with ranges and the assumptions behind them, so you can see exactly what drives the number."
+      },
+      {
+        "question": "Do we own the code and the infrastructure?",
+        "answer": "Yes. Repositories, cloud accounts, domains and data are set up under your organisation. You can continue with us, bring the work in-house or move to another provider at any time."
+      },
+      {
+        "question": "Can you take over or modernise an existing system?",
+        "answer": "Yes. We start with a technical audit — code, infrastructure, security and delivery process — then propose a modernisation plan that keeps the business running while the system improves."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Have something to build?",
+    "text": "Tell us what you are working on. An engineer will reply — not a sales sequence."
+  }
+}

@@ -1,0 +1,162 @@
+/* ==========================================================================
+   Long-form content (Markdown/MDX): articles, case-study notes, legal pages
+   ========================================================================== */
+
+.prose {
+  --flow-space: 1.25em;
+  font-size: var(--step-0);
+  line-height: var(--leading-loose);
+  color: var(--color-text-2);
+  max-width: 68ch;
+}
+
+.prose > * + * {
+  margin-block-start: var(--flow-space);
+}
+
+.prose :is(h2, h3, h4) {
+  color: var(--color-text);
+  font-family: var(--font-display);
+  scroll-margin-top: calc(var(--header-height) + 2rem);
+}
+
+.prose h2 {
+  font-size: var(--step-3);
+  font-stretch: 112%;
+  font-weight: 720;
+  letter-spacing: -0.015em;
+  line-height: 1.12;
+  margin-block-start: 2.2em;
+}
+
+.prose h3 {
+  font-size: var(--step-2);
+  font-weight: 650;
+  line-height: 1.2;
+  margin-block-start: 1.8em;
+}
+
+.prose h4 {
+  font-size: var(--step-1);
+  font-weight: 600;
+  margin-block-start: 1.6em;
+}
+
+:lang(ar) .prose h2 {
+  font-stretch: 100%;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.prose :is(h2, h3, h4) + * {
+  margin-block-start: 0.75em;
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 650;
+}
+
+.prose a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+.prose a:hover {
+  color: var(--color-accent);
+}
+
+.prose :is(ul, ol) {
+  padding-inline-start: 1.25em;
+}
+
+.prose li + li {
+  margin-block-start: 0.5em;
+}
+
+.prose ul li::marker {
+  color: var(--color-accent);
+}
+
+.prose ol li::marker {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--color-muted);
+}
+
+.prose blockquote {
+  border-inline-start: 2px solid var(--color-accent);
+  padding-inline-start: 1.25em;
+  color: var(--color-text);
+  font-size: var(--step-1);
+  line-height: 1.5;
+}
+
+.prose hr {
+  margin-block: 3em;
+}
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.12em 0.35em;
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-2);
+  color: var(--color-text);
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  line-height: 1.6;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-2);
+  direction: ltr;
+  text-align: left;
+}
+
+.prose table {
+  width: 100%;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose :is(th, td) {
+  padding: 0.75em 1em;
+  border-bottom: 1px solid var(--color-line);
+  text-align: start;
+  vertical-align: top;
+}
+
+.prose th {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+:lang(ar) .prose th {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+  font-size: var(--step--1);
+}
+
+.prose img {
+  border: 1px solid var(--color-line);
+}
+
+.prose figure figcaption {
+  font-size: var(--step--1);
+  color: var(--color-muted);
+  margin-block-start: 0.75em;
+}

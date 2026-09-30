@@ -1,0 +1,64 @@
+{
+  "_comment": "DEMO: placeholder product (working title). Replace name and details, then set \"demo\": false.",
+  "name": "Atlaxys Docs",
+  "tagline": {
+    "en": "Document management with search, approvals and an audit trail.",
+    "fr": "Gestion documentaire avec recherche, circuits de validation et traçabilité.",
+    "ar": "إدارة الوثائق مع البحث ومسارات الموافقة وسجل التتبّع."
+  },
+  "description": {
+    "en": "A document management system for organisations that still run on shared drives and email attachments: structured storage, full-text search in French, Arabic and English (including scanned documents), approval workflows and a complete audit trail of who did what, when.",
+    "fr": "Une solution de gestion électronique de documents pour les organisations qui vivent encore sur des dossiers partagés et des pièces jointes : classement structuré, recherche plein texte en français, arabe et anglais (documents scannés compris), circuits de validation et traçabilité complète des actions.",
+    "ar": "نظام لإدارة الوثائق للمؤسسات التي ما زالت تعتمد على المجلدات المشتركة ومرفقات البريد: تخزين منظّم، وبحث نصّي كامل بالعربية والفرنسية والإنجليزية (بما في ذلك الوثائق الممسوحة ضوئيًا)، ومسارات موافقة، وسجلّ كامل لكل إجراء."
+  },
+  "category": { "en": "Document management", "fr": "Gestion documentaire", "ar": "إدارة الوثائق" },
+  "status": "in-development",
+  "audience": {
+    "en": "Professional firms, administrations and SMEs with high document volumes.",
+    "fr": "Cabinets, administrations et PME à fort volume documentaire.",
+    "ar": "المكاتب المهنية والإدارات والمقاولات ذات الحجم الكبير من الوثائق."
+  },
+  "platforms": ["Web"],
+  "features": [
+    {
+      "title": { "en": "Search inside scans", "fr": "Recherche dans les scans", "ar": "البحث داخل الوثائق الممسوحة" },
+      "description": {
+        "en": "OCR in French, Arabic and English makes every page searchable.",
+        "fr": "L’OCR en français, arabe et anglais rend chaque page consultable.",
+        "ar": "التعرّف الضوئي على النصوص بالعربية والفرنسية والإنجليزية يجعل كل صفحة قابلة للبحث."
+      }
+    },
+    {
+      "title": { "en": "Approval workflows", "fr": "Circuits de validation", "ar": "مسارات الموافقة" },
+      "description": {
+        "en": "Route documents for review and signature with deadlines and reminders.",
+        "fr": "Faites circuler les documents pour relecture et signature, avec échéances et relances.",
+        "ar": "توجيه الوثائق للمراجعة والتوقيع مع آجال وتذكيرات."
+      }
+    },
+    {
+      "title": { "en": "Permissions & audit trail", "fr": "Droits d’accès et traçabilité", "ar": "الصلاحيات وسجل التتبّع" },
+      "description": {
+        "en": "Fine-grained access rights and a log of every view, edit and download.",
+        "fr": "Droits d’accès fins et journal de chaque consultation, modification et téléchargement.",
+        "ar": "صلاحيات دقيقة وسجلّ لكل اطّلاع وتعديل وتنزيل."
+      }
+    }
+  ],
+  "technologies": ["TypeScript", "Node.js", "PostgreSQL", "OCR pipelines"],
+  "pricing": {
+    "model": "subscription",
+    "currency": "MAD",
+    "note": {
+      "en": "Pricing will be published at launch.",
+      "fr": "Les tarifs seront publiés au lancement.",
+      "ar": "ستُعلَن الأسعار عند الإطلاق."
+    }
+  },
+  "services": ["software-engineering", "ai-automation"],
+  "caseStudies": ["ai-document-intake"],
+  "posts": ["ai-automation-moroccan-businesses"],
+  "featured": false,
+  "order": 2,
+  "demo": true
+}

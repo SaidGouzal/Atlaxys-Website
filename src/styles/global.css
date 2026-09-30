@@ -1,0 +1,7 @@
+/* Global stylesheet — imported once by BaseLayout. Component styles are scoped. */
+@import './tokens.css';
+@import './base.css';
+@import './layout.css';
+@import './typography.css';
+@import './motion.css';
+@import './prose.css';

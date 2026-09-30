@@ -1,0 +1,38 @@
+---
+/**
+ * The official Atlaxys lockup, used unmodified (transparent version generated
+ * by scripts/brand-assets.mjs from the supplied logo file).
+ */
+import { Picture } from 'astro:assets';
+import wordmark from '@/assets/brand/atlaxys-wordmark.png';
+
+interface Props {
+  /** Rendered width in px (height follows the logo's proportions). */
+  width?: number;
+  alt?: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { width = 136, alt = '', eager = true, class: className } = Astro.props;
+const height = Math.round((width * wordmark.height) / wordmark.width);
+---
+
+<Picture
+  src={wordmark}
+  alt={alt}
+  width={width}
+  height={height}
+  densities={[1, 2, 3]}
+  formats={['avif', 'webp']}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+  class:list={['logo', className]}
+/>
+
+<style>
+  .logo {
+    display: block;
+    height: auto;
+  }
+</style>

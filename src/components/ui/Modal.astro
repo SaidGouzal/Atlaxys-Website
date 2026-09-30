@@ -1,0 +1,132 @@
+---
+/**
+ * Accessible modal on the native <dialog> element: focus is trapped and
+ * restored by the browser, Esc closes, the rest of the page becomes inert.
+ * Open with any element carrying data-modal-open="<id>".
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  closeLabel: string;
+  size?: 'sm' | 'md';
+}
+
+const { id, title, closeLabel, size = 'md' } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<dialog id={id} class:list={['modal', `modal--${size}`]} aria-labelledby={titleId} data-modal>
+  <div class="modal__panel">
+    <header class="modal__header">
+      <h2 id={titleId} class="modal__title">{title}</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label={closeLabel}>
+        <Icon name="x" size={20} />
+      </button>
+    </header>
+    <div class="modal__body">
+      <slot />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  function bindModals() {
+    document.querySelectorAll<HTMLElement>('[data-modal-open]').forEach((trigger) => {
+      if (trigger.dataset.modalBound) return;
+      trigger.dataset.modalBound = 'true';
+      trigger.addEventListener('click', () => {
+        const dialog = document.getElementById(trigger.dataset.modalOpen ?? '') as HTMLDialogElement | null;
+        dialog?.showModal();
+      });
+    });
+    document.querySelectorAll<HTMLDialogElement>('dialog[data-modal]').forEach((dialog) => {
+      if (dialog.dataset.modalBound) return;
+      dialog.dataset.modalBound = 'true';
+      dialog.querySelectorAll('[data-modal-close]').forEach((btn) => btn.addEventListener('click', () => dialog.close()));
+      // Click on the backdrop (outside the panel) closes.
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+  }
+  bindModals();
+</script>
+
+<style>
+  .modal {
+    margin: auto;
+    padding: 0;
+    width: min(100% - 2rem, 36rem);
+    max-height: min(100dvh - 2rem, 48rem);
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  .modal--sm {
+    width: min(100% - 2rem, 28rem);
+  }
+
+  .modal::backdrop {
+    background: rgb(8 9 11 / 0.72);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal__panel {
+    padding: var(--space-l);
+  }
+
+  .modal__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
+    margin-block-end: var(--space-m);
+  }
+
+  .modal__title {
+    font-size: var(--step-2);
+    font-stretch: 112%;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .modal__close {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: -0.5rem;
+    color: var(--color-muted);
+    transition: color var(--dur-2);
+  }
+
+  .modal__close:hover {
+    color: var(--color-text);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .modal[open] {
+      animation: modal-in var(--dur-3) var(--ease-out);
+    }
+    .modal[open]::backdrop {
+      animation: backdrop-in var(--dur-3) var(--ease-out);
+    }
+  }
+
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(1rem) scale(0.985);
+    }
+  }
+
+  @keyframes backdrop-in {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

@@ -1,0 +1,238 @@
+---
+/**
+ * Full-screen mobile navigation on a native modal <dialog>: focus trap,
+ * Esc to close and inert background come from the browser.
+ */
+import { primaryNav } from '@/config/navigation';
+import { mailtoLink, site, whatsappLink } from '@/config/site';
+import { routePath, useTranslations, type Locale } from '@/i18n';
+import type { Service } from '@/lib/content';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import LanguageSwitcher, { type LanguageTarget } from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  locale: Locale;
+  languageTargets: Record<Locale, LanguageTarget>;
+  services: Service[];
+}
+
+const { locale, languageTargets, services } = Astro.props;
+const t = useTranslations(locale);
+const current = Astro.url.pathname;
+---
+
+<dialog id="mobile-nav" class="mobile-nav" aria-label={t.nav.menu} data-mobile-nav>
+  <div class="mobile-nav__inner">
+    <div class="mobile-nav__top container">
+      <a href={routePath(locale, 'home')} class="mobile-nav__logo" aria-label={t.a11y.homeLink}>
+        <Logo width={118} eager={false} />
+      </a>
+      <button type="button" class="mobile-nav__close" data-mobile-nav-close>
+        <span>{t.a11y.close}</span>
+        <Icon name="x" size={22} />
+      </button>
+    </div>
+
+    <nav class="mobile-nav__body container" aria-label={t.a11y.primaryNav}>
+      <ol role="list" class="mobile-nav__list">
+        {
+          primaryNav.map((item, i) => {
+            const href = routePath(locale, item.route);
+            return (
+              <li class="mobile-nav__item" style={`--i: ${i}`}>
+                <a href={href} class="mobile-nav__link" aria-current={current.startsWith(href) ? 'page' : undefined}>
+                  <span class="mobile-nav__index mono tabular">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{t.nav[item.key]}</span>
+                </a>
+                {item.mega === 'services' && (
+                  <ul role="list" class="mobile-nav__sub">
+                    {services.map((s) => (
+                      <li>
+                        <a href={s.url}>{s.data.navLabel ?? s.data.title}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })
+        }
+      </ol>
+
+      <div class="mobile-nav__footer">
+        <Button href={routePath(locale, 'contact')} size="lg" fullWidth icon="arrow-up-right">
+          {t.cta.startProject}
+        </Button>
+        <div class="mobile-nav__contact">
+          <a href={whatsappLink(t.whatsapp.message)} target="_blank" rel="noopener noreferrer" data-track="whatsapp_click">
+            <Icon name="whatsapp" size={18} />
+            <span>{t.cta.whatsappShort}</span>
+          </a>
+          <a href={mailtoLink()} data-track="email_click">
+            <Icon name="mail" size={18} />
+            <span class="ltr">{site.contact.email}</span>
+          </a>
+          <a href={routePath(locale, 'search')}>
+            <Icon name="search" size={18} />
+            <span>{t.nav.search}</span>
+          </a>
+        </div>
+        <LanguageSwitcher locale={locale} targets={languageTargets} variant="inline" />
+      </div>
+    </nav>
+  </div>
+</dialog>
+
+<style>
+  .mobile-nav {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--ink-950);
+    color: var(--color-text);
+    overscroll-behavior: contain;
+  }
+
+  .mobile-nav::backdrop {
+    background: var(--ink-950);
+  }
+
+  .mobile-nav__inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    background-image:
+      linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .mobile-nav__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    flex-shrink: 0;
+  }
+
+  .mobile-nav__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+
+  .mobile-nav__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    flex: 1;
+    padding-block: var(--space-l) var(--space-xl);
+  }
+
+  .mobile-nav__list {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .mobile-nav__link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.4rem;
+    font-family: var(--font-display);
+    font-stretch: var(--display-stretch);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    font-size: clamp(2rem, 9vw, 3.25rem);
+    line-height: 1.05;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .mobile-nav__link[aria-current='page'] {
+    color: var(--color-accent);
+  }
+
+  .mobile-nav__index {
+    color: var(--color-muted);
+    min-width: 2ch;
+  }
+
+  .mobile-nav__sub {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    padding-inline-start: calc(2ch + 1.9rem);
+    padding-block: 0.25rem 0.75rem;
+  }
+
+  .mobile-nav__sub a {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    color: var(--color-text-2);
+    text-decoration: none;
+    font-size: var(--step--1);
+  }
+
+  .mobile-nav__footer {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .mobile-nav__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+
+  .mobile-nav__contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    color: var(--color-text-2);
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-nav[open] .mobile-nav__item {
+      animation: nav-item-in 700ms var(--ease-out) both;
+      animation-delay: calc(80ms + var(--i) * 60ms);
+    }
+
+    .mobile-nav[open] .mobile-nav__footer {
+      animation: nav-item-in 700ms var(--ease-out) 420ms both;
+    }
+
+    .mobile-nav[open] {
+      animation: nav-in 380ms var(--ease-signal) both;
+    }
+  }
+
+  @keyframes nav-in {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes nav-item-in {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+  }
+</style>

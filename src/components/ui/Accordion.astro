@@ -1,0 +1,124 @@
+---
+/**
+ * Accessible accordion built on native <details>/<summary> — keyboard and
+ * screen-reader support for free, works without JavaScript. Items in the
+ * same group close each other (exclusive accordion via `name`).
+ */
+interface Props {
+  items: { question: string; answer: string }[];
+  group?: string;
+  headingLevel?: 'h3' | 'h4';
+  openFirst?: boolean;
+}
+
+const { items, group = 'faq', headingLevel = 'h3', openFirst = false } = Astro.props;
+const Heading = headingLevel;
+---
+
+<div class="accordion" data-reveal>
+  {
+    items.map((item, i) => (
+      <details class="accordion__item" name={group} open={openFirst && i === 0}>
+        <summary class="accordion__summary">
+          <Heading class="accordion__question">{item.question}</Heading>
+          <span class="accordion__icon" aria-hidden="true" />
+        </summary>
+        <div class="accordion__answer">
+          <p>{item.answer}</p>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .accordion {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .accordion__item {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .accordion__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-m);
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--dur-2) var(--ease-out);
+  }
+
+  .accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__summary:hover {
+    color: var(--color-accent);
+  }
+
+  .accordion__question {
+    font-size: var(--step-1);
+    font-weight: 560;
+    line-height: 1.35;
+  }
+
+  .accordion__icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 50%;
+    transition:
+      transform var(--dur-3) var(--ease-signal),
+      border-color var(--dur-2);
+  }
+
+  .accordion__icon::before,
+  .accordion__icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 0.7rem;
+    height: 1.5px;
+    background: currentColor;
+    translate: -50% -50%;
+  }
+
+  .accordion__icon::after {
+    rotate: 90deg;
+    transition: rotate var(--dur-3) var(--ease-signal);
+  }
+
+  .accordion__item[open] .accordion__icon {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .accordion__item[open] .accordion__icon::after {
+    rotate: 0deg;
+  }
+
+  .accordion__answer {
+    padding-block-end: var(--space-l);
+    padding-inline-end: 3rem;
+    color: var(--color-text-2);
+    max-width: 70ch;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .accordion__item[open] .accordion__answer {
+      animation: answer-in var(--dur-3) var(--ease-out);
+    }
+  }
+
+  @keyframes answer-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.4rem);
+    }
+  }
+</style>

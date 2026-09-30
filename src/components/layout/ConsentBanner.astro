@@ -1,0 +1,195 @@
+---
+/**
+ * Cookie consent: a non-blocking bottom panel (no dark pattern — "Reject"
+ * is as prominent as "Accept") plus a settings dialog. Only rendered when an
+ * analytics or marketing tag is configured.
+ */
+import { useTranslations, type Locale } from '@/i18n';
+import { getLegalUrl } from '@/lib/content';
+import Button from '../ui/Button.astro';
+import Modal from '../ui/Modal.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const cookiesUrl = await getLegalUrl(locale, 'cookies');
+---
+
+<section class="consent" role="region" aria-labelledby="consent-title" hidden data-consent-banner>
+  <div class="consent__inner">
+    <div class="consent__text">
+      <h2 id="consent-title" class="consent__title">{t.consent.title}</h2>
+      <p>
+        {t.consent.text} <a href={cookiesUrl}>{t.consent.policyLink}</a>
+      </p>
+    </div>
+    <div class="consent__actions">
+      <Button variant="secondary" icon={false} data-consent-action="reject">{t.consent.rejectAll}</Button>
+      <Button variant="secondary" icon={false} data-modal-open="consent-settings">{t.consent.customize}</Button>
+      <Button icon={false} data-consent-action="accept">{t.consent.acceptAll}</Button>
+    </div>
+  </div>
+</section>
+
+<Modal id="consent-settings" title={t.consent.dialogTitle} closeLabel={t.a11y.close}>
+  <form class="consent-form" data-consent-form>
+    <fieldset class="consent-form__row">
+      <legend class="visually-hidden">{t.consent.necessaryTitle}</legend>
+      <div>
+        <p class="consent-form__label">{t.consent.necessaryTitle}</p>
+        <p class="consent-form__desc">{t.consent.necessaryText}</p>
+      </div>
+      <span class="consent-form__always mono">{t.consent.alwaysOn}</span>
+    </fieldset>
+    <label class="consent-form__row">
+      <span>
+        <span class="consent-form__label">{t.consent.analyticsTitle}</span>
+        <span class="consent-form__desc">{t.consent.analyticsText}</span>
+      </span>
+      <input type="checkbox" name="analytics" class="switch" />
+    </label>
+    <label class="consent-form__row">
+      <span>
+        <span class="consent-form__label">{t.consent.marketingTitle}</span>
+        <span class="consent-form__desc">{t.consent.marketingText}</span>
+      </span>
+      <input type="checkbox" name="marketing" class="switch" />
+    </label>
+    <div class="consent-form__actions">
+      <Button type="submit" icon={false}>{t.consent.save}</Button>
+    </div>
+  </form>
+</Modal>
+
+<script>
+  import { initConsent } from '@/scripts/analytics/consent';
+  initConsent();
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    inset-inline: max(0.75rem, env(safe-area-inset-left));
+    inset-block-end: max(0.75rem, env(safe-area-inset-bottom));
+    z-index: var(--z-toast);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .consent__inner {
+    pointer-events: auto;
+    display: grid;
+    gap: var(--space-m);
+    width: min(100%, 64rem);
+    padding: var(--space-m) var(--space-l);
+    background: var(--ink-850);
+    border: 1px solid var(--color-line-strong);
+    box-shadow: var(--shadow-overlay);
+  }
+
+  @media (min-width: 64rem) {
+    .consent__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+
+  .consent__title {
+    font-size: var(--step-0);
+    font-weight: 650;
+    margin-block-end: 0.25rem;
+  }
+
+  .consent__text p {
+    font-size: var(--step--1);
+    color: var(--color-text-2);
+    max-width: 62ch;
+  }
+
+  .consent__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .consent-form {
+    display: grid;
+    gap: 0;
+  }
+
+  .consent-form__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    padding-block: var(--space-s);
+    border: 0;
+    border-bottom: 1px solid var(--color-line);
+    margin: 0;
+    padding-inline: 0;
+    cursor: pointer;
+  }
+
+  .consent-form__label {
+    display: block;
+    font-weight: 600;
+  }
+
+  .consent-form__desc {
+    display: block;
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+
+  .consent-form__always {
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+
+  .consent-form__actions {
+    margin-block-start: var(--space-m);
+  }
+
+  .switch {
+    appearance: none;
+    flex-shrink: 0;
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    border: 1px solid var(--color-control-border);
+    border-radius: var(--radius-pill);
+    background: var(--ink-900);
+    cursor: pointer;
+    transition: background-color var(--dur-2);
+  }
+
+  .switch::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 3px;
+    inset-inline-start: 3px;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--steel-300);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .switch:checked {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .switch:checked::after {
+    background: var(--ink-950);
+    transform: translateX(1.25rem);
+  }
+
+  :global([dir='rtl']) .switch:checked::after {
+    transform: translateX(-1.25rem);
+  }
+</style>

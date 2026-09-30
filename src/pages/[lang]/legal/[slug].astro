@@ -1,0 +1,50 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import { formatDate, useTranslations } from '@/i18n';
+import { getLegalAlternates, getLegalPaths, type LegalPage } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+
+export const getStaticPaths = getLegalPaths;
+
+interface Props {
+  page: LegalPage;
+}
+
+const { page } = Astro.props;
+const { locale, data } = page;
+const t = useTranslations(locale);
+const { Content } = await render(page.entry);
+const alternates = await getLegalAlternates(page.key);
+const trail = crumbs(locale, { name: data.title, url: page.url });
+---
+
+<BaseLayout
+  locale={locale}
+  page="legal"
+  breadcrumbs={trail}
+  footerCta={false}
+  seo={{ title: data.title, description: data.description, alternates, modifiedTime: data.updatedAt }}
+>
+  <PageHero title={data.title} lead={data.description} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} size="md" />
+  <Section spacing="tight">
+    <Container>
+      <p class="mono legal-updated">
+        {t.labels.lastUpdated}: <time datetime={data.updatedAt.toISOString()}>{formatDate(data.updatedAt, locale)}</time>
+      </p>
+      <div class="prose legal-body">
+        <Content />
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .legal-updated {
+    color: var(--color-muted);
+    margin-block-end: var(--space-xl);
+  }
+</style>

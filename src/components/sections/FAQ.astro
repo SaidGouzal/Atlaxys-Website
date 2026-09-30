@@ -1,0 +1,42 @@
+---
+/**
+ * Visible FAQ block. Pages that render it also pass the same items to
+ * `faqNode()` so the FAQPage structured data always matches what is shown.
+ */
+import Accordion from '../ui/Accordion.astro';
+import SectionHeader from '../ui/SectionHeader.astro';
+
+interface Props {
+  id?: string;
+  index?: string;
+  eyebrow?: string;
+  title: string;
+  items: { question: string; answer: string }[];
+}
+
+const { id = 'faq-title', index, eyebrow, title, items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <div class="faq">
+      <SectionHeader id={id} index={index} eyebrow={eyebrow} title={title} size="md" />
+      <Accordion items={items} group={id} />
+    </div>
+  )
+}
+
+<style>
+  @media (min-width: 64rem) {
+    .faq {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: var(--grid-gap);
+      align-items: start;
+    }
+
+    .faq :global(.section-header__title) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

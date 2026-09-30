@@ -1,0 +1,59 @@
+---
+/**
+ * Everything search engines and social platforms read from <head>:
+ * title, description, canonical, robots, hreflang (incl. x-default),
+ * Open Graph, X card. One component, used by every layout.
+ */
+import { site } from '@/config/site';
+import { defaultLocale, localeMeta, type Locale } from '@/i18n/config';
+import { useTranslations } from '@/i18n';
+import { absoluteUrl } from '@/lib/seo/urls';
+import { clampDescription, fullTitle, type SeoProps } from '@/lib/seo/meta';
+import OpenGraph from './OpenGraph.astro';
+import TwitterCard from './TwitterCard.astro';
+
+interface Props extends SeoProps {
+  locale: Locale;
+}
+
+const { title, description, canonical, alternates = {}, image, type = 'website', noindex = false, locale, publishedTime, modifiedTime, section, tags } =
+  Astro.props;
+const t = useTranslations(locale);
+
+const pageTitle = fullTitle(title, t.meta.siteName);
+const metaDescription = clampDescription(description);
+const canonicalUrl = absoluteUrl(canonical ?? Astro.url.pathname);
+const ogImage = image ?? { ...site.defaultOgImage, alt: t.meta.slogan };
+const ogImageAbs = { ...ogImage, src: absoluteUrl(ogImage.src) };
+
+const alternateEntries = Object.entries(alternates) as [Locale, string][];
+const xDefault = alternates[defaultLocale];
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={metaDescription} />
+<link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+
+{
+  !noindex &&
+    alternateEntries.length > 1 &&
+    alternateEntries.map(([l, path]) => <link rel="alternate" hreflang={localeMeta[l].hreflang} href={absoluteUrl(path)} />)
+}
+{!noindex && alternateEntries.length > 1 && xDefault && <link rel="alternate" hreflang="x-default" href={absoluteUrl(xDefault)} />}
+
+<OpenGraph
+  title={pageTitle}
+  description={metaDescription}
+  url={canonicalUrl}
+  image={ogImageAbs}
+  siteName={t.meta.siteName}
+  locale={locale}
+  alternateLocales={alternateEntries.map(([l]) => l)}
+  type={type}
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+  section={section}
+  tags={tags}
+/>
+<TwitterCard title={pageTitle} description={metaDescription} image={ogImageAbs} />

@@ -1,0 +1,201 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LeadForm from '@/components/forms/LeadForm.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Section from '@/components/ui/Section.astro';
+import SignalRule from '@/components/ui/SignalRule.astro';
+import { mailtoLink, site, telLink, whatsappLink } from '@/config/site';
+import { countryName, localeStaticPaths, mirroredAlternates, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const copy = await getPageCopy(locale, 'contact');
+const trail = crumbs(locale, 'contact');
+const place = [site.address.locality, countryName(site.address.countryCode, locale)].filter(Boolean).join(', ');
+---
+
+<BaseLayout
+  locale={locale}
+  page="contact"
+  pageType="ContactPage"
+  breadcrumbs={trail}
+  whatsappFloat={false}
+  footerCta={false}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/contact/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+
+  <Section>
+    <Container class="contact">
+      <div class="contact__form">
+        <LeadForm locale={locale} variant="full" name="contact" />
+      </div>
+
+      <aside class="contact__aside" aria-labelledby="channels-title">
+        <h2 id="channels-title" class="eyebrow">
+          <SignalRule length={40} />
+          <span>{copy.channels.title}</span>
+        </h2>
+        <ul role="list" class="channels">
+          <li>
+            <a href={mailtoLink()} class="channel" data-track="email_click" data-track-location="contact">
+              <Icon name="mail" size={22} />
+              <span class="channel__body">
+                <span class="channel__value ltr">{site.contact.email}</span>
+                <span class="channel__note">{copy.channels.emailText}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              href={whatsappLink(t.whatsapp.message)}
+              class="channel"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="whatsapp_click"
+              data-track-location="contact"
+            >
+              <Icon name="whatsapp" size={22} />
+              <span class="channel__body">
+                <span class="channel__value">{t.cta.whatsapp} <span class="visually-hidden">{t.a11y.newTab}</span></span>
+                <span class="channel__note">{copy.channels.whatsappText}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={telLink()} class="channel" data-track="phone_click" data-track-location="contact">
+              <Icon name="phone" size={22} />
+              <span class="channel__body">
+                <span class="channel__value ltr">{site.contact.phone}</span>
+              </span>
+            </a>
+          </li>
+          <li class="channel channel--static">
+            <Icon name="map-pin" size={22} />
+            <span class="channel__body">
+              <span class="channel__value">{place}</span>
+              <span class="channel__note">{t.footer.based}</span>
+            </span>
+          </li>
+        </ul>
+
+        <div class="next">
+          <h2 class="next__title">{copy.next.title}</h2>
+          <ol role="list" class="next__steps">
+            {
+              copy.next.steps.map((step, i) => (
+                <li>
+                  <span class="mono tabular">{String(i + 1).padStart(2, '0')}</span>
+                  <p>{step}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </aside>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .contact {
+    display: grid;
+    gap: var(--space-2xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .contact {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      align-items: start;
+    }
+
+    .contact__aside {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-l));
+    }
+  }
+
+  .contact__aside {
+    display: grid;
+    gap: var(--space-xl);
+    align-content: start;
+  }
+
+  .channels {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+    margin-block-start: var(--space-m);
+  }
+
+  .channel {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-s);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .channel :global(.icon) {
+    color: var(--color-accent);
+    margin-block-start: 0.1rem;
+  }
+
+  .channel__body {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .channel__value {
+    font-weight: 600;
+  }
+
+  a.channel:hover .channel__value {
+    color: var(--color-accent);
+  }
+
+  .channel__note {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+
+  .next {
+    padding: var(--space-l);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+
+  .next__title {
+    font-size: var(--step-1);
+    font-weight: 650;
+    margin-block-end: var(--space-m);
+  }
+
+  .next__steps {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .next__steps li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: var(--space-xs);
+  }
+
+  .next__steps .mono {
+    color: var(--color-accent);
+    padding-block-start: 0.2rem;
+  }
+
+  .next__steps p {
+    color: var(--color-text-2);
+    font-size: var(--step--1);
+  }
+</style>

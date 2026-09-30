@@ -1,0 +1,125 @@
+---
+/**
+ * Accessible architecture diagram: real HTML (an ordered list of layers, each
+ * with its components) styled as a system diagram with routed connectors.
+ * Screen readers get the structure; everyone gets the picture.
+ */
+interface Props {
+  layers: { name: string; items: string[] }[];
+  caption?: string;
+  label: string;
+}
+
+const { layers, caption, label } = Astro.props;
+---
+
+<figure class="arch" aria-label={label}>
+  <ol role="list" class="arch__layers" data-reveal-stagger="120">
+    {
+      layers.map((layer, i) => (
+        <li class="arch__layer" data-reveal>
+          <p class="arch__name mono">
+            <span class="tabular">L{i + 1}</span> {layer.name}
+          </p>
+          <ul role="list" class="arch__items">
+            {layer.items.map((item) => (
+              <li class="arch__item">{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+  {caption && <figcaption class="arch__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .arch {
+    margin: 0;
+    padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+    border: 1px solid var(--color-line);
+    background-color: var(--color-surface);
+    background-image:
+      linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .arch__layers {
+    display: grid;
+    gap: 2.75rem;
+  }
+
+  .arch__layer {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  /* Routed connector down to the next layer, ending in a node. */
+  .arch__layer:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    inset-inline-start: 1.5rem;
+    inset-block-end: -2.75rem;
+    height: 2.75rem;
+    width: 1px;
+    background: var(--color-line-strong);
+  }
+
+  .arch__layer:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    inset-inline-start: calc(1.5rem - 4px);
+    inset-block-end: calc(-2.75rem - 4px);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    background: var(--color-surface);
+    z-index: 1;
+  }
+
+  .arch__layer:first-child:not(:last-child)::after {
+    background: var(--color-accent);
+  }
+
+  .arch__name {
+    color: var(--color-muted);
+  }
+
+  .arch__name .tabular {
+    color: var(--color-accent);
+    margin-inline-end: 0.5rem;
+  }
+
+  .arch__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .arch__item {
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-bg);
+    font-size: var(--step--1);
+    font-weight: 520;
+    color: var(--color-text);
+  }
+
+  .arch__caption {
+    margin-block-start: var(--space-l);
+    padding-block-start: var(--space-m);
+    border-top: 1px solid var(--color-line);
+    color: var(--color-text-2);
+    max-width: 70ch;
+  }
+
+  @media (min-width: 64rem) {
+    .arch__layer {
+      grid-template-columns: 14rem 1fr;
+      align-items: center;
+    }
+  }
+</style>

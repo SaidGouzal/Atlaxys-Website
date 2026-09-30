@@ -1,0 +1,12 @@
+{
+  "page": "insights",
+  "seo": {
+    "title": "Insights — Notes on software, AI and cloud from Atlaxys",
+    "description": "Practical articles on software costs, architecture, AI automation, DevOps and running technology — with a focus on businesses in Morocco and the markets we serve."
+  },
+  "hero": {
+    "eyebrow": "Insights",
+    "title": "Useful writing about building software.",
+    "lead": "Practical articles on costs, architecture, automation and operations — written by the people who do the work."
+  }
+}

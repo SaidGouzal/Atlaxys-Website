@@ -1,0 +1,57 @@
+{
+  "translationKey": "landing-software-development-morocco",
+  "campaign": "software-development-morocco",
+  "seo": {
+    "title": "Software development in Morocco — web, mobile & business software",
+    "description": "A Moroccan engineering team for your web platform, mobile app or business software — in French, Arabic or English, to international standards.",
+    "noindex": true
+  },
+  "hero": {
+    "eyebrow": "Software development in Morocco",
+    "title": "A Moroccan engineering team with international standards.",
+    "lead": "We build web platforms, mobile apps and business software for Moroccan companies — in French, Arabic or English — and stay with you after launch.",
+    "bullets": ["Local team, on-site workshops when needed", "Interfaces in French, Arabic and English", "Free first consultation"],
+    "primaryCta": "Get a free consultation",
+    "whatsappCta": "WhatsApp us",
+    "whatsappMessage": "Hello Atlaxys, I would like to discuss a software project."
+  },
+  "problem": {
+    "title": "What we often hear",
+    "points": [
+      "The last app was delivered late and never really worked.",
+      "We depend on one freelancer who no longer answers.",
+      "Imported software does not fit how we work here."
+    ]
+  },
+  "solution": {
+    "title": "What we do differently",
+    "text": "Written architecture, working software every two weeks, and code that belongs to you.",
+    "points": [
+      { "title": "Local understanding", "text": "Payments, WhatsApp, languages and connectivity as they really are." },
+      { "title": "Engineering discipline", "text": "Testing, monitoring, backups and documentation from day one." }
+    ]
+  },
+  "benefits": {
+    "title": "Why Atlaxys",
+    "items": [
+      { "title": "Close to you", "text": "Same country, same time zone, same languages." },
+      { "title": "Built to last", "text": "Software designed to be maintained and extended." },
+      { "title": "You own everything", "text": "Code, accounts and data in your name." }
+    ]
+  },
+  "process": {
+    "title": "Next steps",
+    "steps": [
+      { "title": "Message us", "text": "By form or WhatsApp." },
+      { "title": "Free consultation", "text": "We understand your need." },
+      { "title": "Proposal", "text": "Scope, phases and estimate in writing." }
+    ]
+  },
+  "form": {
+    "title": "Get a free consultation",
+    "variant": "compact"
+  },
+  "sections": ["hero", "problem", "solution", "benefits", "process", "form"],
+  "services": ["software-engineering"],
+  "tracking": { "contentName": "software-development-morocco" }
+}

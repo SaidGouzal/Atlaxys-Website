@@ -1,0 +1,144 @@
+---
+/**
+ * Media frame with the chamfered corner and crop marks.
+ * Shows the image when one is provided; otherwise renders a designed,
+ * clearly-labelled placeholder so a missing screenshot never looks broken.
+ */
+import Img from './Img.astro';
+
+interface Props {
+  image?: { src: ImageMetadata; alt: string };
+  aspect?: string;
+  sizes?: string;
+  priority?: boolean;
+  caption?: string;
+  placeholderLabel?: string;
+  reveal?: boolean;
+  class?: string;
+}
+
+const {
+  image,
+  aspect = '16 / 10',
+  sizes,
+  priority = false,
+  caption,
+  placeholderLabel,
+  reveal = true,
+  class: className,
+} = Astro.props;
+const hasSlot = Astro.slots.has('default');
+---
+
+<figure class:list={['media-frame', className]} style={`--aspect: ${aspect}`}>
+  <div class="media-frame__inner" data-reveal={reveal ? 'mask' : undefined}>
+    {
+      image ? (
+        <Img src={image.src} alt={image.alt} sizes={sizes} priority={priority} class="media-frame__img" />
+      ) : hasSlot ? (
+        <slot />
+      ) : (
+        <div class="media-frame__placeholder">
+          <svg viewBox="0 0 800 500" fill="none" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid slice">
+            <g stroke="currentColor" stroke-width="1.5" opacity="0.5">
+              <path d="M40 40h720v420H40z" />
+              <path d="M40 88h720" />
+              <path d="M180 88v372" />
+              <path d="M64 64h40M120 64h24" />
+              <path d="M64 124h92M64 156h72M64 188h84M64 220h60" />
+              <path d="M212 120h160v96H212zM396 120h160v96H396zM580 120h156v96H580z" />
+              <path d="M212 244h524v184H212z" />
+            </g>
+            <path d="M236 396l72-58 60 34 70-86 66 40 84-72 72 44 46-34" stroke="var(--color-accent)" stroke-width="2" />
+            <circle cx="706" cy="302" r="6" stroke="var(--color-accent)" stroke-width="2" fill="none" />
+          </svg>
+          <span class="media-frame__label mono">{placeholderLabel}</span>
+        </div>
+      )
+    }
+  </div>
+  <span class="media-frame__marks" aria-hidden="true" />
+  {caption && <figcaption class="media-frame__caption">{caption}</figcaption>}
+</figure>
+
+<style>
+  .media-frame {
+    position: relative;
+    margin: 0;
+  }
+
+  .media-frame__inner {
+    position: relative;
+    aspect-ratio: var(--aspect);
+    overflow: hidden;
+    background: var(--color-surface-2);
+    clip-path: polygon(0 0, calc(100% - var(--chamfer-lg)) 0, 100% var(--chamfer-lg), 100% 100%, 0 100%);
+  }
+
+  :global([dir='rtl']) .media-frame__inner {
+    clip-path: polygon(var(--chamfer-lg) 0, 100% 0, 100% 100%, 0 100%, 0 var(--chamfer-lg));
+  }
+
+  .media-frame__inner > :global(picture),
+  .media-frame__inner > :global(img),
+  .media-frame__inner :global(.media-frame__img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .media-frame__inner :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-5) var(--ease-out);
+  }
+
+  .media-frame__placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--color-subtle);
+    background-image:
+      linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .media-frame__placeholder svg {
+    position: absolute;
+    inset: 8%;
+    width: 84%;
+    height: 84%;
+  }
+
+  .media-frame__label {
+    position: absolute;
+    inset-block-end: 1rem;
+    inset-inline-start: 1rem;
+    color: var(--color-muted);
+    background: var(--color-bg);
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--color-line);
+  }
+
+  /* Crop marks at the three square corners. */
+  .media-frame__marks {
+    position: absolute;
+    inset: -6px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) top left / 12px 1px no-repeat,
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) top left / 1px 12px no-repeat,
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) bottom left / 12px 1px no-repeat,
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) bottom left / 1px 12px no-repeat,
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) bottom right / 12px 1px no-repeat,
+      linear-gradient(var(--color-line-strong), var(--color-line-strong)) bottom right / 1px 12px no-repeat;
+  }
+
+  .media-frame__caption {
+    margin-block-start: var(--space-xs);
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+</style>

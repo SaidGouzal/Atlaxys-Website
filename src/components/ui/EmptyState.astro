@@ -1,0 +1,62 @@
+---
+/** Empty / no-results state: a disconnected trace, a message and next steps. */
+interface Props {
+  title?: string;
+  text: string;
+  class?: string;
+}
+const { title, text, class: className } = Astro.props;
+---
+
+<div class:list={['empty-state', className]} role="status">
+  <svg class="empty-state__art" viewBox="0 0 160 40" fill="none" aria-hidden="true" focusable="false">
+    <path d="M0 28h48l10-10h28" stroke="var(--color-line-strong)" stroke-width="1.5" />
+    <circle cx="92" cy="18" r="5" stroke="var(--color-subtle)" stroke-width="1.5" />
+    <path d="M112 18h18l10 10h20" stroke="var(--color-line-strong)" stroke-width="1.5" stroke-dasharray="3 5" />
+  </svg>
+  {title && <p class="empty-state__title">{title}</p>}
+  <p class="empty-state__text">{text}</p>
+  {
+    Astro.slots.has('default') && (
+      <div class="empty-state__actions">
+        <slot />
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .empty-state {
+    padding: var(--space-xl) var(--space-l);
+    border: 1px dashed var(--color-line-strong);
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+
+  .empty-state__art {
+    width: 10rem;
+    margin-block-end: var(--space-xs);
+  }
+
+  :global([dir='rtl']) .empty-state__art {
+    transform: scaleX(-1);
+  }
+
+  .empty-state__title {
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .empty-state__text {
+    color: var(--color-text-2);
+    max-width: 52ch;
+  }
+
+  .empty-state__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-l);
+    margin-block-start: var(--space-xs);
+  }
+</style>

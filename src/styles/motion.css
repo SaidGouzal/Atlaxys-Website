@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Motion system
+   --------------------------------------------------------------------------
+   Principles: motion explains structure (things arrive in reading order,
+   signals travel along traces), it never blocks content, and it switches off
+   completely for `prefers-reduced-motion: reduce`.
+
+   • Content is visible by default. Hidden start states only apply when
+     <html> has the `motion` class, which the inline head script sets when
+     JavaScript runs and the user has not asked for reduced motion.
+   • If the motion modules fail to boot within 3 s, the class is removed and
+     everything shows (see BaseLayout head script).
+   ========================================================================== */
+
+/* ---- Scroll reveals (IntersectionObserver, src/scripts/motion/reveal.ts) --- */
+.motion [data-reveal] {
+  transition:
+    opacity var(--dur-4) var(--ease-out),
+    transform var(--dur-4) var(--ease-out),
+    clip-path var(--dur-5) var(--ease-signal);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+.motion [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+}
+
+.motion [data-reveal='fade']:not(.is-in) {
+  transform: none;
+}
+
+/* Masked media reveal: wipes open along the reading direction. */
+.motion [data-reveal='mask']:not(.is-in) {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+}
+
+.motion [dir='rtl'] [data-reveal='mask']:not(.is-in),
+.motion[dir='rtl'] [data-reveal='mask']:not(.is-in) {
+  clip-path: inset(0 0 0 100%);
+}
+
+.motion [data-reveal='mask'].is-in {
+  clip-path: inset(0 0 0 0);
+}
+
+.motion [data-reveal='mask'] {
+  transition: clip-path 1s var(--ease-out);
+}
+
+/* Line-by-line heading reveal (GSAP SplitText) — hidden until split. */
+.motion [data-split]:not(.is-split),
+.motion [data-scrub-words]:not(.is-split) {
+  visibility: hidden;
+}
+
+.split-line {
+  padding-block-end: 0.04em; /* keep descenders inside the line mask */
+}
+
+/* ---- Trace drawing (SVG strokes that "route" into place) --------------- */
+.motion [data-draw] path,
+.motion [data-draw] line,
+.motion [data-draw] polyline {
+  stroke-dasharray: var(--path-length, 1);
+  stroke-dashoffset: var(--path-length, 1);
+  transition: stroke-dashoffset var(--dur-5) var(--ease-signal);
+  transition-delay: calc(var(--reveal-delay, 0) * 1ms);
+}
+
+.motion [data-draw].is-in path,
+.motion [data-draw].is-in line,
+.motion [data-draw].is-in polyline {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Cross-document page transitions (zero JavaScript) ------------------ */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: vt-leave 240ms var(--ease-in) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-enter 620ms var(--ease-out) both;
+}
+
+@keyframes vt-leave {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -0.75rem, 0);
+  }
+}
+
+@keyframes vt-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+  }
+}
+
+/* ---- Reduced motion: everything static and instant ---------------------- */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

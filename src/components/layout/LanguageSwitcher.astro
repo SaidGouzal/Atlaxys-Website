@@ -1,0 +1,191 @@
+---
+/**
+ * Language switcher. Links to the *same page* in the other language when a
+ * translation exists, otherwise to the matching section page (flagged).
+ * `menu` = compact disclosure for the header, `inline` = row of links.
+ */
+import { localeMeta, locales, type Locale } from '@/i18n/config';
+import { useTranslations } from '@/i18n';
+import Icon from '../ui/Icon.astro';
+
+export interface LanguageTarget {
+  href: string;
+  exact: boolean;
+}
+
+interface Props {
+  locale: Locale;
+  targets: Record<Locale, LanguageTarget>;
+  variant?: 'menu' | 'inline';
+  id?: string;
+}
+
+const { locale, targets, variant = 'menu', id = 'lang-menu' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{
+  variant === 'menu' ? (
+    <div class="lang lang--menu" data-disclosure>
+      <button
+        type="button"
+        class="lang__toggle"
+        aria-expanded="false"
+        aria-controls={id}
+        data-disclosure-toggle
+      >
+        <Icon name="globe" size={18} />
+        <span class="lang__current">{localeMeta[locale].short}</span>
+        <span class="visually-hidden">— {t.a11y.changeLanguage}</span>
+      </button>
+      <ul id={id} class="lang__list" role="list" hidden data-disclosure-panel>
+        {locales.map((l) => (
+          <li>
+            <a
+              href={targets[l].href}
+              hreflang={localeMeta[l].hreflang}
+              lang={localeMeta[l].hreflang}
+              class="lang__link"
+              aria-current={l === locale ? 'true' : undefined}
+              title={!targets[l].exact && l !== locale ? t.langSwitch.unavailable : undefined}
+              data-lang-link={l}
+            >
+              <span>{localeMeta[l].nativeName}</span>
+              <span class="lang__code mono">{l.toUpperCase()}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <nav class="lang lang--inline" aria-label={t.a11y.language}>
+      <ul role="list">
+        {locales.map((l) => (
+          <li>
+            <a
+              href={targets[l].href}
+              hreflang={localeMeta[l].hreflang}
+              lang={localeMeta[l].hreflang}
+              class="lang__pill"
+              aria-current={l === locale ? 'true' : undefined}
+              title={!targets[l].exact && l !== locale ? t.langSwitch.unavailable : undefined}
+              data-lang-link={l}
+            >
+              {localeMeta[l].nativeName}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  // Remember an explicit language choice for the root (/) redirect.
+  document.querySelectorAll<HTMLAnchorElement>('[data-lang-link]').forEach((link) => {
+    link.addEventListener('click', () => {
+      try {
+        localStorage.setItem('atlaxys-lang', link.dataset.langLink ?? '');
+      } catch {
+        /* storage unavailable (private mode) — nothing to remember */
+      }
+    });
+  });
+</script>
+
+<style>
+  .lang--menu {
+    position: relative;
+  }
+
+  .lang__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+    padding-inline: 0.6rem;
+    color: var(--color-text-2);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    transition: color var(--dur-2);
+  }
+
+  .lang__toggle:hover,
+  .lang__toggle[aria-expanded='true'] {
+    color: var(--color-text);
+  }
+
+  .lang__list {
+    position: absolute;
+    inset-block-start: calc(100% + 0.5rem);
+    inset-inline-end: 0;
+    min-width: 12rem;
+    padding: 0.4rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line-strong);
+    box-shadow: var(--shadow-overlay);
+    z-index: var(--z-overlay);
+  }
+
+  .lang__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 0.8rem;
+    color: var(--color-text-2);
+    text-decoration: none;
+    font-family: 'Archivo', 'Noto Kufi Arabic', var(--font-sans);
+    transition:
+      background-color var(--dur-1),
+      color var(--dur-1);
+  }
+
+  .lang__link:hover {
+    background: var(--color-surface-3);
+    color: var(--color-text);
+  }
+
+  .lang__link[aria-current='true'] {
+    color: var(--color-text);
+  }
+
+  .lang__link[aria-current='true'] .lang__code {
+    color: var(--color-accent);
+  }
+
+  .lang__code {
+    color: var(--color-muted);
+  }
+
+  .lang--inline ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .lang__pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 1rem;
+    border: 1px solid var(--color-line-strong);
+    color: var(--color-text-2);
+    text-decoration: none;
+    font-family: 'Archivo', 'Noto Kufi Arabic', var(--font-sans);
+    transition:
+      border-color var(--dur-2),
+      color var(--dur-2);
+  }
+
+  .lang__pill:hover {
+    color: var(--color-text);
+    border-color: var(--color-text);
+  }
+
+  .lang__pill[aria-current='true'] {
+    border-color: var(--color-accent);
+    color: var(--color-text);
+  }
+</style>

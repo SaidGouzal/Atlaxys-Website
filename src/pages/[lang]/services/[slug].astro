@@ -1,0 +1,355 @@
+---
+/**
+ * Service page template — every file in src/content/services/<locale>/
+ * becomes a page here. Nothing to code when adding a service.
+ */
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import RelatedContent from '@/components/sections/RelatedContent.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import SignalRule from '@/components/ui/SignalRule.astro';
+import { whatsappLink } from '@/config/site';
+import { routePath, useTranslations } from '@/i18n';
+import { getServiceAlternates, getServicePaths, type Service } from '@/lib/content';
+import { getRelated } from '@/lib/content/related';
+import { crumbs } from '@/lib/seo/crumbs';
+import { faqNode, ids, serviceNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = getServicePaths;
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const { locale, data } = service;
+const t = useTranslations(locale);
+const { Content } = await render(service.entry);
+const [alternates, related] = await Promise.all([
+  getServiceAlternates(service.key),
+  getRelated(locale, { type: 'service', key: service.key }, data.related),
+]);
+const trail = crumbs(locale, 'services', { name: data.title, url: service.url });
+---
+
+<BaseLayout
+  locale={locale}
+  page="service"
+  pageType="WebPage"
+  breadcrumbs={trail}
+  primaryId={ids.primary(service.url, 'service')}
+  schema={[
+    serviceNode({
+      url: service.url,
+      name: data.title,
+      description: data.summary,
+      serviceType: data.title,
+      capabilities: data.capabilities.map((c) => c.title),
+      locale,
+    }),
+    faqNode(service.url, data.faqs),
+  ]}
+  seo={{
+    title: data.seo.title ?? data.title,
+    description: data.seo.description ?? data.summary,
+    alternates,
+    modifiedTime: data.updatedAt,
+    noindex: data.seo.noindex,
+  }}
+>
+  <PageHero eyebrow={data.hero.eyebrow ?? `${t.labels.service} ${service.index}`} title={data.hero.title} lead={data.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb}>
+    <Fragment slot="actions">
+      <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">{t.cta.discussProject}</Button>
+      <Button href={whatsappLink(t.whatsapp.message)} variant="link" icon="whatsapp" target="_blank" rel="noopener noreferrer" data-track="whatsapp_click">
+        {t.cta.whatsapp}
+      </Button>
+    </Fragment>
+  </PageHero>
+
+  <Section labelledby="capabilities-title">
+    <Container>
+      <SectionHeader id="capabilities-title" index="01" eyebrow={t.labels.capabilities} title={data.tagline} intro={data.summary} size="md" />
+      <ul role="list" class="capabilities" data-reveal-stagger="70">
+        {
+          data.capabilities.map((c, i) => (
+            <li class="capability" data-reveal>
+              <span class="capability__index mono tabular">{`${service.index}.${i + 1}`}</span>
+              <h3 class="capability__title">{c.title}</h3>
+              <p class="capability__text">{c.description}</p>
+              {c.items.length > 0 && (
+                <ul role="list" class="capability__items">
+                  {c.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </Container>
+  </Section>
+
+  {
+    data.approach.length > 0 && (
+      <Section theme="light" labelledby="approach-title">
+        <Container class="approach">
+          <SectionHeader id="approach-title" index="02" eyebrow={t.cta.howWeWork} title={t.labels.approach} size="md" />
+          <ol role="list" class="approach__list">
+            {data.approach.map((a, i) => (
+              <li class="approach__item" data-reveal>
+                <span class="mono tabular approach__num">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="approach__title">{a.title}</h3>
+                <p>{a.text}</p>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section>
+    <Container class="detail">
+      <div class="detail__body prose" data-reveal>
+        <Content />
+      </div>
+      <aside class="detail__aside">
+        {
+          data.deliverables.length > 0 && (
+            <div class="detail__box">
+              <h2 class="eyebrow">
+                <SignalRule length={32} />
+                <span>{t.labels.deliverables}</span>
+              </h2>
+              <ul role="list" class="detail__list">
+                {data.deliverables.map((d) => (
+                  <li>{d}</li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        {
+          data.technologies.length > 0 && (
+            <div class="detail__box">
+              <h2 class="eyebrow">
+                <SignalRule length={32} />
+                <span>{t.labels.technologies}</span>
+              </h2>
+              <p class="detail__tech ltr">
+                {data.technologies.map((tech) => (
+                  <span>{tech}</span>
+                ))}
+              </p>
+            </div>
+          )
+        }
+      </aside>
+    </Container>
+  </Section>
+
+  {
+    data.faqs.length > 0 && (
+      <Section spacing="flush-top" labelledby="service-faq">
+        <Container>
+          <FAQ id="service-faq" index="03" eyebrow={t.labels.faq} title={data.title} items={data.faqs} />
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section spacing="flush-top">
+    <Container>
+      <RelatedContent locale={locale} related={related} show={['caseStudies', 'products', 'posts']} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="service-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .capabilities {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    border-top: 1px solid var(--color-line);
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .capability {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border-bottom: 1px solid var(--color-line);
+    border-inline-end: 1px solid var(--color-line);
+    transition: background-color var(--dur-2);
+  }
+
+  .capability:hover {
+    background: var(--color-surface-2);
+  }
+
+  .capability__index {
+    color: var(--color-accent);
+  }
+
+  .capability__title {
+    font-size: var(--step-2);
+    font-weight: 650;
+    line-height: 1.2;
+  }
+
+  .capability__text {
+    color: var(--color-text-2);
+  }
+
+  .capability__items {
+    display: grid;
+    gap: 0.4rem;
+    margin-block-start: var(--space-2xs);
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+
+  .capability__items li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+  }
+
+  .capability__items li::before {
+    content: '';
+    flex: 0 0 auto;
+    width: 0.4rem;
+    height: 0.4rem;
+    border: 1.25px solid var(--color-accent);
+    border-radius: 50%;
+    transform: translateY(-0.1em);
+  }
+
+  .approach {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .approach__list {
+    display: grid;
+    gap: var(--grid-gap);
+  }
+
+  @media (min-width: 48rem) {
+    .approach__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .approach__item {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+    padding-block-start: var(--space-m);
+    border-top: 2px solid var(--color-text);
+  }
+
+  .approach__num {
+    color: var(--color-accent);
+  }
+
+  .approach__title {
+    font-size: var(--step-2);
+    font-weight: 680;
+    line-height: 1.15;
+  }
+
+  .approach__item p {
+    color: var(--color-text-2);
+  }
+
+  .detail {
+    display: grid;
+    gap: var(--space-2xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .detail {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      align-items: start;
+    }
+
+    .detail__body {
+      grid-column: 1;
+    }
+
+    .detail__aside {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-l));
+    }
+  }
+
+  .detail__body :global(h2:first-child) {
+    margin-block-start: 0;
+  }
+
+  .detail__aside {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .detail__box {
+    display: grid;
+    gap: var(--space-m);
+    padding: var(--space-l);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+  }
+
+  .detail__list {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .detail__list li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    color: var(--color-text-2);
+  }
+
+  .detail__list li::before {
+    content: '';
+    flex: 0 0 0.9rem;
+    height: 1px;
+    background: var(--color-accent);
+    transform: translateY(-0.3em);
+  }
+
+  .detail__tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  :global([dir='rtl']) .detail__tech {
+    direction: rtl;
+  }
+
+  .detail__tech span {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--color-line-strong);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--color-text-2);
+    unicode-bidi: isolate;
+  }
+</style>

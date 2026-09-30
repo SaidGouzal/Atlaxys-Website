@@ -1,0 +1,297 @@
+---
+/**
+ * Article template — every Markdown/MDX file in src/content/blog/<locale>/
+ * becomes a page. Includes a table of contents, FAQ (with matching schema),
+ * automatic related content and a contextual call to action.
+ */
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import RelatedContent from '@/components/sections/RelatedContent.astro';
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro';
+import Container from '@/components/ui/Container.astro';
+import DemoNotice from '@/components/ui/DemoNotice.astro';
+import MediaFrame from '@/components/ui/MediaFrame.astro';
+import Section from '@/components/ui/Section.astro';
+import { site } from '@/config/site';
+import { formatDate, useTranslations } from '@/i18n';
+import { getPostAlternates, getPostPaths, type Post } from '@/lib/content';
+import { getRelated } from '@/lib/content/related';
+import { crumbs } from '@/lib/seo/crumbs';
+import { articleNode, faqNode, ids } from '@/lib/seo/schema';
+
+export const getStaticPaths = getPostPaths;
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { locale, data } = post;
+const t = useTranslations(locale);
+const { Content, headings } = await render(post.entry);
+const toc = headings.filter((h) => h.depth === 2);
+const [alternates, related] = await Promise.all([
+  getPostAlternates(post.key),
+  getRelated(locale, { type: 'post', key: post.key }, data.related),
+]);
+const trail = crumbs(locale, 'insights', { name: data.title, url: post.url });
+const author = data.author?.name ?? site.name;
+---
+
+<BaseLayout
+  locale={locale}
+  page="article"
+  breadcrumbs={trail}
+  primaryId={ids.primary(post.url, 'article')}
+  schema={[
+    articleNode({
+      url: post.url,
+      headline: data.title,
+      description: data.description,
+      datePublished: data.publishedAt,
+      dateModified: data.updatedAt,
+      author: data.author,
+      section: data.category,
+      keywords: data.tags,
+      image: data.cover?.src.src,
+      locale,
+    }),
+    faqNode(post.url, data.faqs),
+  ]}
+  seo={{
+    title: data.seo.title ?? data.title,
+    description: data.seo.description ?? data.description,
+    alternates,
+    type: 'article',
+    publishedTime: data.publishedAt,
+    modifiedTime: data.updatedAt,
+    section: data.category,
+    tags: data.tags,
+    noindex: data.seo.noindex,
+    image: data.cover ? { src: data.cover.src.src, width: data.cover.src.width, height: data.cover.src.height, alt: data.cover.alt } : undefined,
+  }}
+>
+  <header class="article-hero">
+    <Container>
+      <Breadcrumbs items={trail} label={t.a11y.breadcrumb} />
+      <div class="article-hero__main">
+        <p class="article-hero__meta mono">
+          <span class="article-hero__cat">{data.category}</span>
+          <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt, locale)}</time>
+          <span>{t.labels.minRead(post.readingMinutes)}</span>
+        </p>
+        <h1 class="article-hero__title">{data.title}</h1>
+        <p class="lead article-hero__lead">{data.description}</p>
+        <p class="article-hero__byline">
+          {t.labels.author} <strong>{author}</strong>
+          {data.author?.role && <span> · {data.author.role}</span>}
+          {
+            data.updatedAt && (
+              <span class="article-hero__updated">
+                {' '}
+                · {t.labels.updated} <time datetime={data.updatedAt.toISOString()}>{formatDate(data.updatedAt, locale)}</time>
+              </span>
+            )
+          }
+        </p>
+      </div>
+    </Container>
+  </header>
+
+  {
+    data.cover && (
+      <Section spacing="tight">
+        <Container>
+          <MediaFrame image={data.cover} aspect="16 / 8" priority sizes="(min-width: 1440px) 1344px, 100vw" />
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section spacing="tight">
+    <Container class="article">
+      {
+        toc.length > 1 && (
+          <nav class="article__toc" aria-labelledby="toc-title">
+            <h2 id="toc-title" class="mono article__toc-title">
+              {t.labels.contents}
+            </h2>
+            <ol role="list">
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+      <div class="article__body">
+        {data.demo && <DemoNotice label={t.labels.illustrative} text={t.labels.illustrativeNote} />}
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  {
+    data.faqs.length > 0 && (
+      <Section spacing="tight" labelledby="article-faq">
+        <Container>
+          <FAQ id="article-faq" eyebrow={t.labels.faq} title={data.title} items={data.faqs} />
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section>
+    <Container>
+      <RelatedContent locale={locale} related={related} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="article-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .article-hero {
+    padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-xl);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .article-hero__main {
+    display: grid;
+    gap: var(--space-m);
+    margin-block-start: var(--space-xl);
+    max-width: 58rem;
+  }
+
+  .article-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .article-hero__cat {
+    color: var(--color-accent);
+  }
+
+  .article-hero__title {
+    font-family: var(--font-display);
+    font-stretch: 114%;
+    font-weight: 740;
+    font-size: var(--step-5);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    text-wrap: balance;
+  }
+
+  :global(:lang(ar)) .article-hero__title {
+    font-stretch: 100%;
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+
+  .article-hero__lead {
+    max-width: 56ch;
+  }
+
+  .article-hero__byline {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+
+  .article-hero__byline strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .article-hero__main > * {
+      animation: article-in 0.9s var(--ease-out) both;
+    }
+    .article-hero__main > :nth-child(2) {
+      animation-delay: 0.06s;
+    }
+    .article-hero__main > :nth-child(3) {
+      animation-delay: 0.14s;
+    }
+  }
+
+  @keyframes article-in {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+  }
+
+  .article {
+    display: grid;
+    gap: var(--space-xl) var(--grid-gap);
+  }
+
+  .article__body {
+    display: grid;
+    gap: var(--space-l);
+    min-width: 0;
+  }
+
+  .article__toc {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .article {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+      align-items: start;
+    }
+
+    .article__toc {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-l));
+    }
+
+    .article__body {
+      grid-column: 2;
+    }
+  }
+
+  .article__toc-title {
+    color: var(--color-muted);
+    margin-block-end: var(--space-s);
+  }
+
+  .article__toc ol {
+    display: grid;
+    gap: 0.15rem;
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .article__toc a {
+    display: block;
+    padding: 0.4rem 1rem;
+    margin-inline-start: -1px;
+    border-inline-start: 1px solid transparent;
+    font-size: var(--step--1);
+    line-height: 1.4;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition:
+      color var(--dur-2),
+      border-color var(--dur-2);
+  }
+
+  .article__toc a:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+  }
+</style>

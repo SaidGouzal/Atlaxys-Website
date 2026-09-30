@@ -1,0 +1,50 @@
+---
+/** Open Graph tags (Facebook, Instagram in-app browser, LinkedIn, WhatsApp, Slack…). */
+import { localeMeta, locales, type Locale } from '@/i18n/config';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  image: { src: string; width?: number; height?: number; alt?: string };
+  siteName: string;
+  locale: Locale;
+  alternateLocales: Locale[];
+  type?: 'website' | 'article' | 'product';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  section?: string;
+  tags?: string[];
+}
+
+const { title, description, url, image, siteName, locale, alternateLocales, type = 'website', publishedTime, modifiedTime, section, tags = [] } =
+  Astro.props;
+const ogType = type === 'product' ? 'website' : type;
+---
+
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:locale" content={localeMeta[locale].ogLocale} />
+{
+  alternateLocales
+    .filter((l) => l !== locale && locales.includes(l))
+    .map((l) => <meta property="og:locale:alternate" content={localeMeta[l].ogLocale} />)
+}
+<meta property="og:image" content={image.src} />
+<meta property="og:image:secure_url" content={image.src} />
+{image.width && <meta property="og:image:width" content={String(image.width)} />}
+{image.height && <meta property="og:image:height" content={String(image.height)} />}
+<meta property="og:image:alt" content={image.alt ?? title} />
+{
+  type === 'article' && (
+    <>
+      {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+      {modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+      {section && <meta property="article:section" content={section} />}
+      {tags.map((tag) => <meta property="article:tag" content={tag} />)}
+    </>
+  )
+}

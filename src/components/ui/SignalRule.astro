@@ -1,0 +1,63 @@
+---
+/**
+ * The Atlaxys signature: a circuit trace that routes with one 45° jog and
+ * terminates in a ring node — lifted from the traces leaving the "A" in the
+ * logo. Used in eyebrows, dividers and list markers. Decorative only.
+ */
+interface Props {
+  /** Width in px of the trace (the node is added at the end). */
+  length?: number;
+  /** Draw the trace when it scrolls into view. */
+  animate?: boolean;
+  tone?: 'signal' | 'muted';
+  class?: string;
+}
+
+const { length = 64, animate = true, tone = 'signal', class: className } = Astro.props;
+const jog = Math.min(10, Math.round(length * 0.18));
+const kinkAt = Math.round(length * 0.55);
+const w = length + 12;
+const d = `M0 10 H${kinkAt} L${kinkAt + jog / 2} ${10 - jog / 2} H${length}`;
+---
+
+<svg
+  class:list={['signal-rule', `signal-rule--${tone}`, className]}
+  width={w}
+  height="14"
+  viewBox={`0 0 ${w} 14`}
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  data-draw={animate ? '' : undefined}
+  data-reveal-trigger={animate ? '' : undefined}
+>
+  <path d={d} pathLength="1" style="--path-length: 1" class="signal-rule__trace" />
+  <circle cx={length + 5} cy={10 - jog / 2} r="3.75" class="signal-rule__node" />
+</svg>
+
+<style>
+  .signal-rule {
+    display: inline-block;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  :global([dir='rtl']) .signal-rule {
+    transform: scaleX(-1);
+  }
+
+  .signal-rule__trace {
+    stroke: var(--color-line-strong);
+    stroke-width: 1.25;
+  }
+
+  .signal-rule__node {
+    stroke: var(--color-accent);
+    stroke-width: 1.5;
+    fill: var(--color-bg);
+  }
+
+  .signal-rule--muted .signal-rule__node {
+    stroke: var(--color-subtle);
+  }
+</style>

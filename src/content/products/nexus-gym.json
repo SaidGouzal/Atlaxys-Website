@@ -1,0 +1,114 @@
+{
+  "_comment": "DEMO: draft product sheet. Confirm features, platforms, status and pricing, then set \"demo\": false.",
+  "name": "Nexus Gym",
+  "tagline": {
+    "en": "Membership, check-in and billing for gyms and fitness clubs.",
+    "fr": "Adhésions, contrôle d’accès et facturation pour salles de sport et clubs de fitness.",
+    "ar": "إدارة الاشتراكات والدخول والفوترة للقاعات الرياضية ونوادي اللياقة."
+  },
+  "description": {
+    "en": "Nexus Gym runs the front desk and the back office of a fitness club: members and subscriptions, check-in at the door, payments and invoices, class schedules and coaches, and the reports owners actually need. It is built as a desktop application with a local database, so the front desk keeps working when the internet connection does not.",
+    "fr": "Nexus Gym gère l’accueil et le back-office d’un club de fitness : membres et abonnements, contrôle d’accès, paiements et factures, planning des cours et des coachs, et les rapports dont les gérants ont réellement besoin. Conçu comme une application de bureau avec base de données locale, l’accueil continue de fonctionner même quand la connexion internet tombe.",
+    "ar": "يدير Nexus Gym الاستقبال والإدارة في نادي اللياقة: الأعضاء والاشتراكات، وتسجيل الدخول عند الباب، والمدفوعات والفواتير، وجدولة الحصص والمدرّبين، والتقارير التي يحتاجها المالك فعلًا. صُمّم كتطبيق لسطح المكتب بقاعدة بيانات محلية، ليواصل الاستقبال العمل حتى عند انقطاع الإنترنت."
+  },
+  "category": { "en": "Business software", "fr": "Logiciel métier", "ar": "برمجيات الأعمال" },
+  "status": "available",
+  "audience": {
+    "en": "Gyms, fitness clubs, martial-arts schools and multi-branch studios.",
+    "fr": "Salles de sport, clubs de fitness, écoles d’arts martiaux et studios multi-sites.",
+    "ar": "القاعات الرياضية ونوادي اللياقة ومدارس فنون القتال والاستوديوهات متعددة الفروع."
+  },
+  "platforms": ["Windows", "macOS"],
+  "features": [
+    {
+      "title": { "en": "Members & subscriptions", "fr": "Membres et abonnements", "ar": "الأعضاء والاشتراكات" },
+      "description": {
+        "en": "Plans, freezes, renewals and reminders, with a complete history per member.",
+        "fr": "Formules, suspensions, renouvellements et rappels, avec l’historique complet de chaque membre.",
+        "ar": "الباقات والتجميد والتجديد والتذكيرات، مع سجلّ كامل لكل عضو."
+      }
+    },
+    {
+      "title": { "en": "Fast check-in", "fr": "Contrôle d’accès rapide", "ar": "تسجيل دخول سريع" },
+      "description": {
+        "en": "Card, QR code or name search at the desk, with instant subscription status.",
+        "fr": "Carte, QR code ou recherche par nom à l’accueil, avec statut d’abonnement instantané.",
+        "ar": "بالبطاقة أو رمز QR أو البحث بالاسم، مع عرض فوري لحالة الاشتراك."
+      }
+    },
+    {
+      "title": { "en": "Payments & invoices", "fr": "Paiements et factures", "ar": "المدفوعات والفواتير" },
+      "description": {
+        "en": "Cash and card payments, receipts, invoices and a daily cash report.",
+        "fr": "Paiements en espèces et par carte, reçus, factures et rapport de caisse quotidien.",
+        "ar": "الدفع نقدًا أو بالبطاقة، والإيصالات والفواتير، وتقرير صندوق يومي."
+      }
+    },
+    {
+      "title": { "en": "Classes & coaches", "fr": "Cours et coachs", "ar": "الحصص والمدرّبون" },
+      "description": {
+        "en": "Timetables, capacity, bookings and coach assignments.",
+        "fr": "Plannings, capacités, réservations et affectation des coachs.",
+        "ar": "الجداول الزمنية والسعة والحجوزات وتوزيع المدرّبين."
+      }
+    },
+    {
+      "title": { "en": "Works offline", "fr": "Fonctionne hors ligne", "ar": "يعمل دون اتصال" },
+      "description": {
+        "en": "A local database keeps the front desk running through connection cuts.",
+        "fr": "Une base de données locale maintient l’accueil opérationnel pendant les coupures.",
+        "ar": "قاعدة بيانات محلية تُبقي الاستقبال يعمل أثناء انقطاع الاتصال."
+      }
+    },
+    {
+      "title": { "en": "Owner reports", "fr": "Rapports de gestion", "ar": "تقارير للمالك" },
+      "description": {
+        "en": "Revenue, active members, renewals due and attendance, at a glance.",
+        "fr": "Chiffre d’affaires, membres actifs, renouvellements à venir et fréquentation, en un coup d’œil.",
+        "ar": "الإيرادات والأعضاء النشطون والتجديدات المستحقة والحضور، في لمحة واحدة."
+      }
+    }
+  ],
+  "technologies": ["Electron", "Astro", "TypeScript", "PostgreSQL"],
+  "pricing": {
+    "model": "quote",
+    "currency": "MAD",
+    "note": {
+      "en": "Licensing depends on the number of branches and workstations. Ask for a demo and a quote.",
+      "fr": "La licence dépend du nombre de sites et de postes. Demandez une démo et un devis.",
+      "ar": "يعتمد الترخيص على عدد الفروع ونقاط العمل. اطلب عرضًا تجريبيًا وعرض سعر."
+    }
+  },
+  "services": ["software-engineering"],
+  "caseStudies": [],
+  "posts": ["custom-erp-vs-saas"],
+  "faqs": [
+    {
+      "question": {
+        "en": "Does Nexus Gym need an internet connection?",
+        "fr": "Nexus Gym a-t-il besoin d’une connexion internet ?",
+        "ar": "هل يحتاج Nexus Gym إلى اتصال بالإنترنت؟"
+      },
+      "answer": {
+        "en": "No. The front desk works on a local database; a connection is only needed for updates and optional backups.",
+        "fr": "Non. L’accueil fonctionne sur une base de données locale ; la connexion ne sert qu’aux mises à jour et aux sauvegardes optionnelles.",
+        "ar": "لا. يعمل الاستقبال على قاعدة بيانات محلية، ولا يلزم الاتصال إلا للتحديثات والنسخ الاحتياطي الاختياري."
+      }
+    },
+    {
+      "question": {
+        "en": "Can Nexus Gym be adapted to our club?",
+        "fr": "Nexus Gym peut-il être adapté à notre club ?",
+        "ar": "هل يمكن تكييف Nexus Gym مع نادينا؟"
+      },
+      "answer": {
+        "en": "Yes. Configuration covers most needs; for specific workflows, our engineering team can build extensions.",
+        "fr": "Oui. Le paramétrage couvre la plupart des besoins ; pour des processus spécifiques, notre équipe peut développer des extensions.",
+        "ar": "نعم. تغطي الإعدادات معظم الاحتياجات، وللإجراءات الخاصة يمكن لفريقنا تطوير إضافات مخصّصة."
+      }
+    }
+  ],
+  "featured": true,
+  "order": 1,
+  "demo": true
+}

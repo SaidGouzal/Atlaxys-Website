@@ -1,0 +1,111 @@
+/* ==========================================================================
+   Typography
+   --------------------------------------------------------------------------
+   Display  Archivo, width 122%, weight 760 — echoes the extended wordmark.
+   Text     Archivo at normal width.
+   Mono     JetBrains Mono — metadata, indices, spec labels ("engineering
+            documentation" voice), always uppercase and tracked.
+   Arabic   Noto Kufi Arabic; tracking and uppercase are disabled.
+   ========================================================================== */
+
+.display,
+.h1,
+.h2,
+.h3 {
+  font-family: var(--font-display);
+  font-stretch: var(--display-stretch);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--display-tracking);
+  line-height: var(--leading-tight);
+  text-wrap: balance;
+}
+
+.display-hero {
+  font-size: var(--step-hero);
+  line-height: 0.94;
+}
+
+.h1 {
+  font-size: var(--step-5);
+}
+
+.h2 {
+  font-size: var(--step-4);
+}
+
+.h3 {
+  font-size: var(--step-2);
+  line-height: 1.08;
+}
+
+.h4 {
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+}
+
+:lang(ar) .display-hero {
+  line-height: 1.25;
+}
+
+.lead {
+  font-size: var(--step-1);
+  line-height: 1.5;
+  color: var(--color-text-2);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.mono,
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+:lang(ar) .mono,
+:lang(ar) .eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  color: var(--color-muted);
+}
+
+.eyebrow--accent {
+  color: var(--color-accent);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Outline numerals for large indices. */
+.numeral-outline {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-line-strong);
+  line-height: 0.85;
+}
+
+@media (forced-colors: active) {
+  .numeral-outline {
+    color: CanvasText;
+    -webkit-text-stroke: 0;
+  }
+}

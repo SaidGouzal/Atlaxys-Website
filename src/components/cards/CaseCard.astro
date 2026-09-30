@@ -1,0 +1,169 @@
+---
+/**
+ * Case-study card: cover (image, or the generated architecture blueprint),
+ * spec line, title and summary. The whole card is one link.
+ */
+import { useTranslations, type Locale } from '@/i18n';
+import type { CaseStudy, Industry } from '@/lib/content';
+import MediaFrame from '../ui/MediaFrame.astro';
+import Tag from '../ui/Tag.astro';
+import BlueprintCover from '../sections/BlueprintCover.astro';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  item: CaseStudy;
+  industry?: Industry;
+  locale: Locale;
+  size?: 'lg' | 'md';
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { item, industry, locale, size = 'md', headingLevel = 'h3' } = Astro.props;
+const t = useTranslations(locale);
+const d = item.data;
+const Heading = headingLevel;
+---
+
+<article class:list={['case-card', `case-card--${size}`]}>
+  <MediaFrame image={d.cover} aspect={size === 'lg' ? '16 / 9' : '4 / 3'} sizes="(min-width: 1024px) 60vw, 100vw">
+    {!d.cover && <BlueprintCover layers={d.architecture.layers} seed={item.key} />}
+  </MediaFrame>
+  <div class="case-card__body">
+    <p class="case-card__meta mono">
+      <span>{d.client.descriptor}</span>
+      {industry && <span>{industry.name}</span>}
+      {d.year && <span class="tabular">{d.year}</span>}
+    </p>
+    <Heading class="case-card__title">
+      <a href={item.url} class="case-card__link">{d.title}</a>
+    </Heading>
+    <p class="case-card__summary">{d.summary}</p>
+    <div class="case-card__foot">
+      {d.demo && <Tag tone="signal">{t.labels.illustrative}</Tag>}
+      <span class="case-card__cta" aria-hidden="true">
+        {t.cta.readCaseStudy}
+        <Icon name="arrow-right" size={18} />
+      </span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .case-card {
+    position: relative;
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .case-card :global(.media-frame__inner) {
+    transition: transform var(--dur-5) var(--ease-out);
+  }
+
+  .case-card :global(.blueprint),
+  .case-card :global(img) {
+    transition: transform var(--dur-5) var(--ease-out);
+  }
+
+  .case-card:hover :global(.blueprint),
+  .case-card:hover :global(img) {
+    transform: scale(1.035);
+  }
+
+  .case-card__body {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .case-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    color: var(--color-muted);
+  }
+
+  .case-card__meta span + span::before {
+    content: '';
+    display: inline-block;
+    width: 0.8rem;
+    height: 1px;
+    margin-inline-end: 1rem;
+    vertical-align: middle;
+    background: var(--color-line-strong);
+  }
+
+  .case-card__title {
+    font-family: var(--font-display);
+    font-stretch: 114%;
+    font-weight: 700;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    max-width: 26ch;
+  }
+
+  .case-card--lg .case-card__title {
+    font-size: var(--step-3);
+  }
+
+  :global(:lang(ar)) .case-card__title {
+    font-stretch: 100%;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  .case-card__link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .case-card__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .case-card__link:focus-visible {
+    outline: none;
+  }
+
+  .case-card__link:focus-visible::after {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 6px;
+  }
+
+  .case-card__summary {
+    color: var(--color-text-2);
+    max-width: 58ch;
+  }
+
+  .case-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    margin-block-start: var(--space-2xs);
+  }
+
+  .case-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-inline-start: auto;
+    font-weight: 560;
+    color: var(--color-text);
+  }
+
+  .case-card__cta :global(.icon) {
+    color: var(--color-accent);
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+
+  .case-card:hover .case-card__cta :global(.icon) {
+    transform: translateX(0.3rem);
+  }
+
+  :global([dir='rtl']) .case-card:hover .case-card__cta :global(.icon) {
+    transform: translateX(-0.3rem) scaleX(-1);
+  }
+</style>

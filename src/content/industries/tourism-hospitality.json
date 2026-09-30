@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Tourism & hospitality", "fr": "Tourisme & hôtellerie", "ar": "السياحة والفندقة" },
+  "summary": {
+    "en": "Bookings, channel integrations and guest communication for hotels, riads and tour operators.",
+    "fr": "Réservations, intégrations de canaux et communication client pour hôtels, riads et voyagistes.",
+    "ar": "الحجوزات وربط قنوات البيع والتواصل مع النزلاء للفنادق والرياضات ومنظّمي الرحلات."
+  },
+  "services": ["software-engineering", "ai-automation"],
+  "order": 6
+}

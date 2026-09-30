@@ -1,0 +1,541 @@
+---
+/**
+ * Site header.
+ *  Desktop  logo · primary nav (Services opens a mega-menu) · search ·
+ *           language · "Let's talk"
+ *  Mobile   logo · menu button → full-screen navigation (native <dialog>)
+ *
+ * Navigation items come from src/config/navigation.ts; the services
+ * mega-menu is generated from the services collection.
+ */
+import { primaryNav } from '@/config/navigation';
+import { routePath, useTranslations, type Locale } from '@/i18n';
+import { getLocations, getServices } from '@/lib/content';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import SignalRule from '../ui/SignalRule.astro';
+import LanguageSwitcher, { type LanguageTarget } from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
+import MobileNav from './MobileNav.astro';
+
+interface Props {
+  locale: Locale;
+  languageTargets: Record<Locale, LanguageTarget>;
+}
+
+const { locale, languageTargets } = Astro.props;
+const t = useTranslations(locale);
+const services = await getServices(locale);
+const locations = await getLocations(locale);
+const morocco = locations.find((l) => l.data.kind === 'country' && l.data.countryCode === 'MA');
+const current = Astro.url.pathname;
+const isActive = (href: string) => current.startsWith(href);
+---
+
+<header class="site-header" data-header>
+  <div class="container site-header__bar">
+    <a href={routePath(locale, 'home')} class="site-header__logo" aria-label={t.a11y.homeLink}>
+      <Logo width={138} />
+    </a>
+
+    <nav class="site-nav" aria-label={t.a11y.primaryNav}>
+      <ul role="list" class="site-nav__list">
+        {
+          primaryNav.map((item) => {
+            const href = routePath(locale, item.route);
+            return (
+              <li class:list={['site-nav__item', { 'site-nav__item--mega': item.mega }]} data-mega-item={item.mega ? '' : undefined}>
+                <a href={href} class="site-nav__link" aria-current={isActive(href) ? 'page' : undefined}>
+                  <span>{t.nav[item.key]}</span>
+                </a>
+                {item.mega === 'services' && (
+                  <>
+                    <button
+                      type="button"
+                      class="site-nav__toggle"
+                      aria-expanded="false"
+                      aria-controls="mega-services"
+                      data-disclosure-toggle
+                      data-mega-toggle
+                    >
+                      <Icon name="chevron-down" size={16} />
+                      <span class="visually-hidden">{t.a11y.servicesMenu}</span>
+                    </button>
+                    <div id="mega-services" class="mega" hidden data-disclosure-panel data-mega-panel>
+                      <div class="container mega__grid">
+                        <div class="mega__intro">
+                          <p class="eyebrow">
+                            <SignalRule length={40} animate={false} />
+                            <span>{t.nav.services}</span>
+                          </p>
+                          <p class="mega__title">{t.nav.megaTitle}</p>
+                          <Button href={routePath(locale, 'services')} variant="link">
+                            {t.nav.allServices}
+                          </Button>
+                        </div>
+                        <ul role="list" class="mega__services">
+                          {services.map((s) => (
+                            <li>
+                              <a href={s.url} class="mega__service" aria-current={current === s.url ? 'page' : undefined}>
+                                <span class="mega__index mono tabular">{s.index}</span>
+                                <span class="mega__service-title">{s.data.navLabel ?? s.data.title}</span>
+                                <span class="mega__service-tagline">{s.data.tagline}</span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                        <ul role="list" class="mega__aside">
+                          <li>
+                            <a href={routePath(locale, 'products')} class="mega__feature">
+                              <span class="mega__feature-title">{t.nav.megaProductsTitle}</span>
+                              <span class="mega__feature-text">{t.nav.megaProductsText}</span>
+                              <Icon name="arrow-right" size={18} class="mega__feature-arrow" />
+                            </a>
+                          </li>
+                          {morocco && (
+                            <li>
+                              <a href={morocco.url} class="mega__feature">
+                                <span class="mega__feature-title">{t.nav.megaMoroccoTitle}</span>
+                                <span class="mega__feature-text">{t.nav.megaMoroccoText}</span>
+                                <Icon name="arrow-right" size={18} class="mega__feature-arrow" />
+                              </a>
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a href={routePath(locale, 'search')} class="site-header__icon-link" aria-label={t.nav.search}>
+        <Icon name="search" size={19} />
+      </a>
+      <LanguageSwitcher locale={locale} targets={languageTargets} />
+      <Button href={routePath(locale, 'contact')} class="site-header__cta" magnetic icon="arrow-up-right">
+        {t.nav.letsTalk}
+      </Button>
+      <button
+        type="button"
+        class="site-header__menu-btn"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-mobile-nav-open
+      >
+        <span class="site-header__menu-label">{t.nav.menu}</span>
+        <span class="site-header__burger" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileNav locale={locale} languageTargets={languageTargets} services={services} />
+
+<script>
+  import { initHeader } from '@/scripts/core/header';
+  initHeader();
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: var(--z-header);
+    height: var(--header-height);
+    color: var(--color-text);
+    transition:
+      transform var(--dur-3) var(--ease-signal),
+      background-color var(--dur-3) var(--ease-out),
+      color var(--dur-3) var(--ease-out);
+    view-transition-name: site-header;
+  }
+
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    height: 1px;
+    background: var(--color-line);
+    opacity: 0;
+    transition: opacity var(--dur-3);
+  }
+
+  :global(.site-header.is-scrolled) {
+    background: color-mix(in srgb, var(--ink-950) 86%, transparent);
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+  }
+
+  :global(.site-header.is-scrolled)::after {
+    opacity: 1;
+  }
+
+  :global(.site-header.is-hidden) {
+    transform: translateY(-100%);
+  }
+
+  :global(.site-header.is-mega-open) {
+    background: var(--ink-900);
+  }
+
+  .site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-m);
+    height: 100%;
+  }
+
+  .site-header__logo {
+    display: inline-flex;
+    padding-block: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .site-header__logo :global(.logo) {
+    width: 138px;
+  }
+
+  /* ---- Primary nav --------------------------------------------------- */
+  .site-nav {
+    display: none;
+  }
+
+  .site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.25rem, 1.2vw, 1.25rem);
+  }
+
+  .site-nav__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .site-nav__link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-text-2);
+    text-decoration: none;
+    transition: color var(--dur-2);
+  }
+
+  /* Trace underline that routes in from the start edge, ending in a node. */
+  .site-nav__link::before,
+  .site-nav__link::after {
+    content: '';
+    position: absolute;
+    inset-block-end: 0.55rem;
+    pointer-events: none;
+  }
+
+  .site-nav__link::before {
+    inset-inline-start: 0.5rem;
+    width: calc(100% - 1.3rem);
+    height: 1px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-3) var(--ease-signal);
+  }
+
+  :global([dir='rtl']) .site-nav__link::before {
+    transform-origin: right;
+  }
+
+  .site-nav__link::after {
+    inset-inline-end: 0.25rem;
+    width: 5px;
+    height: 5px;
+    margin-block-end: -2px;
+    border: 1.25px solid var(--color-accent);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--dur-2);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link[aria-current='page'] {
+    color: var(--color-text);
+  }
+
+  .site-nav__link:hover::before,
+  .site-nav__link[aria-current='page']::before {
+    transform: scaleX(1);
+  }
+
+  .site-nav__link:hover::after,
+  .site-nav__link[aria-current='page']::after {
+    opacity: 1;
+  }
+
+  .site-nav__toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2rem;
+    height: 2.75rem;
+    margin-inline-start: 0.125rem;
+    color: var(--color-muted);
+    transition:
+      color var(--dur-2),
+      transform var(--dur-3) var(--ease-signal);
+  }
+
+  .site-nav__toggle:hover {
+    color: var(--color-text);
+  }
+
+  .site-nav__toggle[aria-expanded='true'] {
+    color: var(--color-accent);
+  }
+
+  .site-nav__toggle[aria-expanded='true'] :global(.icon) {
+    transform: rotate(180deg);
+  }
+
+  .site-nav__toggle :global(.icon) {
+    transition: transform var(--dur-3) var(--ease-signal);
+  }
+
+  /* ---- Mega menu ---------------------------------------------------- */
+  .mega {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    background: var(--ink-900);
+    border-block: 1px solid var(--color-line);
+    box-shadow: var(--shadow-overlay);
+    padding-block: var(--space-xl) var(--space-2xl);
+  }
+
+  .mega:not([hidden]) {
+    animation: mega-in var(--dur-3) var(--ease-out);
+  }
+
+  @keyframes mega-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+
+  .mega__grid {
+    display: grid;
+    grid-template-columns: 3fr 6fr 3fr;
+    gap: var(--grid-gap);
+  }
+
+  .mega__intro {
+    display: grid;
+    align-content: start;
+    gap: var(--space-m);
+  }
+
+  .mega__title {
+    font-family: var(--font-display);
+    font-stretch: 115%;
+    font-weight: 700;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    max-width: 14ch;
+  }
+
+  .mega__services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--color-line);
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .mega__service {
+    position: relative;
+    display: grid;
+    gap: 0.4rem;
+    height: 100%;
+    padding: var(--space-m) var(--space-m) var(--space-l);
+    border-bottom: 1px solid var(--color-line);
+    border-inline-end: 1px solid var(--color-line);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: background-color var(--dur-2);
+  }
+
+  .mega__service:hover,
+  .mega__service[aria-current='page'] {
+    background: var(--ink-850);
+  }
+
+  .mega__service::after {
+    content: '';
+    position: absolute;
+    inset-block-start: var(--space-m);
+    inset-inline-end: var(--space-m);
+    width: 8px;
+    height: 8px;
+    border: 1.5px solid var(--color-subtle);
+    border-radius: 50%;
+    transition:
+      border-color var(--dur-2),
+      background-color var(--dur-2);
+  }
+
+  .mega__service:hover::after {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+  }
+
+  .mega__index {
+    color: var(--color-muted);
+  }
+
+  .mega__service-title {
+    font-family: var(--font-display);
+    font-stretch: 112%;
+    font-weight: 680;
+    font-size: var(--step-1);
+    line-height: 1.15;
+  }
+
+  .mega__service-tagline {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+    line-height: 1.45;
+  }
+
+  .mega__aside {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+  }
+
+  .mega__feature {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    padding: var(--space-m);
+    border: 1px solid var(--color-line);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: border-color var(--dur-2);
+  }
+
+  .mega__feature:hover {
+    border-color: var(--color-accent);
+  }
+
+  .mega__feature-title {
+    font-weight: 600;
+  }
+
+  .mega__feature-text {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+    padding-inline-end: 1.5rem;
+  }
+
+  .mega__feature :global(.mega__feature-arrow) {
+    position: absolute;
+    inset-block-start: var(--space-m);
+    inset-inline-end: var(--space-m);
+    color: var(--color-accent);
+  }
+
+  /* ---- Actions ----------------------------------------------------- */
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .site-header__icon-link {
+    display: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--color-text-2);
+    transition: color var(--dur-2);
+  }
+
+  .site-header__icon-link:hover {
+    color: var(--color-text);
+  }
+
+  .site-header__actions :global(.lang--menu) {
+    display: none;
+  }
+
+  .site-header__actions :global(.site-header__cta) {
+    display: none;
+    margin-inline-start: 0.5rem;
+  }
+
+  .site-header__menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+    font-size: var(--step--1);
+    font-weight: 500;
+  }
+
+  .site-header__burger {
+    display: grid;
+    gap: 5px;
+    width: 22px;
+  }
+
+  .site-header__burger span {
+    display: block;
+    height: 1.5px;
+    background: currentColor;
+  }
+
+  .site-header__burger span:last-child {
+    width: 60%;
+    justify-self: end;
+    background: var(--color-accent);
+  }
+
+  @media (min-width: 64rem) {
+    .site-nav {
+      display: block;
+    }
+
+    .site-header__icon-link {
+      display: inline-grid;
+    }
+
+    .site-header__actions :global(.lang--menu) {
+      display: block;
+    }
+
+    .site-header__actions :global(.site-header__cta) {
+      display: inline-flex;
+    }
+
+    .site-header__menu-btn {
+      display: none;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .site-header__logo :global(.logo) {
+      width: 118px;
+    }
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+/**
+ * Root URL. Sends visitors to their language: an explicit earlier choice
+ * first, then the browser's preferred languages, then English. Crawlers
+ * (and visitors without JavaScript) follow the meta refresh to /en/.
+ */
+import { site } from '@/config/site';
+import { defaultLocale, localeMeta, locales } from '@/i18n/config';
+import { absoluteUrl } from '@/lib/seo/urls';
+
+const target = `/${defaultLocale}/`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{site.name}</title>
+    <meta name="robots" content="noindex, follow" />
+    <link rel="canonical" href={absoluteUrl(target)} />
+    {locales.map((l) => <link rel="alternate" hreflang={localeMeta[l].hreflang} href={absoluteUrl(`/${l}/`)} />)}
+    <link rel="alternate" hreflang="x-default" href={absoluteUrl(target)} />
+    <script is:inline define:vars={{ locales, fallback: defaultLocale }}>
+      (function () {
+        var pick = fallback;
+        try {
+          var saved = localStorage.getItem('atlaxys-lang');
+          if (saved && locales.indexOf(saved) > -1) pick = saved;
+          else {
+            var prefs = navigator.languages || [navigator.language || ''];
+            for (var i = 0; i < prefs.length; i++) {
+              var code = String(prefs[i]).slice(0, 2).toLowerCase();
+              if (locales.indexOf(code) > -1) {
+                pick = code;
+                break;
+              }
+            }
+          }
+        } catch (e) {}
+        window.location.replace('/' + pick + '/' + window.location.search + window.location.hash);
+      })();
+    </script>
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <style>
+      body {
+        background: #08090b;
+        color: #f2f4f7;
+        font-family: system-ui, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <p><a href={target}>{site.name}</a></p>
+  </body>
+</html>

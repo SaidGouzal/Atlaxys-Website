@@ -1,0 +1,54 @@
+{
+  "_comment": "DEMO: placeholder product (working title). Replace name and details, then set \"demo\": false.",
+  "name": "Atlaxys Ops",
+  "tagline": {
+    "en": "Sales, stock and invoicing in one place for growing SMEs.",
+    "fr": "Ventes, stocks et facturation au même endroit pour les PME en croissance.",
+    "ar": "المبيعات والمخزون والفوترة في مكان واحد للمقاولات الصغرى والمتوسطة."
+  },
+  "description": {
+    "en": "A lightweight business management suite for SMEs that have outgrown spreadsheets but do not want a heavy ERP: quotes and invoices, stock across locations, purchasing, customers and suppliers, with the reports a manager checks every morning.",
+    "fr": "Une suite de gestion légère pour les PME qui ont dépassé le tableur sans vouloir un ERP lourd : devis et factures, stocks multi-sites, achats, clients et fournisseurs, avec les rapports qu’un gérant consulte chaque matin.",
+    "ar": "حزمة خفيفة لإدارة الأعمال للمقاولات التي تجاوزت الجداول الإلكترونية دون أن ترغب في نظام ERP ثقيل: عروض الأسعار والفواتير، والمخزون عبر عدة مواقع، والمشتريات، والعملاء والموردون، مع التقارير التي يطّلع عليها المدير كل صباح."
+  },
+  "category": { "en": "Business management", "fr": "Gestion d’entreprise", "ar": "إدارة المقاولة" },
+  "status": "coming-soon",
+  "audience": {
+    "en": "Distributors, retailers and service SMEs.",
+    "fr": "Distributeurs, commerces et PME de services.",
+    "ar": "الموزّعون والتجار ومقاولات الخدمات."
+  },
+  "platforms": ["Web", "Windows"],
+  "features": [
+    {
+      "title": { "en": "Quotes to invoices", "fr": "Du devis à la facture", "ar": "من عرض السعر إلى الفاتورة" },
+      "description": {
+        "en": "Turn a quote into an order, a delivery note and an invoice in a few clicks.",
+        "fr": "Transformez un devis en commande, bon de livraison et facture en quelques clics.",
+        "ar": "حوّل عرض السعر إلى طلب ووصل تسليم وفاتورة ببضع نقرات."
+      }
+    },
+    {
+      "title": { "en": "Multi-location stock", "fr": "Stock multi-sites", "ar": "مخزون متعدد المواقع" },
+      "description": {
+        "en": "Real-time stock levels, transfers and alerts across warehouses and shops.",
+        "fr": "Niveaux de stock en temps réel, transferts et alertes entre entrepôts et boutiques.",
+        "ar": "مستويات المخزون لحظيًا والتحويلات والتنبيهات بين المستودعات والمحلات."
+      }
+    },
+    {
+      "title": { "en": "Daily dashboard", "fr": "Tableau de bord quotidien", "ar": "لوحة قيادة يومية" },
+      "description": {
+        "en": "Sales, margins, receivables and low stock — the numbers that matter each morning.",
+        "fr": "Ventes, marges, créances et ruptures — les chiffres qui comptent chaque matin.",
+        "ar": "المبيعات والهوامش والمستحقات ونقص المخزون — الأرقام المهمة كل صباح."
+      }
+    }
+  ],
+  "technologies": ["TypeScript", "React", "Node.js", "PostgreSQL"],
+  "services": ["software-engineering"],
+  "posts": ["custom-erp-vs-saas"],
+  "featured": false,
+  "order": 3,
+  "demo": true
+}

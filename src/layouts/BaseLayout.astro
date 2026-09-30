@@ -1,0 +1,148 @@
+---
+/**
+ * The single page shell.
+ *
+ *  - <html lang dir>, fonts, SEO head, favicons, JSON-LD graph
+ *  - header / footer (full site) or the lean landing-page variant
+ *  - floating WhatsApp button, consent banner (only if tags are configured)
+ *  - the site-wide client module (reveals, tracking, idle-loaded GSAP)
+ *
+ * Structured data: Organization + WebSite + WebPage (+ BreadcrumbList) are
+ * always emitted; pages add their primary entity through `schema`.
+ */
+import '@/styles/global.css';
+import { analyticsEnabled } from '@/config/analytics';
+import { site } from '@/config/site';
+import { localeMeta, locales, routes, useTranslations, type Locale } from '@/i18n';
+import { breadcrumbNode, organizationNode, webPageNode, websiteNode, type Crumb, type JsonLdNode, type WebPageType } from '@/lib/seo/schema';
+import type { SeoProps } from '@/lib/seo/meta';
+import AnalyticsHead from '@/components/layout/AnalyticsHead.astro';
+import ConsentBanner from '@/components/layout/ConsentBanner.astro';
+import FontFaces from '@/components/layout/FontFaces.astro';
+import Footer from '@/components/layout/Footer.astro';
+import Header from '@/components/layout/Header.astro';
+import LandingHeader from '@/components/layout/LandingHeader.astro';
+import LandingFooter from '@/components/layout/LandingFooter.astro';
+import SkipLink from '@/components/layout/SkipLink.astro';
+import WhatsAppFloat from '@/components/layout/WhatsAppFloat.astro';
+import type { LanguageTarget } from '@/components/layout/LanguageSwitcher.astro';
+import SEOHead from '@/components/seo/SEOHead.astro';
+import Schema from '@/components/seo/Schema.astro';
+
+interface Props {
+  locale: Locale;
+  seo: SeoProps;
+  pageType?: WebPageType;
+  breadcrumbs?: Crumb[];
+  schema?: (JsonLdNode | undefined)[];
+  primaryId?: string;
+  variant?: 'default' | 'landing';
+  /** Analytics/styling context, e.g. "home", "contact", "landing". */
+  page?: string;
+  whatsappFloat?: boolean;
+  whatsappMessage?: string;
+  footerCta?: boolean;
+}
+
+const {
+  locale,
+  seo,
+  pageType = 'WebPage',
+  breadcrumbs,
+  schema = [],
+  primaryId,
+  variant = 'default',
+  page,
+  whatsappFloat = site.contact.whatsappFloatingButton,
+  whatsappMessage,
+  footerCta = true,
+} = Astro.props;
+
+const t = useTranslations(locale);
+const meta = localeMeta[locale];
+const path = seo.canonical ?? Astro.url.pathname;
+const alternates = seo.alternates ?? {};
+
+/** Same page in each language, or the matching section page when untranslated. */
+const sectionRoots = new Set(Object.values(routes).map((r) => r.split('/').filter(Boolean)[0]).filter(Boolean));
+const section = Astro.url.pathname.split('/').filter(Boolean)[1];
+const languageTargets = Object.fromEntries(
+  locales.map((l) => {
+    const exact = l === locale ? path : alternates[l];
+    const fallback = section && sectionRoots.has(section) && section !== 'landing' && section !== 'legal' ? `/${l}/${section}/` : `/${l}/`;
+    return [l, { href: exact ?? fallback, exact: Boolean(exact) } satisfies LanguageTarget];
+  }),
+) as Record<Locale, LanguageTarget>;
+
+const graph: (JsonLdNode | undefined)[] = [
+  organizationNode(locale, t.meta.orgDescription),
+  websiteNode(locale),
+  webPageNode({
+    url: path,
+    title: seo.title,
+    description: seo.description,
+    locale,
+    type: pageType,
+    hasBreadcrumb: Boolean(breadcrumbs?.length),
+    primaryId,
+    datePublished: seo.publishedTime,
+    dateModified: seo.modifiedTime,
+  }),
+  breadcrumbs?.length ? breadcrumbNode(path, breadcrumbs) : undefined,
+  ...schema,
+];
+---
+
+<!doctype html>
+<html lang={meta.hreflang} dir={meta.dir} data-variant={variant} data-motion={variant === 'landing' ? 'lite' : undefined}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      (function (d) {
+        d.classList.add('js');
+        try {
+          if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            d.classList.add('motion');
+            setTimeout(function () {
+              if (!window.__atlaxysMotion) d.classList.remove('motion');
+            }, 3000);
+          }
+        } catch (e) {}
+      })(document.documentElement);
+    </script>
+    <FontFaces locale={locale} />
+    <SEOHead {...seo} canonical={path} locale={locale} />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content={site.brand.ink} />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary" />
+    <Schema nodes={graph} />
+    {analyticsEnabled && <AnalyticsHead />}
+    <slot name="head" />
+  </head>
+  <body data-page={page}>
+    <SkipLink label={t.a11y.skipToContent} />
+    {variant === 'landing' ? <LandingHeader locale={locale} /> : <Header locale={locale} languageTargets={languageTargets} />}
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {
+      variant === 'landing' ? (
+        <LandingFooter locale={locale} />
+      ) : (
+        <Footer locale={locale} languageTargets={languageTargets} showCta={footerCta} />
+      )
+    }
+    {whatsappFloat && <WhatsAppFloat locale={locale} message={whatsappMessage} />}
+    {analyticsEnabled && <ConsentBanner locale={locale} />}
+    <script>
+      import '@/scripts/main';
+    </script>
+  </body>
+</html>

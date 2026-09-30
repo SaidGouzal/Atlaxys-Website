@@ -1,0 +1,30 @@
+{
+  "page": "contact",
+  "seo": {
+    "title": "Contact Atlaxys — Démarrer un projet logiciel",
+    "description": "Parlez-nous de votre projet. Contactez Atlaxys Consulting par formulaire, e-mail ou WhatsApp : développement logiciel, automatisation IA, DevOps et conseil technologique."
+  },
+  "hero": {
+    "eyebrow": "Contact",
+    "title": "Dites-nous ce que vous construisez.",
+    "lead": "Quelques informations nous permettent de revenir avec les bonnes questions — et, quand c’est pertinent, une première estimation. Vous préférez échanger ? WhatsApp et e-mail fonctionnent tout aussi bien."
+  },
+  "channels": {
+    "title": "Lignes directes",
+    "emailText": "Pour les cahiers des charges, appels d’offres et documents.",
+    "whatsappText": "Pour les questions rapides et planifier un appel."
+  },
+  "next": {
+    "title": "La suite",
+    "steps": [
+      "Nous lisons votre message et répondons, généralement sous un jour ouvré, souvent avec quelques questions de clarification.",
+      "Un appel de 30 minutes pour comprendre le problème, les contraintes et le calendrier. Aucune préparation nécessaire.",
+      "Une proposition écrite : approche, phases, fourchettes d’estimation et hypothèses."
+    ]
+  },
+  "thankYou": {
+    "seoTitle": "Message reçu",
+    "title": "Merci — nous avons bien reçu votre message.",
+    "text": "Un ingénieur de notre équipe vous répondra par e-mail, généralement sous un jour ouvré. En cas d’urgence, WhatsApp est le moyen le plus rapide de nous joindre."
+  }
+}

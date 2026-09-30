@@ -1,0 +1,32 @@
+---
+/**
+ * Responsive image: AVIF + WebP sources, intrinsic size (no layout shift),
+ * lazy by default. Pass `priority` for above-the-fold images (LCP).
+ */
+import { Picture } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  sizes?: string;
+  widths?: number[];
+  priority?: boolean;
+  class?: string;
+}
+
+const { src, alt, sizes = '(min-width: 1024px) 50vw, 100vw', widths, priority = false, class: className } = Astro.props;
+const candidateWidths = (widths ?? [480, 768, 1024, 1440, 1920]).filter((w) => w <= src.width);
+if (!candidateWidths.includes(src.width) && src.width < 1920) candidateWidths.push(src.width);
+---
+
+<Picture
+  src={src}
+  alt={alt}
+  formats={['avif', 'webp']}
+  widths={candidateWidths}
+  sizes={sizes}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  fetchpriority={priority ? 'high' : 'auto'}
+  class={className}
+/>

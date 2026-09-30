@@ -1,0 +1,192 @@
+---
+/**
+ * Hero visual. Server-renders the routed trace field as SVG (instant paint,
+ * zero JavaScript — used on phones, with reduced motion, or without WebGL).
+ * On capable desktops the WebGL version (Three.js) is loaded when the
+ * browser is idle and cross-fades in on top: same field, now in depth, with
+ * travelling signal pulses and a pointer "probe".
+ */
+import { generateField, tracePath } from '@/lib/signal/routing';
+
+interface Props {
+  seed?: number;
+}
+
+const { seed = 11 } = Astro.props;
+const field = generateField({ seed });
+const unit = 24;
+const width = field.cols * unit;
+const height = field.rows * unit;
+const fieldJson = JSON.stringify(field);
+---
+
+<div class="signal-field" data-signal-field aria-hidden="true">
+  <svg class="signal-field__svg" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid slice" focusable="false">
+    <defs>
+      <pattern id="sf-dots" width={unit} height={unit} patternUnits="userSpaceOnUse">
+        <circle cx={unit / 2} cy={unit / 2} r="1" fill="currentColor" opacity="0.18"></circle>
+      </pattern>
+    </defs>
+    <g transform={`translate(${unit / 2} ${unit / 2})`}>
+      <rect x={-unit / 2} y={-unit / 2} width={width} height={height} fill="url(#sf-dots)"></rect>
+      {
+        field.traces.map((trace, i) => {
+          const d = tracePath(trace, unit);
+          const [ex, ey] = trace.points[trace.points.length - 1]!;
+          return (
+            <g class:list={['sf-trace', { 'sf-trace--hot': trace.hot }]} style={`--delay: ${(trace.phase * 6).toFixed(2)}s; --i: ${i}`}>
+              <path d={d} class="sf-trace__line" pathLength="1" />
+              {trace.hot && <path d={d} class="sf-trace__pulse" pathLength="1" />}
+              <circle cx={ex * unit} cy={ey * unit} r="4.5" class="sf-trace__node" />
+            </g>
+          );
+        })
+      }
+    </g>
+  </svg>
+  <div class="signal-field__gl" data-signal-gl></div>
+  <script type="application/json" data-signal-data set:html={fieldJson} is:inline></script>
+</div>
+
+<style>
+  .signal-field {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    color: var(--steel-200);
+  }
+
+  .signal-field__svg {
+    position: absolute;
+    inset-block: -10% -20%;
+    inset-inline: 0 -12%;
+    width: 112%;
+    height: 130%;
+    transform: perspective(1600px) rotateX(38deg) rotateZ(-6deg) translate3d(8%, -4%, 0);
+    transform-origin: 60% 40%;
+    transition: opacity 1.2s var(--ease-out);
+  }
+
+  :global([dir='rtl']) .signal-field__svg {
+    transform: perspective(1600px) rotateX(38deg) rotateZ(6deg) translate3d(-8%, -4%, 0) scaleX(-1);
+  }
+
+  .sf-trace__line {
+    fill: none;
+    stroke: var(--steel-300);
+    stroke-opacity: 0.22;
+    stroke-width: 1.4;
+  }
+
+  .sf-trace--hot .sf-trace__line {
+    stroke: var(--signal-500);
+    stroke-opacity: 0.4;
+  }
+
+  .sf-trace__node {
+    fill: var(--ink-950);
+    stroke: var(--steel-300);
+    stroke-opacity: 0.4;
+    stroke-width: 1.4;
+  }
+
+  .sf-trace--hot .sf-trace__node {
+    stroke: var(--signal-500);
+    stroke-opacity: 0.95;
+  }
+
+  .sf-trace__pulse {
+    fill: none;
+    stroke: var(--signal-400);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-dasharray: 0.07 1;
+    stroke-dashoffset: 1.07;
+    opacity: 0;
+  }
+
+  /* Below desktop the field is static apart from a slow drift that runs on
+     the compositor only — no per-frame paint on phones. */
+  @media (prefers-reduced-motion: no-preference) and (max-width: 63.99rem) {
+    .signal-field__svg {
+      animation:
+        sf-fade-in 1.4s var(--ease-out) both,
+        sf-drift 24s ease-in-out 1.4s infinite alternate;
+    }
+  }
+
+  @keyframes sf-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sf-drift {
+    to {
+      translate: -4% 2%;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (min-width: 64rem) {
+    /* Traces route in on load… */
+    .sf-trace__line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: sf-route 1.8s var(--ease-signal) forwards;
+      animation-delay: calc(0.25s + var(--i) * 0.03s);
+    }
+
+    /* …then signals travel along the hot ones. */
+    .sf-trace__pulse {
+      opacity: 1;
+      animation: sf-pulse 3.2s linear infinite;
+      animation-delay: calc(1.6s + var(--delay));
+    }
+  }
+
+  /* Keep the SVG field cheap: its own layer, paused off-screen, and on
+     smaller screens the pulses settle after a few passes. */
+  .signal-field__svg {
+    will-change: transform;
+  }
+
+  :global(.signal-field.is-paused) .sf-trace__pulse {
+    animation-play-state: paused;
+  }
+
+  @keyframes sf-route {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes sf-pulse {
+    from {
+      stroke-dashoffset: 1.07;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .signal-field__gl {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-out);
+  }
+
+  .signal-field__gl :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  :global(.signal-field.is-gl) .signal-field__gl {
+    opacity: 1;
+  }
+
+  :global(.signal-field.is-gl) .signal-field__svg {
+    opacity: 0;
+  }
+</style>

@@ -1,0 +1,140 @@
+{
+  "page": "home",
+  "seo": {
+    "title": "Atlaxys Consulting — Développement logiciel, automatisation IA & cloud",
+    "description": "Cabinet de conseil technologique et studio d’ingénierie basé au Maroc. Nous concevons, développons et exploitons plateformes web, applications, logiciels métier, automatisations IA et cloud."
+  },
+  "hero": {
+    "eyebrow": "Conseil technologique & ingénierie logicielle",
+    "title": "Nous construisons les logiciels qui *font tourner* votre entreprise.",
+    "lead": "Atlaxys est un studio d’ingénierie basé au Maroc, qui travaille avec des entreprises du monde entier. Nous concevons l’architecture, écrivons le code, automatisons les tâches répétitives — et faisons tourner le tout en production.",
+    "primaryCta": "Démarrer un projet",
+    "secondaryCta": "Notre méthode",
+    "capabilities": ["Plateformes web", "Applications mobiles", "Logiciels métier", "Automatisation IA", "Cloud & DevOps"]
+  },
+  "statement": {
+    "eyebrow": "Ce que nous faisons",
+    "text": "Nous sommes des consultants qui écrivent du code de production. Nous analysons le problème avec vous, dessinons l’architecture, construisons le produit et restons après le lancement — supervision, itérations, nouvelles fonctionnalités. Une seule équipe, du premier tableau blanc au millième déploiement."
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Quatre expertises. Une seule équipe d’ingénierie.",
+    "intro": "La plupart des projets en mobilisent plusieurs — c’est tout l’intérêt. Ceux qui conçoivent votre architecture sont ceux qui la construisent et l’exploitent."
+  },
+  "process": {
+    "eyebrow": "Notre méthode",
+    "title": "De la première question à la production. Et au-delà.",
+    "intro": "Une méthode de livraison conçue pour faire apparaître les risques tôt, quand ils coûtent encore peu.",
+    "steps": [
+      {
+        "title": "Comprendre",
+        "text": "Nous cartographions le problème métier, les utilisateurs, les contraintes et l’existant. Avant toute estimation, nous vérifions que nous résolvons le bon problème.",
+        "outputs": ["Énoncé du besoin", "Périmètre et risques", "Première estimation"]
+      },
+      {
+        "title": "Concevoir",
+        "text": "Nous concevons le système — modèle de données, intégrations, infrastructure — et documentons les compromis derrière chaque choix, pour que vous puissiez les challenger.",
+        "outputs": ["Schéma d’architecture", "Journal des décisions", "Plan de livraison"]
+      },
+      {
+        "title": "Construire",
+        "text": "Des itérations courtes, un logiciel fonctionnel toutes les une à deux semaines, et un environnement de recette accessible dès le premier sprint.",
+        "outputs": ["Livraisons itératives", "Revue de code et tests", "Environnement de recette"]
+      },
+      {
+        "title": "Livrer",
+        "text": "Pipelines automatisés, mises en production sans stress, supervision et alertes en place avant l’arrivée des vrais utilisateurs.",
+        "outputs": ["Pipeline CI/CD", "Supervision et alertes", "Check-list de lancement"]
+      },
+      {
+        "title": "Exploiter",
+        "text": "Nous restons pour la maintenance, les évolutions, l’optimisation des coûts et la suite de la feuille de route — ou nous transmettons proprement à votre équipe, avec une documentation réellement utile.",
+        "outputs": ["Maintenance et support", "Documentation", "Feuille de route ou passation"]
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Réalisations",
+    "title": "Des problèmes, résolus pas à pas.",
+    "intro": "Chaque étude de cas détaille l’enjeu, l’architecture et les compromis — pas seulement les captures d’écran."
+  },
+  "products": {
+    "eyebrow": "Produits",
+    "title": "Nous éditons aussi nos propres logiciels.",
+    "intro": "En parallèle des projets clients, nous développons et maintenons nos propres produits : des logiciels prêts à l’emploi pour des besoins précis, avec les mêmes exigences d’ingénierie."
+  },
+  "stack": {
+    "eyebrow": "Technologie",
+    "title": "Des outils éprouvés, choisis avec intention.",
+    "intro": "Nous privilégions des technologies matures et bien supportées, pour lesquelles votre future équipe pourra recruter. La nouveauté n’a sa place que là où elle se rentabilise."
+  },
+  "industries": {
+    "eyebrow": "Secteurs",
+    "title": "Là où notre travail fait la différence.",
+    "intro": "Nous sommes des ingénieurs généralistes, avec des schémas récurrents dans quelques secteurs. Si le vôtre n’est pas listé, ses problèmes de fond le sont sûrement."
+  },
+  "principles": {
+    "eyebrow": "Pourquoi Atlaxys",
+    "title": "Ce que c’est, vraiment, de travailler avec nous.",
+    "items": [
+      {
+        "title": "L’architecture avant le code",
+        "text": "Chaque projet commence par une conception écrite que vous pouvez lire, questionner et conserver. Les décisions sont documentées, pas transmises oralement."
+      },
+      {
+        "title": "Tout vous appartient",
+        "text": "Code source, comptes cloud, noms de domaine et données sont au nom de votre entreprise dès le premier jour. Aucune dépendance, aucune prise d’otage."
+      },
+      {
+        "title": "La production est la ligne d’arrivée",
+        "text": "Une démo n’est pas un produit. Pour nous, c’est terminé quand c’est déployé, supervisé et utilisé par de vrais utilisateurs."
+      },
+      {
+        "title": "Un accès direct à ceux qui construisent",
+        "text": "Vous échangez avec les ingénieurs qui font le travail, en langage clair — en français, en arabe ou en anglais — sans chaîne d’intermédiaires."
+      },
+      {
+        "title": "Ancrage local, horaires internationaux",
+        "text": "Le fuseau horaire marocain couvre l’essentiel de la journée de travail européenne et la matinée nord-américaine. Nous travaillons comme les équipes internationales l’attendent."
+      }
+    ]
+  },
+  "insights": {
+    "eyebrow": "Articles",
+    "title": "Notes de terrain."
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Des réponses claires.",
+    "items": [
+      {
+        "question": "Que fait Atlaxys Consulting ?",
+        "answer": "Atlaxys est une société de conseil technologique et d’ingénierie logicielle. Nous concevons et développons des applications web et mobiles, des logiciels métier, des automatisations basées sur l’IA et des infrastructures cloud, et nous accompagnons les équipes techniques sur l’architecture et la stratégie."
+      },
+      {
+        "question": "Où est basée Atlaxys, et travaillez-vous avec des clients internationaux ?",
+        "answer": "Nous sommes basés au Maroc et travaillons avec des clients au Maroc et à l’étranger, notamment en Europe, au Moyen-Orient, en Afrique et en Amérique du Nord. La collaboration se fait surtout à distance, avec des ateliers sur site lorsque le projet le justifie."
+      },
+      {
+        "question": "Dans quelles langues travaillez-vous ?",
+        "answer": "Français, arabe et anglais. Le code et la documentation technique sont rédigés en anglais par défaut, ou dans la langue de votre équipe."
+      },
+      {
+        "question": "Combien coûte un projet logiciel ?",
+        "answer": "Cela dépend du périmètre, des intégrations et de la part d’inconnu. Après un court échange de cadrage, nous envoyons une estimation écrite avec des fourchettes et les hypothèses qui les sous-tendent."
+      },
+      {
+        "question": "Le code et l’infrastructure nous appartiennent-ils ?",
+        "answer": "Oui. Dépôts de code, comptes cloud, noms de domaine et données sont créés au nom de votre organisation. Vous pouvez continuer avec nous, internaliser ou changer de prestataire à tout moment."
+      },
+      {
+        "question": "Pouvez-vous reprendre ou moderniser un système existant ?",
+        "answer": "Oui. Nous commençons par un audit technique — code, infrastructure, sécurité et processus de livraison — puis proposons un plan de modernisation qui permet à l’activité de continuer pendant que le système s’améliore."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Un projet à construire ?",
+    "text": "Dites-nous sur quoi vous travaillez. C’est un ingénieur qui vous répondra — pas une séquence commerciale."
+  }
+}

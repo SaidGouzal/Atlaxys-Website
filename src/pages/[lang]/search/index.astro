@@ -1,0 +1,196 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Section from '@/components/ui/Section.astro';
+import { localeStaticPaths, localizePath, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const copy = await getPageCopy(locale, 'search');
+const trail = crumbs(locale, 'search');
+const sections = (['services', 'products', 'work', 'insights', 'about', 'contact'] as const).map((key) => ({
+  label: t.nav[key],
+  href: routePath(locale, key),
+}));
+const typeLabels = {
+  service: t.labels.service,
+  product: t.labels.product,
+  caseStudy: t.labels.caseStudy,
+  article: t.labels.article,
+  page: t.labels.page,
+};
+const strings = {
+  results: [t.search.results(0, '§Q'), t.search.results(1, '§Q'), t.search.results(2, '§Q'), t.search.results(3, '§Q'), t.search.results(11, '§Q'), t.search.results(100, '§Q')],
+  noResults: t.search.noResults('§Q'),
+  loading: t.search.loading,
+  unavailable: t.search.unavailable,
+};
+---
+
+<BaseLayout
+  locale={locale}
+  page="search"
+  pageType="SearchResultsPage"
+  breadcrumbs={trail}
+  seo={{ title: copy.seo.title, description: copy.seo.description, noindex: true, alternates: mirroredAlternates('/search/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} size="md" />
+
+  <Section spacing="tight">
+    <Container>
+      <form class="search" role="search" action={routePath(locale, 'search')} method="get" data-search data-index={localizePath(locale, '/search.json')} data-types={JSON.stringify(typeLabels)} data-strings={JSON.stringify(strings)} data-locale={locale}>
+        <label for="search-q" class="search__label">{t.search.label}</label>
+        <div class="search__row">
+          <Icon name="search" size={22} class="search__icon" />
+          <input id="search-q" name="q" type="search" autocomplete="off" placeholder={t.search.placeholder} class="search__input" aria-describedby="search-status" />
+          <button type="submit" class="search__submit">{t.search.submit}</button>
+        </div>
+      </form>
+
+      <p id="search-status" class="search__status" role="status" aria-live="polite">{t.search.idle}</p>
+      <ol role="list" class="search__results" data-search-results></ol>
+
+      <div class="search__fallback" data-search-fallback hidden>
+        <p>{t.search.noResultsHint}</p>
+        <ul role="list">
+          {
+            sections.map((s) => (
+              <li>
+                <a href={s.href}>{s.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <noscript>
+        <div class="search__fallback">
+          <p>{t.search.noscript}</p>
+          <ul role="list">
+            {
+              sections.map((s) => (
+                <li>
+                  <a href={s.href}>{s.label}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </noscript>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<script>
+  import { initSearch } from '@/scripts/search';
+  initSearch();
+</script>
+
+<style>
+  .search {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .search__label {
+    font-weight: 560;
+    font-size: var(--step--1);
+  }
+
+  .search__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .search__row :global(.search__icon) {
+    color: var(--color-muted);
+    flex-shrink: 0;
+  }
+
+  .search__input {
+    flex: 1;
+    min-width: 0;
+    padding: 1rem;
+    background: transparent;
+    border: 0;
+    font-size: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    font-weight: 500;
+  }
+
+  .search__input:focus-visible {
+    outline: none;
+  }
+
+  .search__row:focus-within {
+    border-color: var(--color-accent);
+  }
+
+  .search__submit {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  .search__status {
+    margin-block: var(--space-l) var(--space-m);
+    color: var(--color-muted);
+  }
+
+  .search__results {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .search__results :global(li) {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .search__results :global(a) {
+    display: grid;
+    gap: 0.35rem;
+    padding-block: var(--space-m);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .search__results :global(a:hover .search-hit__title) {
+    color: var(--color-accent);
+  }
+
+  .search__results :global(.search-hit__type) {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .search__results :global(.search-hit__title) {
+    font-size: var(--step-1);
+    font-weight: 620;
+  }
+
+  .search__results :global(.search-hit__desc) {
+    color: var(--color-text-2);
+    font-size: var(--step--1);
+  }
+
+  .search__fallback {
+    display: grid;
+    gap: var(--space-s);
+    margin-block-start: var(--space-l);
+  }
+
+  .search__fallback ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+</style>

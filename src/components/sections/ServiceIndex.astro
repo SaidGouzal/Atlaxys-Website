@@ -1,0 +1,204 @@
+---
+/**
+ * Services as a large editorial index: one row per service. On hover a
+ * signal trace routes across the row and terminates at the arrow.
+ */
+import type { Service } from '@/lib/content';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  services: Service[];
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { services, headingLevel = 'h3' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<ol role="list" class="service-index" data-reveal-stagger="90">
+  {
+    services.map((s) => (
+      <li class="service-row" data-reveal>
+        <a href={s.url} class="service-row__link">
+          <span class="service-row__index mono tabular">{s.index}</span>
+          <Heading class="service-row__title">{s.data.title}</Heading>
+          <span class="service-row__meta">
+            <span class="service-row__tagline">{s.data.tagline}</span>
+            <span class="service-row__tags">
+              {s.data.capabilities.slice(0, 3).map((c) => (
+                <span>{c.title}</span>
+              ))}
+            </span>
+          </span>
+          <span class="service-row__arrow" aria-hidden="true">
+            <Icon name="arrow-up-right" size={24} />
+          </span>
+          <span class="service-row__trace" aria-hidden="true" />
+        </a>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .service-index {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .service-row {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .service-row__link {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'index title arrow'
+      'index meta  meta';
+    column-gap: var(--space-m);
+    row-gap: var(--space-xs);
+    align-items: baseline;
+    padding-block: var(--space-l);
+    color: var(--color-text);
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  .service-row__link::before {
+    content: '';
+    position: absolute;
+    inset: 0 calc(var(--gutter) * -0.5);
+    z-index: -1;
+    background: var(--color-surface-2);
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+  }
+
+  .service-row__index {
+    grid-area: index;
+    color: var(--color-muted);
+    min-width: 2.5ch;
+  }
+
+  .service-row__title {
+    grid-area: title;
+    font-family: var(--font-display);
+    font-stretch: var(--display-stretch);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    font-size: clamp(1.75rem, 1rem + 3.4vw, 4.5rem);
+    line-height: 1;
+    transition: transform var(--dur-4) var(--ease-out);
+  }
+
+  :global(:lang(ar)) .service-row__title {
+    line-height: 1.35;
+  }
+
+  .service-row__meta {
+    grid-area: meta;
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .service-row__tagline {
+    color: var(--color-text-2);
+    max-width: 48ch;
+  }
+
+  .service-row__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  :global(:lang(ar)) .service-row__tags {
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .service-row__tags span + span::before {
+    content: '/';
+    margin-inline-end: 1rem;
+    color: var(--color-subtle);
+  }
+
+  .service-row__arrow {
+    grid-area: arrow;
+    display: inline-grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 50%;
+    color: var(--color-text);
+    transition:
+      background-color var(--dur-3) var(--ease-out),
+      color var(--dur-3),
+      border-color var(--dur-3),
+      transform var(--dur-3) var(--ease-out);
+  }
+
+  .service-row__trace {
+    position: absolute;
+    inset-block-end: -1px;
+    inset-inline-start: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-5) var(--ease-signal);
+  }
+
+  :global([dir='rtl']) .service-row__trace {
+    transform-origin: right;
+  }
+
+  .service-row__link:hover::before,
+  .service-row__link:focus-visible::before {
+    opacity: 1;
+  }
+
+  .service-row__link:hover .service-row__title {
+    transform: translateX(0.75rem);
+  }
+
+  :global([dir='rtl']) .service-row__link:hover .service-row__title {
+    transform: translateX(-0.75rem);
+  }
+
+  .service-row__link:hover .service-row__arrow,
+  .service-row__link:focus-visible .service-row__arrow {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-on-primary);
+    transform: rotate(45deg);
+  }
+
+  :global([dir='rtl']) .service-row__link:hover .service-row__arrow {
+    transform: rotate(-45deg);
+  }
+
+  .service-row__link:hover .service-row__trace,
+  .service-row__link:focus-visible .service-row__trace {
+    transform: scaleX(1);
+  }
+
+  @media (min-width: 64rem) {
+    .service-row__link {
+      grid-template-columns: 4rem minmax(0, 7fr) minmax(0, 4fr) auto;
+      grid-template-areas: 'index title meta arrow';
+      align-items: center;
+      padding-block: var(--space-xl);
+    }
+  }
+</style>

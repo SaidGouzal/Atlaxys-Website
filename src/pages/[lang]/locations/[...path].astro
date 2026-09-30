@@ -1,0 +1,214 @@
+---
+/**
+ * Location pages (country → region → city). Generated from
+ * src/content/locations/<locale>/*.md — only entries with `publish: true`.
+ * Rule: publish a location only with genuinely local, unique content
+ * (no doorway pages that swap a city name into the same text).
+ */
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import FAQ from '@/components/sections/FAQ.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import RelatedContent from '@/components/sections/RelatedContent.astro';
+import ServiceIndex from '@/components/sections/ServiceIndex.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import { whatsappLink } from '@/config/site';
+import { routePath, useTranslations } from '@/i18n';
+import { getLocationAlternates, getLocationPaths, getLocations, getServices, type Location } from '@/lib/content';
+import { getRelated } from '@/lib/content/related';
+import { crumbs } from '@/lib/seo/crumbs';
+import { faqNode, ids, serviceNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = getLocationPaths;
+
+interface Props {
+  location: Location;
+}
+
+const { location } = Astro.props;
+const { locale, data } = location;
+const t = useTranslations(locale);
+const { Content } = await render(location.entry);
+const [alternates, allServices, allLocations, related] = await Promise.all([
+  getLocationAlternates(location.key),
+  getServices(locale),
+  getLocations(locale),
+  getRelated(locale, { type: 'location', key: location.key }, data.related),
+]);
+const services = data.services.length ? allServices.filter((s) => data.services.includes(s.key)) : allServices;
+const children = allLocations.filter((l) => l.data.parent === location.key);
+const parents: Location[] = [];
+for (let p = data.parent; p; ) {
+  const parent = allLocations.find((l) => l.key === p);
+  if (!parent) break;
+  parents.unshift(parent);
+  p = parent.data.parent;
+}
+const trail = crumbs(locale, ...parents.map((p) => ({ name: p.data.name, url: p.url })), { name: data.name, url: location.url });
+const areaType = data.kind === 'country' ? 'Country' : data.kind === 'city' ? 'City' : 'Place';
+---
+
+<BaseLayout
+  locale={locale}
+  page="location"
+  breadcrumbs={trail}
+  primaryId={ids.primary(location.url, 'service')}
+  schema={[
+    serviceNode({
+      url: location.url,
+      name: data.hero.title,
+      description: data.hero.lead,
+      serviceType: 'Software engineering and technology consulting',
+      capabilities: services.map((s) => s.data.title),
+      locale,
+      areaServed: [{ '@type': areaType, name: data.name }],
+    }),
+    faqNode(location.url, data.faqs),
+  ]}
+  seo={{
+    title: data.seo.title ?? data.hero.title,
+    description: data.seo.description ?? data.hero.lead,
+    alternates,
+    modifiedTime: data.updatedAt,
+    noindex: data.seo.noindex,
+  }}
+>
+  <PageHero eyebrow={data.hero.eyebrow ?? data.name} title={data.hero.title} lead={data.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb}>
+    <Fragment slot="actions">
+      <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">{t.cta.discussProject}</Button>
+      <Button href={whatsappLink(t.whatsapp.message)} variant="link" icon="whatsapp" target="_blank" rel="noopener noreferrer" data-track="whatsapp_click">
+        {t.cta.whatsapp}
+      </Button>
+    </Fragment>
+  </PageHero>
+
+  {
+    data.highlights.length > 0 && (
+      <Section>
+        <Container>
+          <ul role="list" class="highlights" data-reveal-stagger="70">
+            {data.highlights.map((h, i) => (
+              <li class="highlight" data-reveal>
+                <span class="mono tabular highlight__index">{String(i + 1).padStart(2, '0')}</span>
+                <h2 class="highlight__title">{h.title}</h2>
+                <p>{h.text}</p>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section spacing="flush-top" labelledby="loc-services">
+    <Container>
+      <SectionHeader id="loc-services" eyebrow={t.labels.services} title={data.name} size="md" />
+      <ServiceIndex services={services} />
+    </Container>
+  </Section>
+
+  <Section>
+    <Container class="loc-body">
+      <div class="prose" data-reveal>
+        <Content />
+      </div>
+      {
+        children.length > 0 && (
+          <aside class="loc-children">
+            <ul role="list">
+              {children.map((c) => (
+                <li>
+                  <a href={c.url}>{c.data.name}</a>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )
+      }
+    </Container>
+  </Section>
+
+  {
+    data.faqs.length > 0 && (
+      <Section spacing="flush-top" labelledby="loc-faq">
+        <Container>
+          <FAQ id="loc-faq" eyebrow={t.labels.faq} title={data.hero.title} items={data.faqs} />
+        </Container>
+      </Section>
+    )
+  }
+
+  <Section spacing="flush-top">
+    <Container>
+      <RelatedContent locale={locale} related={related} show={['caseStudies', 'products', 'posts']} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="loc-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    border-top: 1px solid var(--color-line);
+    border-inline-start: 1px solid var(--color-line);
+  }
+
+  .highlight {
+    display: grid;
+    align-content: start;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    border-bottom: 1px solid var(--color-line);
+    border-inline-end: 1px solid var(--color-line);
+  }
+
+  .highlight__index {
+    color: var(--color-accent);
+  }
+
+  .highlight__title {
+    font-size: var(--step-1);
+    font-weight: 650;
+    line-height: 1.25;
+  }
+
+  .highlight p {
+    color: var(--color-text-2);
+    font-size: var(--step--1);
+  }
+
+  .loc-body {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 64rem) {
+    .loc-body {
+      grid-template-columns: minmax(0, 8fr) minmax(0, 3fr);
+    }
+  }
+
+  .loc-children ul {
+    display: grid;
+    gap: 0.25rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .loc-children a {
+    display: block;
+    padding-block: var(--space-s);
+    border-bottom: 1px solid var(--color-line);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+</style>

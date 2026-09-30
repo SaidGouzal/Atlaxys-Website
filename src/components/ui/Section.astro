@@ -1,0 +1,36 @@
+---
+/**
+ * Page section: vertical rhythm, theme (dark default / light "paper"),
+ * and an optional accessible name.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'section'>, 'class'> {
+  theme?: 'dark' | 'light';
+  spacing?: 'default' | 'tight' | 'flush-top' | 'none';
+  labelledby?: string;
+  class?: string;
+  as?: 'section' | 'div' | 'aside';
+}
+
+const { theme, spacing = 'default', labelledby, class: className, as: Tag = 'section', ...rest } = Astro.props;
+---
+
+<Tag
+  class:list={[
+    'section',
+    { 'section--tight': spacing === 'tight', 'section--flush-top': spacing === 'flush-top', 'section--none': spacing === 'none' },
+    className,
+  ]}
+  data-theme={theme === 'light' ? 'light' : undefined}
+  aria-labelledby={labelledby}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  .section--none {
+    padding-block: 0;
+  }
+</style>

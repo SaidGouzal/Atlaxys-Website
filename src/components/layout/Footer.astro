@@ -1,0 +1,338 @@
+---
+/**
+ * Footer: closing call to action, sitemap columns (services and products are
+ * generated from content), contact lines, language, legal, and the lockup.
+ */
+import { footerNav } from '@/config/navigation';
+import { mailtoLink, site, telLink, whatsappLink, type SocialNetwork } from '@/config/site';
+import { routePath, useTranslations, countryName, type Locale } from '@/i18n';
+import { getLegalUrl, getLocations, getProducts, getServices } from '@/lib/content';
+import Button from '../ui/Button.astro';
+import Icon, { type IconName } from '../ui/Icon.astro';
+import SignalRule from '../ui/SignalRule.astro';
+import LanguageSwitcher, { type LanguageTarget } from './LanguageSwitcher.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  locale: Locale;
+  languageTargets: Record<Locale, LanguageTarget>;
+  showCta?: boolean;
+}
+
+const { locale, languageTargets, showCta = true } = Astro.props;
+const t = useTranslations(locale);
+const [services, products, locations] = await Promise.all([getServices(locale), getProducts(locale), getLocations(locale)]);
+const legalLinks = await Promise.all(footerNav.legal.map(async (key) => ({ key, url: await getLegalUrl(locale, key) })));
+const morocco = locations.find((l) => l.data.kind === 'country');
+const year = new Date().getFullYear();
+const place = [site.address.locality, countryName(site.address.countryCode, locale)].filter(Boolean).join(', ');
+
+const socialIcons: Record<SocialNetwork, IconName> = {
+  linkedin: 'linkedin',
+  instagram: 'instagram',
+  facebook: 'facebook',
+  x: 'x-social',
+  github: 'github',
+};
+const socials = (Object.entries(site.social) as [SocialNetwork, string][]).filter(([, url]) => Boolean(url));
+---
+
+<footer class="site-footer">
+  {
+    showCta && (
+      <section class="site-footer__cta container" aria-labelledby="footer-cta-title">
+        <p class="eyebrow">
+          <SignalRule length={56} />
+          <span>{t.nav.contact}</span>
+        </p>
+        <h2 id="footer-cta-title" class="site-footer__headline display" data-split>
+          {t.footer.headline}
+        </h2>
+        <div class="site-footer__cta-row" data-reveal>
+          <p class="site-footer__cta-text">{t.footer.text}</p>
+          <div class="site-footer__cta-actions">
+            <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">
+              {t.cta.startProject}
+            </Button>
+            <a class="site-footer__mail ltr" href={mailtoLink()} data-track="email_click">
+              {site.contact.email}
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <div class="container site-footer__grid">
+    <nav class="site-footer__nav" aria-label={t.a11y.footerNav}>
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading mono">{t.footer.services}</h2>
+        <ul role="list">
+          {
+            services.map((s) => (
+              <li>
+                <a href={s.url}>{s.data.navLabel ?? s.data.title}</a>
+              </li>
+            ))
+          }
+          {
+            morocco && (
+              <li>
+                <a href={morocco.url}>{t.nav.morocco}</a>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+      {
+        products.length > 0 && (
+          <div class="site-footer__col">
+            <h2 class="site-footer__heading mono">{t.footer.products}</h2>
+            <ul role="list">
+              {products.slice(0, 5).map((p) => (
+                <li>
+                  <a href={p.url}>{p.name}</a>
+                </li>
+              ))}
+              <li>
+                <a href={routePath(locale, 'products')}>{t.cta.allProducts}</a>
+              </li>
+            </ul>
+          </div>
+        )
+      }
+      <div class="site-footer__col">
+        <h2 class="site-footer__heading mono">{t.footer.company}</h2>
+        <ul role="list">
+          {
+            footerNav.company.map((key) => (
+              <li>
+                <a href={routePath(locale, key)}>{t.nav[key]}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+
+    <div class="site-footer__col site-footer__contact">
+      <h2 class="site-footer__heading mono">{t.footer.contact}</h2>
+      <ul role="list">
+        <li>
+          <a href={mailtoLink()} data-track="email_click"><Icon name="mail" size={16} /><span class="ltr">{site.contact.email}</span></a>
+        </li>
+        <li>
+          <a href={whatsappLink(t.whatsapp.message)} target="_blank" rel="noopener noreferrer" data-track="whatsapp_click">
+            <Icon name="whatsapp" size={16} /><span>{t.cta.whatsappShort}</span>
+            <span class="visually-hidden">{t.a11y.newTab}</span>
+          </a>
+        </li>
+        <li>
+          <a href={telLink()} data-track="phone_click"><Icon name="phone" size={16} /><span class="ltr">{site.contact.phone}</span></a>
+        </li>
+        <li class="site-footer__place"><Icon name="map-pin" size={16} /><span>{place}</span></li>
+      </ul>
+      {
+        socials.length > 0 && (
+          <ul role="list" class="site-footer__social">
+            {socials.map(([network, url]) => (
+              <li>
+                <a href={url} target="_blank" rel="noopener noreferrer me" aria-label={`${network} ${t.a11y.newTab}`}>
+                  <Icon name={socialIcons[network]} size={18} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__heading mono">{t.footer.language}</h2>
+      <LanguageSwitcher locale={locale} targets={languageTargets} variant="inline" />
+    </div>
+  </div>
+
+  <div class="container site-footer__lockup" aria-hidden="true">
+    <Logo width={1200} eager={false} class="site-footer__logo" />
+  </div>
+
+  <div class="container site-footer__bottom">
+    <p>© {year} {site.legalName ?? site.name}. {t.footer.rights}</p>
+    <ul role="list" class="site-footer__legal">
+      {
+        legalLinks.map(({ key, url }) => (
+          <li>
+            <a href={url}>{t.nav[key]}</a>
+          </li>
+        ))
+      }
+      <li>
+        <button type="button" class="site-footer__consent" data-consent-open hidden>{t.nav.cookieSettings}</button>
+      </li>
+    </ul>
+    <p class="site-footer__based">{t.footer.based}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    background: var(--ink-950);
+    color: var(--color-text);
+    border-top: 1px solid var(--color-line);
+    overflow: hidden;
+  }
+
+  .site-footer__cta {
+    display: grid;
+    gap: var(--space-l);
+    padding-block: var(--space-section) var(--space-2xl);
+  }
+
+  .site-footer__headline {
+    font-size: clamp(2.6rem, 1rem + 7vw, 8rem);
+    line-height: 0.95;
+    max-width: 14ch;
+  }
+
+  .site-footer__cta-row {
+    display: grid;
+    gap: var(--space-l);
+    align-items: end;
+  }
+
+  .site-footer__cta-text {
+    color: var(--color-text-2);
+    font-size: var(--step-1);
+    max-width: 40ch;
+  }
+
+  .site-footer__cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m) var(--space-l);
+  }
+
+  .site-footer__mail {
+    font-size: var(--step-1);
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-underline-offset: 0.25em;
+  }
+
+  @media (min-width: 64rem) {
+    .site-footer__cta-row {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-xl) var(--grid-gap);
+    padding-block: var(--space-2xl);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .site-footer__nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    gap: var(--space-xl) var(--grid-gap);
+  }
+
+  @media (min-width: 64rem) {
+    .site-footer__grid {
+      grid-template-columns: 7fr 3fr 2fr;
+    }
+  }
+
+  .site-footer__heading {
+    color: var(--color-muted);
+    margin-block-end: var(--space-s);
+    font-weight: 500;
+  }
+
+  .site-footer__col ul {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .site-footer__col a,
+  .site-footer__place {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.25rem;
+    color: var(--color-text-2);
+    text-decoration: none;
+    transition: color var(--dur-2);
+  }
+
+  .site-footer__col a:hover {
+    color: var(--color-text);
+  }
+
+  .site-footer__contact :global(.icon) {
+    color: var(--color-accent);
+  }
+
+  .site-footer__social {
+    display: flex !important;
+    gap: 0.25rem;
+    margin-block-start: var(--space-s);
+  }
+
+  .site-footer__social a {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line);
+  }
+
+  .site-footer__lockup {
+    padding-block: var(--space-xl) var(--space-l);
+  }
+
+  .site-footer__lockup :global(.site-footer__logo) {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    opacity: 0.95;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-l);
+    padding-block: var(--space-m) var(--space-l);
+    border-top: 1px solid var(--color-line);
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .site-footer__legal a,
+  .site-footer__consent {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    color: inherit;
+    text-decoration: none;
+    font-size: inherit;
+  }
+
+  .site-footer__legal a:hover,
+  .site-footer__consent:hover {
+    color: var(--color-text);
+  }
+</style>

@@ -1,0 +1,154 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PostRow from '@/components/cards/PostRow.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import Button from '@/components/ui/Button.astro';
+import Container from '@/components/ui/Container.astro';
+import EmptyState from '@/components/ui/EmptyState.astro';
+import Section from '@/components/ui/Section.astro';
+import { formatDate, localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy, getPosts } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+import { itemListNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, posts] = await Promise.all([getPageCopy(locale, 'insights'), getPosts(locale)]);
+const [featured, ...rest] = posts;
+const trail = crumbs(locale, 'insights');
+const path = routePath(locale, 'insights');
+---
+
+<BaseLayout
+  locale={locale}
+  page="insights"
+  pageType="CollectionPage"
+  breadcrumbs={trail}
+  schema={[itemListNode(path, posts.map((p) => ({ name: p.data.title, url: p.url })))]}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/insights/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+
+  <Section aria-label={t.labels.articles}>
+    <Container>
+      {
+        featured ? (
+          <>
+            <article class="featured-post" data-reveal>
+              <p class="featured-post__meta mono">
+                <span>{featured.data.category}</span>
+                <time datetime={featured.data.publishedAt.toISOString()}>{formatDate(featured.data.publishedAt, locale)}</time>
+                <span>{t.labels.minRead(featured.readingMinutes)}</span>
+              </p>
+              <h2 class="featured-post__title">
+                <a href={featured.url}>{featured.data.title}</a>
+              </h2>
+              <p class="featured-post__desc">{featured.data.description}</p>
+              <span class="featured-post__cta" aria-hidden="true">
+                {t.cta.readArticle} →
+              </span>
+            </article>
+            {rest.length > 0 && (
+              <div class="post-list">
+                {rest.map((post) => (
+                  <PostRow post={post} locale={locale} headingLevel="h2" />
+                ))}
+              </div>
+            )}
+          </>
+        ) : (
+          <EmptyState text={t.empty.insights}>
+            <Button href={routePath('en', 'insights')} variant="link">
+              English
+            </Button>
+          </EmptyState>
+        )
+      }
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={t.footer.headline} text={t.footer.text} id="insights-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .featured-post {
+    position: relative;
+    display: grid;
+    gap: var(--space-m);
+    padding: clamp(1.5rem, 1rem + 3vw, 4rem);
+    margin-block-end: var(--space-xl);
+    border: 1px solid var(--color-line-strong);
+    background:
+      radial-gradient(70% 140% at 100% 0%, color-mix(in srgb, var(--signal-600) 10%, transparent), transparent 70%),
+      var(--color-surface);
+  }
+
+  .featured-post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .featured-post__title {
+    font-family: var(--font-display);
+    font-stretch: 116%;
+    font-weight: 740;
+    font-size: var(--step-4);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    max-width: 22ch;
+  }
+
+  :global(:lang(ar)) .featured-post__title {
+    font-stretch: 100%;
+    line-height: 1.4;
+    letter-spacing: 0;
+  }
+
+  .featured-post__title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .featured-post__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .featured-post__title a:focus-visible {
+    outline: none;
+  }
+
+  .featured-post__title a:focus-visible::after {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  .featured-post__desc {
+    color: var(--color-text-2);
+    font-size: var(--step-1);
+    max-width: 60ch;
+  }
+
+  .featured-post__cta {
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  :global([dir='rtl']) .featured-post__cta {
+    unicode-bidi: plaintext;
+  }
+
+  .post-list {
+    border-top: 1px solid var(--color-line);
+  }
+</style>

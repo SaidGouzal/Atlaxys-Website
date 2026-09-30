@@ -1,0 +1,90 @@
+---
+/** Technology spec sheet — grouped by layer, text only (no logo soup). */
+import { techStack } from '@/config/technology';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<dl class="stack-sheet" data-reveal-stagger="60">
+  {
+    techStack.map((row, i) => (
+      <div class="stack-sheet__row" data-reveal>
+        <dt class="stack-sheet__group">
+          <span class="stack-sheet__index mono tabular">{String(i + 1).padStart(2, '0')}</span>
+          <span>{t.stack.groups[row.group]}</span>
+        </dt>
+        <dd class="stack-sheet__items ltr">
+          {row.items.map((item) => (
+            <span>{item}</span>
+          ))}
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .stack-sheet {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .stack-sheet__row {
+    display: grid;
+    gap: var(--space-xs);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-line);
+    transition: background-color var(--dur-2);
+  }
+
+  .stack-sheet__row:hover {
+    background: var(--color-surface-2);
+  }
+
+  .stack-sheet__group {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-s);
+    font-weight: 600;
+  }
+
+  .stack-sheet__index {
+    color: var(--color-accent);
+  }
+
+  .stack-sheet__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0;
+    margin: 0;
+    color: var(--color-text-2);
+    text-align: start;
+  }
+
+  :global([dir='rtl']) .stack-sheet__items {
+    direction: rtl;
+  }
+
+  .stack-sheet__items span {
+    unicode-bidi: isolate;
+  }
+
+  .stack-sheet__items span:not(:last-child)::after {
+    content: '/';
+    margin-inline: 0.75rem;
+    color: var(--color-subtle);
+  }
+
+  @media (min-width: 64rem) {
+    .stack-sheet__row {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      align-items: baseline;
+      padding-inline: var(--space-s);
+    }
+  }
+</style>

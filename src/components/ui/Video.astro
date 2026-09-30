@@ -1,0 +1,57 @@
+---
+/**
+ * Muted, inline, decorative-or-demo video. Autoplay only happens when the
+ * visitor allows motion; otherwise the poster frame shows with controls.
+ * Provide `captions` (WebVTT) for any video that carries speech.
+ */
+interface Props {
+  src: string;
+  type?: string;
+  poster?: string;
+  label: string;
+  captions?: { src: string; srclang: string; label: string };
+  autoplay?: boolean;
+  loop?: boolean;
+  class?: string;
+}
+
+const { src, type = 'video/mp4', poster, label, captions, autoplay = true, loop = true, class: className } = Astro.props;
+---
+
+<video
+  class:list={['video', className]}
+  poster={poster}
+  muted
+  playsinline
+  loop={loop}
+  preload="none"
+  aria-label={label}
+  data-autoplay={autoplay ? '' : undefined}
+  controls={!autoplay}
+>
+  <source src={src} type={type} />
+  {captions && <track kind="captions" src={captions.src} srclang={captions.srclang} label={captions.label} default />}
+</video>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach((video) => {
+    if (reduce.matches) {
+      video.controls = true;
+      return;
+    }
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) void video.play().catch(() => (video.controls = true));
+      else video.pause();
+    });
+    io.observe(video);
+  });
+</script>
+
+<style>
+  .video {
+    width: 100%;
+    height: auto;
+    background: var(--color-surface-2);
+  }
+</style>

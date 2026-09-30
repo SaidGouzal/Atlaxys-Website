@@ -1,0 +1,10 @@
+{
+  "name": { "en": "Logistics & transport", "fr": "Logistique & transport", "ar": "اللوجستيك والنقل" },
+  "summary": {
+    "en": "Dispatch, tracking and proof of delivery for fleets and field teams.",
+    "fr": "Planification, suivi et preuve de livraison pour flottes et équipes terrain.",
+    "ar": "توزيع المهام والتتبّع وإثبات التسليم للأساطيل والفرق الميدانية."
+  },
+  "services": ["software-engineering", "devops-cloud"],
+  "order": 2
+}

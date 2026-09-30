@@ -1,0 +1,52 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CTABlock from '@/components/sections/CTABlock.astro';
+import PageHero from '@/components/sections/PageHero.astro';
+import ServiceIndex from '@/components/sections/ServiceIndex.astro';
+import TechStack from '@/components/sections/TechStack.astro';
+import Container from '@/components/ui/Container.astro';
+import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
+import { getPageCopy, getServices } from '@/lib/content';
+import { crumbs } from '@/lib/seo/crumbs';
+import { itemListNode } from '@/lib/seo/schema';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const [copy, home, services] = await Promise.all([getPageCopy(locale, 'services'), getPageCopy(locale, 'home'), getServices(locale)]);
+const trail = crumbs(locale, 'services');
+const path = routePath(locale, 'services');
+---
+
+<BaseLayout
+  locale={locale}
+  page="services"
+  pageType="CollectionPage"
+  breadcrumbs={trail}
+  schema={[itemListNode(path, services.map((s) => ({ name: s.data.title, url: s.url })))]}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/services/') }}
+>
+  <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
+
+  <Section spacing="tight" aria-label={t.labels.services}>
+    <Container>
+      <ServiceIndex services={services} headingLevel="h2" />
+    </Container>
+  </Section>
+
+  <Section labelledby="stack-title">
+    <Container>
+      <SectionHeader id="stack-title" eyebrow={home.stack.eyebrow} title={home.stack.title} intro={home.stack.intro} />
+      <TechStack locale={locale} />
+    </Container>
+  </Section>
+
+  <Section spacing="flush-top">
+    <Container>
+      <CTABlock locale={locale} title={home.cta.title} text={home.cta.text} id="services-cta" />
+    </Container>
+  </Section>
+</BaseLayout>
