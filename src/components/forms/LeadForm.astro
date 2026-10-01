@@ -6,7 +6,7 @@
  * constraint attributes, inline errors linked with aria-describedby, an error
  * summary that receives focus, and a polite live region for status.
  * Progressive enhancement: without JavaScript the form still POSTs to the
- * endpoint, which redirects to the thank-you page.
+ * endpoint.
  */
 import { PUBLIC_CONTACT_ENDPOINT } from 'astro:env/client';
 import { budgetRanges, countryCodes, priorityCountries, projectTypes, timelines, type ProjectType } from '@/config/forms';
@@ -31,7 +31,7 @@ interface Props {
 const { locale, variant = 'full', id = 'lead-form', name = 'contact', landing = '', campaign = '', projectType, whatsappMessage } = Astro.props;
 const t = useTranslations(locale);
 const f = t.form;
-const endpoint = PUBLIC_CONTACT_ENDPOINT || '/api/contact/';
+const endpoint = PUBLIC_CONTACT_ENDPOINT || '';
 const privacyUrl = await getLegalUrl(locale, 'privacy');
 const full = variant === 'full';
 const MESSAGE_MIN = full ? 20 : 0;

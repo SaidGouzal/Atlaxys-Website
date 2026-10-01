@@ -10,8 +10,8 @@
     {
       "name": "production-preview",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
-      "port": 8080
+      "runtimeArgs": ["run", "preview"],
+      "port": 4321
     }
   ]
 }

@@ -20,7 +20,7 @@ driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 
 ## Requirements
 
-- **Node.js 22.12 or newer** (Astro 7 requirement). `.nvmrc` pins Node 22.
+- **Node.js 20.3 or newer** (`.nvmrc` pins the version).
   - Windows: install from nodejs.org or use `nvm-windows`, then `nvm use 22`.
   - macOS/Linux: `nvm install && nvm use`.
 - npm 10+
@@ -41,25 +41,21 @@ based on your browser language).
 npm run build
 ```
 
-Generates every page as static HTML in `dist/client/` plus a small Node server
-in `dist/server/` for the lead-capture endpoint.
+Generates a fully static site in `dist/` (plain HTML/CSS/JS, no server).
 
 ## Preview the production build
 
 ```bash
-npm run start
+npm run preview
 ```
 
-Serves the build exactly as production does (security headers, caching, the
-`/api/contact/` endpoint, `/healthz`) on http://localhost:8080.
-`npm run preview` also works (Astro's preview server, without the custom headers).
+Serves `dist/` on http://localhost:4321.
 
 Other scripts:
 
 | Command | What it does |
 |---|---|
 | `npm run check` | Type-checks `.astro` and `.ts` files (0 errors expected) |
-| `npm run build:static` | Pure static build (no server) — see docs/DEPLOYMENT.md |
 | `npm run brand:assets` | Regenerates favicons, PWA icons, transparent logo and OG image from `src/assets/brand/source/` |
 
 ---
@@ -67,11 +63,10 @@ Other scripts:
 ## Project structure
 
 ```text
-.do/                      DigitalOcean App Platform specs (web service + static alternative)
+.do/                      DigitalOcean App Platform specs (Static Site)
 docs/                     Architecture, design system, content guide, SEO, deployment, audit
 public/                   Favicons, icons, brand files, default social image
 scripts/brand-assets.mjs  Logo → favicon / OG image pipeline
-server/start.mjs          Production server: security headers, caching, /healthz
 src/
   assets/brand/           Official logo files (source/) + derived transparent versions
   components/
@@ -103,7 +98,6 @@ src/
     404.astro, sitemap.xml.ts, robots.txt.ts, llms.txt.ts, manifest.webmanifest.ts
   scripts/                Client code: header, motion (reveal + GSAP), hero (Three.js),
                           forms, analytics & consent, search
-  server/                 /api/contact/ endpoint, validation, delivery, rate limit
   styles/                 tokens.css (design tokens), base, layout, typography, motion, prose
 ```
 
@@ -187,11 +181,8 @@ See `.env.example`. Summary:
 | Variable | Where | Purpose |
 |---|---|---|
 | `SITE_URL` | build + run | Canonical domain (canonical URLs, hreflang, sitemap, OG) |
-| `OUTPUT` | build | `static` for a pure static build |
-| `PUBLIC_CONTACT_ENDPOINT` | build | Form endpoint (defaults to `/api/contact/`) |
+| `PUBLIC_CONTACT_ENDPOINT` | build | Form endpoint (external service accepting JSON POST) |
 | `PUBLIC_GA4_ID`, `PUBLIC_GTM_ID`, `PUBLIC_META_PIXEL_ID`, `PUBLIC_LINKEDIN_PARTNER_ID` | build | Analytics (loaded only after consent) |
-| `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM`, `RESEND_API_KEY` | run (secret) | Email delivery of leads |
-| `LEAD_WEBHOOK_URL`, `LEAD_WEBHOOK_SECRET` | run (secret) | Webhook delivery of leads (n8n, Make, CRM…) |
 
 ---
 
