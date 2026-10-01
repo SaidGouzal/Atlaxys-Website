@@ -2,29 +2,29 @@
   "translationKey": "landing-business-software",
   "campaign": "custom-business-software",
   "seo": {
-    "title": "Custom business software — replace spreadsheets with one system",
-    "description": "Sales, stock, operations and reporting in one system designed around how your business works. Built and supported by Atlaxys.",
+    "title": "Custom Business Software: Replace Spreadsheets With One System",
+    "description": "Sales, stock, operations and reporting in one system designed around how your business works. Built and supported by Atlaxys Consulting.",
     "noindex": true
   },
   "hero": {
     "eyebrow": "Custom business software",
     "title": "Replace the spreadsheets with one system that fits your business.",
-    "lead": "Sales, stock, operations, field teams and reporting — in one place, designed around how your team actually works, in French, Arabic or English.",
+    "lead": "Sales, stock, operations, field teams and reporting in one place, designed around how your team actually works, in French, Arabic or English.",
     "bullets": [
-      "Designed with your team, not for an org chart",
-      "Your existing data migrated for you",
-      "Web, desktop or mobile — even offline"
+      "Designed with the people who will use it",
+      "Your existing data moved over for you",
+      "Web, desktop or mobile, even offline"
     ],
-    "primaryCta": "Discuss your system",
+    "primaryCta": "Discuss your project",
     "whatsappCta": "Ask on WhatsApp",
     "whatsappMessage": "Hello Atlaxys, I would like to discuss business software for my company."
   },
   "audience": {
-    "title": "Typical clients",
-    "items": ["Distributors and retailers", "Service companies", "Multi-site businesses", "Clubs, schools and clinics"]
+    "title": "Built for",
+    "items": ["Distributors and retailers", "Service companies", "Businesses with several sites", "Clubs, schools and clinics"]
   },
   "problem": {
-    "title": "The spreadsheet ceiling",
+    "title": "When spreadsheets reach their limit",
     "points": [
       "Nobody trusts the numbers because every team has its own file",
       "Stock, orders and invoices never quite match",
@@ -33,42 +33,42 @@
     ]
   },
   "solution": {
-    "title": "One system, built around your workflow",
-    "text": "We map how your business runs today, then build the software that removes double entry and gives everyone the same live information.",
+    "title": "One system, built around how you work",
+    "text": "We map how your business runs today, then build software that removes double entry and gives everyone the same, up-to-date information.",
     "points": [
-      { "title": "Your workflow", "text": "Screens and rules designed around your real process." },
-      { "title": "Roles and permissions", "text": "Everyone sees what they need — nothing more." },
-      { "title": "Live reports", "text": "The numbers managers check every morning, always up to date." },
-      { "title": "Integrations", "text": "Accounting, payments, e-commerce and messaging connected." }
+      { "title": "Your way of working", "text": "Screens and rules designed around your real process." },
+      { "title": "Roles and permissions", "text": "Everyone sees what they need, and nothing more." },
+      { "title": "Live reports", "text": "The figures managers check every morning, always up to date." },
+      { "title": "Connected tools", "text": "Accounting, payments, online sales and messaging connected." }
     ]
   },
   "benefits": {
     "title": "What changes",
     "items": [
-      { "title": "One version of the truth", "text": "Every team works from the same data." },
-      { "title": "Less typing, fewer errors", "text": "Data entered once and reused everywhere." },
-      { "title": "Software you own", "text": "No per-user licences that grow with your team." }
+      { "title": "One set of numbers", "text": "Every team works from the same data." },
+      { "title": "Less typing, fewer errors", "text": "Information entered once and reused everywhere." },
+      { "title": "Software you own", "text": "No per-user licence fees that grow with your team." }
     ]
   },
   "proof": {
-    "title": "Built on real products",
-    "text": "We also build business software products of our own, such as:",
-    "products": ["nexus-gym", "atlaxys-ops"]
+    "title": "We build our own products too",
+    "text": "Alongside custom projects, we build and maintain business software of our own, such as:",
+    "products": ["nexus-gym"]
   },
   "process": {
     "title": "How we work",
     "steps": [
       { "title": "Visit and mapping", "text": "We see how your team works today." },
-      { "title": "Written scope", "text": "Screens, rules, integrations and a phased estimate." },
-      { "title": "Build in iterations", "text": "Working software to test every two weeks." },
-      { "title": "Migration and training", "text": "Your data moved over and your team onboarded." }
+      { "title": "Written scope", "text": "Screens, rules, connected tools and an estimate in phases." },
+      { "title": "Build in cycles", "text": "A new working version to test every one to two weeks." },
+      { "title": "Data transfer and training", "text": "Your data moved over and your team trained." }
     ]
   },
   "faq": {
-    "title": "Questions",
+    "title": "Frequently asked questions",
     "items": [
-      { "question": "Can you import our existing Excel data?", "answer": "Yes. Data migration is planned as part of the project, with checks against your own totals." },
-      { "question": "Can it work without internet?", "answer": "Yes, when needed — desktop and mobile apps can work offline and sync later." },
+      { "question": "Can you import our existing Excel data?", "answer": "Yes. Moving your data is planned as part of the project, and the results are checked against your own totals." },
+      { "question": "Can it work without internet?", "answer": "Yes, when needed. Desktop and mobile apps can work offline and sync once the connection is back." },
       { "question": "Who maintains the system?", "answer": "We offer maintenance and support plans, or a documented handover to your own team." }
     ]
   },

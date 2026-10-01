@@ -36,7 +36,7 @@ const t = useTranslations(locale);
       >
         <Icon name="globe" size={18} />
         <span class="lang__current">{localeMeta[locale].short}</span>
-        <span class="visually-hidden">— {t.a11y.changeLanguage}</span>
+        <span class="visually-hidden">: {t.a11y.changeLanguage}</span>
       </button>
       <ul id={id} class="lang__list" role="list" hidden data-disclosure-panel>
         {locales.map((l) => (

@@ -1,74 +1,77 @@
 ---
 translationKey: custom-erp-vs-saas
 title: Custom ERP or off-the-shelf SaaS? A decision framework
-description: When an off-the-shelf ERP or SaaS tool is the right call, when custom business software pays off, and why the best answer is often a hybrid of both.
+description: When ready-made ERP or SaaS software is the right choice, when custom business software pays off, and why the best answer is often a mix of both.
 publishedAt: 2026-08-06
-category: Engineering
+updatedAt: 2026-10-01
+category: Business software
 tags: [ERP, SaaS, build vs buy, business software]
 related:
   services: [software-engineering, technology-consulting]
-  products: [atlaxys-ops, nexus-gym]
+  products: [nexus-gym]
   posts: [building-internal-business-software, cost-of-custom-software-morocco]
 faqs:
   - question: Is a custom ERP more expensive than SaaS?
-    answer: Upfront, almost always. Over five years it depends on licence costs per user, how much the business must bend to fit the tool, and integration effort. A total-cost comparison over several years is the only fair basis.
-  - question: Can we start with SaaS and move to custom later?
-    answer: Yes, and it is often wise. Make sure you can export your data in a usable format and that integrations go through APIs you control, so a later move is a migration rather than a rescue.
+    answer: At the start, almost always. Over five years, it depends on the licence cost per user, how much the business has to adapt to fit the tool, and the work needed to connect it to other systems. Comparing the total cost over several years is the only fair basis.
+  - question: Can we start with SaaS and move to custom software later?
+    answer: Yes, and it is often a wise choice. Make sure you can export your data in a usable format and that connections to other tools go through APIs you control, so a later move is a planned migration rather than a rescue.
 ---
 
-Every growing company eventually hits the same wall: spreadsheets and disconnected apps stop scaling. The next step is usually framed as a binary choice — buy an ERP or SaaS product, or build custom software. In practice, the right answer is often **both**, in the right places.
+Every growing company eventually reaches the same point: spreadsheets and disconnected apps stop keeping up. The next step is usually presented as a simple choice: buy an ERP or SaaS product, or have custom software built. In practice, the right answer is often **both**, each in the right place.
+
+(An ERP is software that manages a company's core operations, such as sales, stock, purchasing and accounting. SaaS means software you rent online by subscription.)
 
 ## The question behind the question
 
-The real question is not "build or buy" but: **where does your business need to be different?**
+The real question is not "build or buy" but: **where does your business need to work differently from others?**
 
-- Processes that are the same in every company — accounting, payroll, email, basic CRM — are commodities. Buy them.
-- Processes that make you better than competitors — how you price, schedule, deliver or serve — are where fitting into someone else's software costs you the most.
+- Processes that are the same in every company, such as accounting, payroll, email or basic customer management, are standard. Buy them.
+- Processes that give you an edge over your competitors, such as how you set prices, plan, deliver or serve customers, are where forcing yourself into someone else's software costs you the most.
 
-## When off-the-shelf wins
+## When ready-made software wins
 
-- Your processes match industry standards and you are happy to adopt the tool's way of working.
-- You need to be live in weeks, not months.
-- The vendor is established, with a clear roadmap, export options and an API.
+- Your processes follow industry standards and you are happy to adopt the tool's way of working.
+- You need to be up and running in weeks, not months.
+- The vendor is well established, with a clear roadmap, data export options and an API.
 - Licence costs stay reasonable as you add users and locations.
 
-## When custom pays off
+## When custom software pays off
 
-- Your workflow is a genuine competitive advantage, and the tool would force you to give it up.
-- You are paying for large suites while using a fraction of the features, plus workarounds on top.
-- You need deep integration between systems that do not talk to each other.
-- You need something the market does not offer well locally — offline operation, Arabic and French interfaces, local payment methods or compliance specifics.
+- Your way of working is a real competitive advantage, and the tool would force you to give it up.
+- You pay for large software suites while using a fraction of their features, with workarounds on top.
+- You need systems that do not talk to each other to share data closely.
+- You need something the local market does not offer well, such as offline use, Arabic and French interfaces, local payment methods or local compliance rules.
 
-## Compare total cost, not sticker price
+## Compare the total cost, not the price tag
 
 Build a simple five-year comparison:
 
-| Cost item | Off-the-shelf | Custom |
+| Cost item | Ready-made software | Custom software |
 |---|---|---|
-| Licences / subscriptions | per user, per year | none (or hosting) |
-| Implementation & configuration | moderate | included in build |
-| Customisation & workarounds | often underestimated | low |
-| Integrations | depends on vendor APIs | designed in |
-| Maintenance & evolution | vendor roadmap | your roadmap, your budget |
-| Exit cost | data export, retraining | low if you own the code |
+| Licences and subscriptions | per user, per year | none (hosting only) |
+| Setup and configuration | moderate | included in the build |
+| Customisation and workarounds | often underestimated | low |
+| Connections to other tools | depends on the vendor's API | designed in |
+| Maintenance and new features | the vendor's roadmap | your roadmap, your budget |
+| Cost of leaving | data export, retraining | low if you own the code |
 
-The line that surprises most companies is **workarounds** — the hours staff spend bending the process to fit the tool, every day, for years.
+The line that surprises most companies is **workarounds**: the hours staff spend adapting the process to the tool, every day, for years.
 
-## The hybrid that usually wins
+## The mix that usually works best
 
 Most successful setups combine:
 
-1. **Commodity SaaS** for accounting, email and collaboration.
-2. **A custom core** for the workflow that differentiates you — operations, scheduling, field work, pricing.
-3. **Integrations** that keep data consistent between them, so nobody re-types anything.
+1. **Standard SaaS** for accounting, email and collaboration.
+2. **A custom core** for the work that sets you apart: operations, planning, field work, pricing.
+3. **Connections** that keep data consistent between the two, so nobody types anything twice.
 
-This keeps licences and custom code where each delivers the most value.
+This puts licences and custom code where each brings the most value.
 
 ## Questions to ask before deciding
 
-- Which three processes, if they ran perfectly, would change our results most?
+- Which three processes, if they ran perfectly, would improve our results the most?
 - How much time does the team spend today on workarounds and double entry?
-- Can we export all our data from the candidate tool, in a usable format?
-- Who will own the system and its roadmap in two years?
+- Can we export all our data from the tool we are considering, in a usable format?
+- Who will own the system and decide its future in two years' time?
 
-If you are weighing this decision, an independent [architecture review](/en/services/technology-consulting/) can help — we are equally happy to recommend a SaaS product when it is the better answer.
+If you are weighing this decision, an independent [architecture review](/en/services/technology-consulting/) can help. We are just as happy to recommend a SaaS product when it is the better answer.

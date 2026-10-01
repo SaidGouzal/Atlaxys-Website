@@ -1,5 +1,5 @@
 {
-  "_comment": "DEMO: placeholder product (working title). Replace name and details, then set \"demo\": false.",
+  "_comment": "DEMO: placeholder product (working title), unpublished with \"draft\": true. Replace name and details, then set \"demo\": false and remove \"draft\".",
   "name": "Atlaxys Docs",
   "tagline": {
     "en": "Document management with search, approvals and an audit trail.",
@@ -60,5 +60,6 @@
   "posts": ["ai-automation-moroccan-businesses"],
   "featured": false,
   "order": 2,
-  "demo": true
+  "demo": true,
+  "draft": true
 }

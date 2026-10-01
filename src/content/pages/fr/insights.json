@@ -1,12 +1,12 @@
 {
   "page": "insights",
   "seo": {
-    "title": "Articles — Logiciel, IA et cloud, par Atlaxys",
-    "description": "Des articles pratiques sur les coûts, l’architecture, l’automatisation IA et l’exploitation — avec un regard particulier sur les entreprises marocaines."
+    "title": "Articles sur le logiciel, l’IA et le cloud",
+    "description": "Articles pratiques sur le coût d’un logiciel, le choix d’un prestataire, l’automatisation IA et l’hébergement, pour les entreprises au Maroc et ailleurs."
   },
   "hero": {
     "eyebrow": "Articles",
-    "title": "Des écrits utiles sur la construction de logiciels.",
-    "lead": "Des articles concrets sur les coûts, l’architecture, l’automatisation et l’exploitation — écrits par ceux qui font le travail."
+    "title": "Des articles pratiques sur le développement de logiciels.",
+    "lead": "Des articles clairs sur les coûts, la préparation d’un projet, l’automatisation et le bon fonctionnement des logiciels, écrits par les personnes qui font le travail."
   }
 }

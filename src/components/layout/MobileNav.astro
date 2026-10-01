@@ -3,7 +3,7 @@
  * Full-screen mobile navigation on a native modal <dialog>: focus trap,
  * Esc to close and inert background come from the browser.
  */
-import { primaryNav } from '@/config/navigation';
+import type { NavItem } from '@/config/navigation';
 import { mailtoLink, site, whatsappLink } from '@/config/site';
 import { routePath, useTranslations, type Locale } from '@/i18n';
 import type { Service } from '@/lib/content';
@@ -16,9 +16,10 @@ interface Props {
   locale: Locale;
   languageTargets: Record<Locale, LanguageTarget>;
   services: Service[];
+  navItems: NavItem[];
 }
 
-const { locale, languageTargets, services } = Astro.props;
+const { locale, languageTargets, services, navItems } = Astro.props;
 const t = useTranslations(locale);
 const current = Astro.url.pathname;
 ---
@@ -38,7 +39,7 @@ const current = Astro.url.pathname;
     <nav class="mobile-nav__body container" aria-label={t.a11y.primaryNav}>
       <ol role="list" class="mobile-nav__list">
         {
-          primaryNav.map((item, i) => {
+          navItems.map((item, i) => {
             const href = routePath(locale, item.route);
             return (
               <li class="mobile-nav__item" style={`--i: ${i}`}>

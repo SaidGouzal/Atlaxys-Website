@@ -1,140 +1,140 @@
 {
   "page": "home",
   "seo": {
-    "title": "Atlaxys Consulting — Développement logiciel, automatisation IA & cloud",
-    "description": "Cabinet de conseil technologique et studio d’ingénierie basé au Maroc. Nous concevons, développons et exploitons plateformes web, applications, logiciels métier, automatisations IA et cloud."
+    "title": "Atlaxys Consulting | Développement logiciel & IA au Maroc",
+    "description": "Atlaxys Consulting développe plateformes web, applications mobiles, logiciels métier et automatisations IA pour des entreprises au Maroc et à l’étranger."
   },
   "hero": {
-    "eyebrow": "Conseil technologique & ingénierie logicielle",
+    "eyebrow": "Développement logiciel & conseil technologique",
     "title": "Nous construisons les logiciels qui *font tourner* votre entreprise.",
-    "lead": "Atlaxys est un studio d’ingénierie basé au Maroc, qui travaille avec des entreprises du monde entier. Nous concevons l’architecture, écrivons le code, automatisons les tâches répétitives — et faisons tourner le tout en production.",
+    "lead": "Atlaxys est une société de développement logiciel et de conseil technologique basée au Maroc. Nous préparons votre projet, développons le logiciel, automatisons les tâches répétitives et assurons le bon fonctionnement de l’ensemble après le lancement, pour des entreprises au Maroc et à l’étranger.",
     "primaryCta": "Démarrer un projet",
     "secondaryCta": "Notre méthode",
     "capabilities": ["Plateformes web", "Applications mobiles", "Logiciels métier", "Automatisation IA", "Cloud & DevOps"]
   },
   "statement": {
     "eyebrow": "Ce que nous faisons",
-    "text": "Nous sommes des consultants qui écrivent du code de production. Nous analysons le problème avec vous, dessinons l’architecture, construisons le produit et restons après le lancement — supervision, itérations, nouvelles fonctionnalités. Une seule équipe, du premier tableau blanc au millième déploiement."
+    "text": "Nous sommes des consultants qui écrivent aussi le code. Nous prenons le temps de comprendre votre problème, construisons la solution avec vous, puis restons après le lancement pour la faire fonctionner et l’améliorer. Vous travaillez avec la même équipe dès le premier rendez-vous."
   },
   "services": {
     "eyebrow": "Services",
-    "title": "Quatre expertises. Une seule équipe d’ingénierie.",
-    "intro": "La plupart des projets en mobilisent plusieurs — c’est tout l’intérêt. Ceux qui conçoivent votre architecture sont ceux qui la construisent et l’exploitent."
+    "title": "Quatre services. Une seule équipe.",
+    "intro": "La plupart des projets en combinent plusieurs. Les personnes qui conçoivent votre système sont celles qui le développent et qui s’en occupent ensuite."
   },
   "process": {
     "eyebrow": "Notre méthode",
-    "title": "De la première question à la production. Et au-delà.",
-    "intro": "Une méthode de livraison conçue pour faire apparaître les risques tôt, quand ils coûtent encore peu.",
+    "title": "Du premier échange au lancement, et au-delà.",
+    "intro": "Une méthode étape par étape qui fait apparaître les risques tôt, quand ils coûtent encore peu à corriger.",
     "steps": [
       {
         "title": "Comprendre",
-        "text": "Nous cartographions le problème métier, les utilisateurs, les contraintes et l’existant. Avant toute estimation, nous vérifions que nous résolvons le bon problème.",
-        "outputs": ["Énoncé du besoin", "Périmètre et risques", "Première estimation"]
+        "text": "Nous étudions le fonctionnement de votre entreprise, les futurs utilisateurs, l’existant et les contraintes. Avant toute estimation, nous vérifions que nous résolvons le bon problème.",
+        "outputs": ["Besoin clairement formulé", "Périmètre et risques", "Première estimation"]
       },
       {
-        "title": "Concevoir",
-        "text": "Nous concevons le système — modèle de données, intégrations, infrastructure — et documentons les compromis derrière chaque choix, pour que vous puissiez les challenger.",
-        "outputs": ["Schéma d’architecture", "Journal des décisions", "Plan de livraison"]
+        "title": "Planifier",
+        "text": "Nous définissons le fonctionnement du système : les données, les liens avec vos autres outils et l’hébergement. Chaque choix important est écrit, avec ses avantages et ses inconvénients, pour que vous puissiez le discuter.",
+        "outputs": ["Plan du système (architecture)", "Registre des décisions clés", "Plan de livraison"]
       },
       {
-        "title": "Construire",
-        "text": "Des itérations courtes, un logiciel fonctionnel toutes les une à deux semaines, et un environnement de recette accessible dès le premier sprint.",
-        "outputs": ["Livraisons itératives", "Revue de code et tests", "Environnement de recette"]
+        "title": "Développer",
+        "text": "Nous avançons par cycles courts. Toutes les une à deux semaines, vous recevez une nouvelle version fonctionnelle sur un site de test privé que vous pouvez essayer vous-même.",
+        "outputs": ["Versions fonctionnelles régulières", "Revue de code et tests", "Site de test privé (recette)"]
       },
       {
-        "title": "Livrer",
-        "text": "Pipelines automatisés, mises en production sans stress, supervision et alertes en place avant l’arrivée des vrais utilisateurs.",
-        "outputs": ["Pipeline CI/CD", "Supervision et alertes", "Check-list de lancement"]
+        "title": "Lancer",
+        "text": "Les mises en ligne sont automatisées et testées, et la surveillance et les alertes sont en place avant l’arrivée des vrais utilisateurs.",
+        "outputs": ["Mises en ligne automatisées (CI/CD)", "Surveillance et alertes", "Check-list de lancement"]
       },
       {
-        "title": "Exploiter",
-        "text": "Nous restons pour la maintenance, les évolutions, l’optimisation des coûts et la suite de la feuille de route — ou nous transmettons proprement à votre équipe, avec une documentation réellement utile.",
+        "title": "Accompagner",
+        "text": "Nous restons pour les corrections, les améliorations, le suivi des coûts d’hébergement et les prochaines fonctionnalités. Ou nous transmettons tout à votre équipe, avec une documentation réellement utile.",
         "outputs": ["Maintenance et support", "Documentation", "Feuille de route ou passation"]
       }
     ]
   },
   "work": {
-    "eyebrow": "Réalisations",
-    "title": "Des problèmes, résolus pas à pas.",
-    "intro": "Chaque étude de cas détaille l’enjeu, l’architecture et les compromis — pas seulement les captures d’écran."
+    "eyebrow": "Études de cas",
+    "title": "Des problèmes concrets, expliqués pas à pas.",
+    "intro": "Chaque étude de cas explique le problème, l’approche technique et les compromis, pas seulement les captures d’écran."
   },
   "products": {
     "eyebrow": "Produits",
-    "title": "Nous éditons aussi nos propres logiciels.",
-    "intro": "En parallèle des projets clients, nous développons et maintenons nos propres produits : des logiciels prêts à l’emploi pour des besoins précis, avec les mêmes exigences d’ingénierie."
+    "title": "Nous développons aussi nos propres logiciels.",
+    "intro": "En parallèle des projets clients, nous développons et maintenons nos propres logiciels pour des besoins précis, avec les mêmes exigences que pour nos clients."
   },
   "stack": {
-    "eyebrow": "Technologie",
-    "title": "Des outils éprouvés, choisis avec intention.",
-    "intro": "Nous privilégions des technologies matures et bien supportées, pour lesquelles votre future équipe pourra recruter. La nouveauté n’a sa place que là où elle se rentabilise."
+    "eyebrow": "Technologies",
+    "title": "Des outils éprouvés, choisis pour de bonnes raisons.",
+    "intro": "Nous privilégions des technologies matures et répandues, pour que votre logiciel reste facile à maintenir et que vous puissiez trouver des développeurs plus tard. Nous n’utilisons des outils plus récents que lorsqu’ils apportent un vrai bénéfice."
   },
   "industries": {
     "eyebrow": "Secteurs",
-    "title": "Là où notre travail fait la différence.",
-    "intro": "Nous sommes des ingénieurs généralistes, avec des schémas récurrents dans quelques secteurs. Si le vôtre n’est pas listé, ses problèmes de fond le sont sûrement."
+    "title": "Les secteurs pour lesquels nous développons.",
+    "intro": "Nos services ne se limitent pas à un secteur. Ceux-ci partagent les besoins quotidiens auxquels nos logiciels répondent : plannings, stocks, paiements, documents et relation client. Si le vôtre n’y figure pas, les problèmes de fond sont souvent les mêmes."
   },
   "principles": {
     "eyebrow": "Pourquoi Atlaxys",
-    "title": "Ce que c’est, vraiment, de travailler avec nous.",
+    "title": "Comment se passe le travail avec nous.",
     "items": [
       {
-        "title": "L’architecture avant le code",
-        "text": "Chaque projet commence par une conception écrite que vous pouvez lire, questionner et conserver. Les décisions sont documentées, pas transmises oralement."
+        "title": "Un plan avant le code",
+        "text": "Chaque projet commence par un plan écrit que vous pouvez lire, discuter et conserver. Les décisions sont documentées, pour que le savoir ne reste jamais dans la tête d’une seule personne."
       },
       {
         "title": "Tout vous appartient",
-        "text": "Code source, comptes cloud, noms de domaine et données sont au nom de votre entreprise dès le premier jour. Aucune dépendance, aucune prise d’otage."
+        "text": "Le code, les comptes d’hébergement, les noms de domaine et les données sont au nom de votre entreprise dès le premier jour. Vous n’êtes jamais captif."
       },
       {
-        "title": "La production est la ligne d’arrivée",
-        "text": "Une démo n’est pas un produit. Pour nous, c’est terminé quand c’est déployé, supervisé et utilisé par de vrais utilisateurs."
+        "title": "Terminé veut dire en ligne et utilisé",
+        "text": "Une démo n’est pas un produit fini. Pour nous, un travail est terminé quand il est en ligne, surveillé et utilisé par de vraies personnes."
       },
       {
-        "title": "Un accès direct à ceux qui construisent",
-        "text": "Vous échangez avec les ingénieurs qui font le travail, en langage clair — en français, en arabe ou en anglais — sans chaîne d’intermédiaires."
+        "title": "Un contact direct avec ceux qui développent",
+        "text": "Vous parlez aux personnes qui font le travail, simplement, en français, en arabe ou en anglais, sans chaîne d’intermédiaires."
       },
       {
-        "title": "Ancrage local, horaires internationaux",
-        "text": "Le fuseau horaire marocain couvre l’essentiel de la journée de travail européenne et la matinée nord-américaine. Nous travaillons comme les équipes internationales l’attendent."
+        "title": "Un fuseau horaire pratique",
+        "text": "Le fuseau horaire du Maroc recouvre l’essentiel de la journée de travail européenne et la matinée nord-américaine, ce qui facilite l’organisation des réunions."
       }
     ]
   },
   "insights": {
     "eyebrow": "Articles",
-    "title": "Notes de terrain."
+    "title": "Des guides pratiques sur le logiciel, l’IA et les coûts."
   },
   "faq": {
     "eyebrow": "FAQ",
-    "title": "Des réponses claires.",
+    "title": "Questions fréquentes",
     "items": [
       {
         "question": "Que fait Atlaxys Consulting ?",
-        "answer": "Atlaxys est une société de conseil technologique et d’ingénierie logicielle. Nous concevons et développons des applications web et mobiles, des logiciels métier, des automatisations basées sur l’IA et des infrastructures cloud, et nous accompagnons les équipes techniques sur l’architecture et la stratégie."
+        "answer": "Atlaxys Consulting est une société de développement logiciel et de conseil technologique basée au Maroc. Nous développons des applications web, des applications mobiles, des logiciels métier (outils de gestion, back-office) et des automatisations IA, et nous mettons en place et maintenons l’hébergement cloud sur lequel ils fonctionnent. Nous aidons aussi les entreprises dans leurs décisions techniques, par exemple choisir entre développer ou acheter un logiciel, ou moderniser un système existant."
       },
       {
         "question": "Où est basée Atlaxys, et travaillez-vous avec des clients internationaux ?",
-        "answer": "Nous sommes basés au Maroc et travaillons avec des clients au Maroc et à l’étranger, notamment en Europe, au Moyen-Orient, en Afrique et en Amérique du Nord. La collaboration se fait surtout à distance, avec des ateliers sur site lorsque le projet le justifie."
+        "answer": "Nous sommes basés au Maroc et travaillons avec des clients au Maroc et à l’étranger. L’essentiel de la collaboration se fait à distance, par visioconférence, e-mail et WhatsApp, avec des rencontres sur place quand le projet le demande."
       },
       {
         "question": "Dans quelles langues travaillez-vous ?",
-        "answer": "Français, arabe et anglais. Le code et la documentation technique sont rédigés en anglais par défaut, ou dans la langue de votre équipe."
+        "answer": "En français, en arabe et en anglais. Nous développons des interfaces dans les trois langues, y compris en arabe de droite à gauche. La documentation technique est rédigée en anglais par défaut, ou dans la langue de votre équipe."
       },
       {
         "question": "Combien coûte un projet logiciel ?",
-        "answer": "Cela dépend du périmètre, des intégrations et de la part d’inconnu. Après un court échange de cadrage, nous envoyons une estimation écrite avec des fourchettes et les hypothèses qui les sous-tendent."
+        "answer": "Cela dépend de ce que le logiciel doit faire, du nombre d’outils auxquels il doit être relié et de ce qui reste à définir. Après un court échange, nous envoyons une estimation écrite avec une fourchette de prix et les hypothèses retenues, pour que vous voyiez exactement ce qui détermine le coût."
       },
       {
         "question": "Le code et l’infrastructure nous appartiennent-ils ?",
-        "answer": "Oui. Dépôts de code, comptes cloud, noms de domaine et données sont créés au nom de votre organisation. Vous pouvez continuer avec nous, internaliser ou changer de prestataire à tout moment."
+        "answer": "Oui. Le code, les comptes d’hébergement, les noms de domaine et les données sont créés au nom de votre entreprise. Vous pouvez continuer avec nous, reprendre le projet en interne ou changer de prestataire à tout moment."
       },
       {
         "question": "Pouvez-vous reprendre ou moderniser un système existant ?",
-        "answer": "Oui. Nous commençons par un audit technique — code, infrastructure, sécurité et processus de livraison — puis proposons un plan de modernisation qui permet à l’activité de continuer pendant que le système s’améliore."
+        "answer": "Oui. Nous commençons par un audit technique du code, de l’hébergement, de la sécurité et de la façon dont les mises à jour sont publiées. Nous proposons ensuite un plan par étapes qui améliore le système pendant que votre activité continue."
       }
     ]
   },
   "cta": {
     "title": "Un projet à construire ?",
-    "text": "Dites-nous sur quoi vous travaillez. C’est un ingénieur qui vous répondra — pas une séquence commerciale."
+    "text": "Dites-nous sur quoi vous travaillez. Ce sont les personnes qui réaliseraient le projet qui vous répondent, généralement sous un jour ouvré."
   }
 }

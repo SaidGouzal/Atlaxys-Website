@@ -204,7 +204,7 @@ const num = (id: string) => String(chapters.findIndex((c) => c.id === id) + 1).p
               </blockquote>
               <figcaption>
                 {data.testimonial.author}
-                {data.testimonial.role && <span> — {data.testimonial.role}</span>}
+                {data.testimonial.role && <span>, {data.testimonial.role}</span>}
               </figcaption>
             </figure>
           )

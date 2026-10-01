@@ -1,80 +1,80 @@
 ---
 translationKey: ai-automation
 title: IA & automatisation
-tagline: Automatisez les tâches répétitives. Utilisez l’IA là où elle apporte un gain mesurable.
-summary: Nous automatisons les processus répétitifs et intégrons l’IA dans de vrais flux de travail — traitement de documents, assistants internes, agents IA et intégrations d’API — avec des garde-fous et des résultats mesurables.
+navLabel: IA & automatisation
+tagline: Automatisez les tâches répétitives, et utilisez l’IA là où elle aide vraiment.
+summary: Nous automatisons les tâches répétitives de votre entreprise et intégrons l’IA à votre travail quotidien (lecture de documents, tri des demandes, réponses aux questions internes), avec des vérifications et une relecture humaine.
 order: 2
 seo:
   title: Automatisation IA et automatisation des processus métier
-  description: Automatisation des processus, agents IA, traitement de documents et intégrations d’API par Atlaxys. Une IA pragmatique pour les entreprises au Maroc et à l’international — avec des garde-fous.
+  description: Automatisation des processus, traitement de documents par IA, assistants IA et intégrations logicielles par Atlaxys Consulting, avec relecture humaine.
 hero:
   eyebrow: Service 02
-  title: Une automatisation qui supprime du travail — pas un simple chatbot.
-  lead: Nous repérons dans vos opérations le travail répétitif et source d’erreurs, et nous le supprimons par l’ingénierie — intégrations, automatisation des flux et, là où c’est vraiment utile, des modèles d’IA encadrés par des validations, des journaux et une relecture humaine.
+  title: Une automatisation qui supprime du travail, pas un simple chatbot.
+  lead: Nous repérons les tâches répétitives et sources d’erreurs dans votre activité quotidienne, puis nous les automatisons. Nous relions vos outils pour que les données circulent seules et, là où c’est vraiment utile, nous ajoutons l’IA, avec des vérifications, un historique et une personne qui relit tout ce qui est incertain.
 capabilities:
-  - title: Automatisation des flux
-    description: Connectez les outils que vous utilisez déjà pour que les données circulent sans copier-coller.
+  - title: Automatisation des processus
+    description: Reliez les outils que vous utilisez déjà pour que les informations circulent entre eux sans copier-coller.
     items: [Synchronisation CRM, ERP et comptabilité, Circuits de validation, Rapports planifiés]
   - title: Traitement de documents par IA
-    description: Extraire des données structurées de factures, contrats, formulaires et scans — avec des scores de confiance et des files de relecture.
-    items: [OCR et analyse de mise en page, Règles de validation, Relecture humaine]
-  - title: Agents et assistants IA
-    description: Des assistants internes qui répondent à partir de vos propres documents et peuvent agir dans vos systèmes dans un cadre défini.
-    items: [Recherche dans la connaissance interne, Actions avec permissions, Journaux d’audit]
-  - title: Intégrations d’API
-    description: Des connexions fiables aux prestataires de paiement, places de marché, transporteurs et services administratifs.
-    items: [Webhooks et reprises, Idempotence, Supervision]
-  - title: Outils IA internes
-    description: Des outils ciblés — rédaction, classification, synthèse, recherche — intégrés à vos interfaces existantes.
-    items: [Évaluation des prompts et modèles, Maîtrise des coûts, Confidentialité dès la conception]
+    description: Lire automatiquement factures, contrats, formulaires et scans pour en tirer des données structurées, avec un niveau de confiance pour chaque valeur et une relecture pour les cas incertains.
+    items: [Reconnaissance de texte dans les scans (OCR), Contrôles selon vos règles métier, Relecture humaine]
+  - title: Assistants IA
+    description: Des assistants internes qui répondent aux questions de vos équipes à partir de vos propres documents, et peuvent réaliser des actions simples et autorisées dans vos systèmes.
+    items: [Réponses tirées de vos documents, Actions encadrées par des droits, Historique complet des actions]
+  - title: Intégrations logicielles (API)
+    description: Des connexions fiables aux prestataires de paiement, places de marché, transporteurs et services administratifs en ligne.
+    items: [Nouvelles tentatives automatiques en cas de panne, Aucune action en double, Surveillance]
+  - title: Outils IA ciblés
+    description: De petits outils pour des tâches précises (rédaction, tri, synthèse, recherche), ajoutés aux logiciels que votre équipe utilise déjà.
+    items: [Tests de qualité des réponses de l’IA, Maîtrise des coûts, Confidentialité intégrée]
 deliverables:
-  - Cartographie des processus avec opportunités d’automatisation classées par valeur
-  - Automatisations en production avec supervision et alertes
-  - Jeu d’évaluation et rapport de précision des composants IA
-  - Procédures en cas d’échec et de cas particuliers
-  - Modèle de coûts pour l’usage des API et des modèles
+  - Une cartographie de votre processus, avec les automatisations possibles classées par intérêt
+  - Des automatisations opérationnelles, avec surveillance et alertes
+  - Un rapport de précision pour chaque étape d’IA, basé sur vos propres exemples
+  - Un guide pour traiter les pannes et les cas inhabituels
+  - Une estimation des coûts récurrents des services d’IA et des logiciels
 technologies: [Python, Node.js, OpenAI API, Anthropic API, LangChain, n8n, PostgreSQL, pgvector, OCR pipelines, Docker]
 approach:
-  - title: Automatiser le processus avant d’ajouter de l’IA
-    text: Beaucoup de gains ne demandent aucun modèle — seulement des intégrations propres et des règles. Nous ajoutons l’IA là où l’entrée est réellement non structurée.
-  - title: Mesurer la précision avant le déploiement
-    text: Chaque composant IA est testé sur des exemples réels et annotés de votre activité, avec un seuil déclenchant la relecture humaine.
-  - title: Garder l’humain aux commandes
-    text: Les automatisations sont journalisées, réversibles et observables. Les équipes voient ce qui s’est passé et pourquoi, et peuvent corriger.
+  - title: Automatiser le processus avant d’ajouter l’IA
+    text: Beaucoup de gains ne demandent aucune IA, seulement des outils bien reliés et des règles claires. Nous ajoutons l’IA là où l’information est vraiment non structurée, comme des scans, des e-mails ou du texte libre.
+  - title: Mesurer la précision avant le lancement
+    text: Chaque étape d’IA est testée sur des exemples réels de votre activité, et tout ce qui se situe sous le niveau de confiance convenu est relu par une personne.
+  - title: Garder la main
+    text: Chaque action automatique est enregistrée et peut être annulée. Vos équipes voient ce qui s’est passé et pourquoi, et peuvent corriger.
 faqs:
   - question: Nos données servent-elles à entraîner des modèles d’IA ?
-    answer: Nous configurons les fournisseurs pour que vos données ne servent pas à l’entraînement, et nous pouvons garder les traitements sensibles sur une infrastructure que vous contrôlez. Le traitement des données est documenté pour votre équipe conformité.
+    answer: Nous choisissons des services d’IA et des réglages qui n’utilisent pas vos données d’entreprise pour entraîner leurs modèles, et nous pouvons garder les traitements les plus sensibles sur des serveurs que vous contrôlez. La façon dont vos données sont traitées est documentée, pour que votre équipe puisse la vérifier.
   - question: Quel est un bon premier projet d’automatisation ?
-    answer: Une tâche fréquente, très normée et peu appréciée — saisie de factures, routage des commandes, compilation de rapports. Elle se mesure facilement avant et après, et se rentabilise vite.
-  - question: Les automatisations IA fonctionnent-elles en français et en arabe ?
-    answer: Oui. Les modèles actuels gèrent bien le français et l’arabe, y compris les documents bilingues. Nous testons toujours sur vos vrais documents avant de nous fier aux résultats.
+    answer: Une tâche fréquente, basée sur des règles, que les équipes n’aiment pas faire, comme la saisie des factures, le tri des commandes ou la préparation des rapports. Elle est facile à mesurer avant et après, et elle est généralement vite rentable.
+  - question: L’automatisation par IA fonctionne-t-elle en français et en arabe ?
+    answer: Oui. Les modèles d’IA actuels traitent bien le français et l’arabe, y compris les documents qui mélangent les langues. Nous testons sur vos vrais documents, dans chaque langue, avant de nous fier aux résultats.
   - question: Que se passe-t-il quand l’IA se trompe ?
-    answer: Les résultats sous le seuil de confiance, ou qui ne respectent pas les règles métier, partent dans une file de relecture. Rien d’irréversible ne se produit sans un contrôle adapté au risque.
+    answer: Les résultats peu fiables, ou qui ne respectent pas vos règles métier, sont envoyés à une personne pour relecture. Rien d’irréversible ne se produit sans un contrôle adapté au risque.
 related:
-  caseStudies: [ai-document-intake]
   posts: [ai-automation-moroccan-businesses]
-keywords: [automatisation IA, intelligence artificielle, automatisation des processus, agents IA, traitement de documents, automatisation IA Maroc]
-updatedAt: 2026-09-01
+keywords: [automatisation IA, intelligence artificielle, automatisation des processus, traitement de documents, assistant IA, automatisation IA Maroc]
+updatedAt: 2026-10-01
 ---
 
-## Où l’automatisation rapporte d’abord
+## Là où l’automatisation est rentable en premier
 
-Les meilleurs candidats partagent trois traits : ils sont fréquents, ils suivent des règles la plupart du temps, et les erreurs coûtent cher ou agacent. Exemples typiques :
+Les meilleures tâches à automatiser ont trois points communs : elles reviennent souvent, elles suivent des règles claires la plupart du temps, et les erreurs coûtent cher ou agacent. Quelques exemples typiques :
 
-- Ressaisir des données d’e-mails, de PDF ou de scans dans un ERP ou un logiciel comptable
-- Relancer des validations entre e-mails et messageries
-- Compiler des rapports hebdomadaires à partir de plusieurs outils
-- Orienter les demandes clients vers la bonne personne, avec le bon contexte
-- Rapprocher commandes, paiements et livraisons entre plateformes
+- Ressaisir des données d’e-mails, de PDF ou de scans dans un logiciel comptable ou de gestion
+- Relancer des validations par e-mail et messagerie
+- Préparer chaque semaine des rapports à partir de plusieurs outils
+- Transmettre les demandes clients à la bonne personne, avec les bonnes informations
+- Rapprocher commandes, paiements et livraisons entre différentes plateformes
 
-## Notre approche d’un projet d’automatisation
+## Comment nous menons un projet d’automatisation
 
-1. **Cartographier le processus tel qu’il se déroule vraiment** — y compris les contournements jamais écrits.
-2. **Classer les opportunités** selon le temps gagné, la réduction d’erreurs et le risque de mise en œuvre.
-3. **Construire d’abord la tuyauterie** : intégrations fiables, traitements idempotents, reprises et alertes.
-4. **Ajouter l’IA là où l’entrée est non structurée** — documents, texte libre, images — et l’évaluer sur vos propres données.
-5. **Déployer progressivement**, avec une relecture humaine que nous allégeons à mesure que la précision mesurée le permet.
+1. **Décrire le processus tel qu’il se déroule vraiment**, y compris les contournements que personne n’a écrits.
+2. **Classer les opportunités** selon le temps gagné, les erreurs évitées et la difficulté de mise en œuvre.
+3. **Construire d’abord des connexions fiables**, avec nouvelles tentatives automatiques et alertes en cas d’échec.
+4. **Ajouter l’IA là où l’information n’est pas structurée** (documents, texte libre, images) et la tester sur vos propres données.
+5. **Déployer progressivement**, avec d’abord une relecture humaine de chaque résultat, puis de moins en moins à mesure que la précision mesurée le permet.
 
-## Une IA avec des garde-fous
+## Une IA encadrée
 
-Les modèles de langage sont puissants et faillibles. Nous les traitons comme toute dépendance susceptible d’échouer : entrées validées, sorties vérifiées par des règles métier, décisions journalisées, coûts plafonnés et suivis, données sensibles traitées selon une politique documentée. L’objectif n’est pas une démo brillante, mais un processus qui tourne chaque jour sans surprise.
+Les modèles d’IA sont puissants, mais ils se trompent. Nous les traitons comme n’importe quel composant susceptible de tomber en panne : ce qui entre est vérifié, ce qui sort est comparé à vos règles métier, chaque décision est enregistrée, les coûts sont plafonnés et suivis, et les données sensibles sont traitées selon une politique écrite. Le but n’est pas une démo impressionnante, mais un processus qui fonctionne chaque jour sans mauvaise surprise.

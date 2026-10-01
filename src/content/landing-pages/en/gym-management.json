@@ -2,15 +2,15 @@
   "translationKey": "landing-gym-management",
   "campaign": "gym-management",
   "seo": {
-    "title": "Gym management software — memberships, check-in and billing",
-    "description": "Nexus Gym runs your club's front desk: memberships, check-in, payments, classes and reports — and keeps working when the internet does not.",
+    "title": "Gym Management Software: Memberships, Check-in and Billing",
+    "description": "Nexus Gym runs your club's front desk: memberships, check-in, payments, classes and reports. It keeps working even when the internet connection drops.",
     "noindex": true
   },
   "hero": {
-    "eyebrow": "Nexus Gym — gym management software",
+    "eyebrow": "Nexus Gym: gym management software",
     "title": "Run your gym from one screen, even when the internet is down.",
-    "lead": "Memberships, check-in, payments, classes and owner reports in one desktop application, built for clubs and studios.",
-    "bullets": ["Free demo with our team", "Your members imported for you", "Works offline at the front desk"],
+    "lead": "Memberships, check-in, payments, classes and owner reports in one desktop application, built for gyms, clubs and studios.",
+    "bullets": ["Free demo with our team", "Help importing your current members", "Works offline at the front desk"],
     "primaryCta": "Book a free demo",
     "whatsappCta": "Ask on WhatsApp",
     "whatsappMessage": "Hello Atlaxys, I would like a demo of Nexus Gym."
@@ -26,12 +26,12 @@
   },
   "solution": {
     "title": "Everything the front desk and the owner need",
-    "text": "Nexus Gym brings members, subscriptions, check-in and payments into one application.",
+    "text": "Nexus Gym brings members, subscriptions, check-in and payments together in one application.",
     "points": [
       { "title": "Members & subscriptions", "text": "Plans, freezes, renewals and reminders." },
-      { "title": "Fast check-in", "text": "Card, QR code or name search, with instant status." },
+      { "title": "Fast check-in", "text": "Card, QR code or name search, with the membership status shown instantly." },
       { "title": "Payments & cash report", "text": "Receipts, invoices and a daily cash summary." },
-      { "title": "Owner dashboard", "text": "Revenue, active members and renewals due." }
+      { "title": "Owner dashboard", "text": "Revenue, active members and upcoming renewals." }
     ]
   },
   "proof": {
@@ -41,18 +41,18 @@
   "process": {
     "title": "Getting started",
     "steps": [
-      { "title": "Book a demo", "text": "We show Nexus Gym with a club like yours." },
-      { "title": "Setup", "text": "Plans, prices and your members imported." },
-      { "title": "Training", "text": "Your front-desk team trained in one session." },
-      { "title": "Support", "text": "Help when you need it, updates included." }
+      { "title": "Book a demo", "text": "We show you Nexus Gym and how it fits a club like yours." },
+      { "title": "Setup", "text": "Your plans and prices configured, and your members imported." },
+      { "title": "Training", "text": "Your front-desk team shown how to use it." },
+      { "title": "Support", "text": "Help when you need it, and regular updates." }
     ]
   },
   "faq": {
-    "title": "Questions",
+    "title": "Frequently asked questions",
     "items": [
-      { "question": "Does it need internet?", "answer": "No. The front desk works on a local database; internet is only needed for updates and optional backups." },
-      { "question": "Can you import our current members?", "answer": "Yes. We import members and subscriptions from your spreadsheets or previous system." },
-      { "question": "How much does it cost?", "answer": "Licensing depends on the number of branches and workstations. Book a demo and we will send a quote." }
+      { "question": "Does Nexus Gym need an internet connection?", "answer": "No. The front desk works on a local database. An internet connection is only needed for updates and optional backups." },
+      { "question": "Can you import our current members?", "answer": "Yes. We can import members and subscriptions from your spreadsheets or from your previous system." },
+      { "question": "How much does it cost?", "answer": "The licence price depends on the number of branches and workstations. Book a demo and we will send you a quote." }
     ]
   },
   "form": {

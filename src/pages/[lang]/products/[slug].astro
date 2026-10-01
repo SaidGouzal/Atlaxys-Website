@@ -82,7 +82,7 @@ const specs = [
     faqNode(product.url, product.faqs),
   ]}
   seo={{
-    title: product.seo.title ?? `${product.name} — ${product.tagline}`,
+    title: product.seo.title ?? `${product.name}: ${product.tagline.replace(/\.$/, '')}`,
     description: product.seo.description ?? product.description,
     alternates,
     type: 'product',
@@ -130,7 +130,7 @@ const specs = [
         aspect={product.cover ? `${product.cover.src.width} / ${product.cover.src.height}` : '16 / 8'}
         priority
         sizes="(min-width: 1440px) 1344px, 100vw"
-        placeholderLabel={`${product.name} — ${t.labels.mediaPlaceholder}`}
+        placeholderLabel={`${product.name}: ${t.labels.mediaPlaceholder}`}
       />
     </Container>
   </Section>

@@ -1,6 +1,6 @@
 ---
-# DEMO CONTENT — illustrative case study. It does not describe a real client.
-# Replace with a published engagement, then set `demo: false`.
+# DEMO CONTENT: illustrative case study. It does not describe a real client.
+# Unpublished (draft: true). Replace with a real, client-approved project, then set `demo: false` and remove `draft`.
 translationKey: ai-document-intake
 title: From re-typing invoices to reviewing them
 summary: An AI-assisted intake pipeline that reads supplier invoices and receipts in French, Arabic and English, validates them against business rules and sends only uncertain cases to a person.
@@ -11,10 +11,10 @@ industry: professional-services
 services: [ai-automation, software-engineering]
 products: [atlaxys-docs]
 year: 2026
-duration: Illustrative — 10 weeks
+duration: Illustrative, 10 weeks
 role: Process analysis, AI pipeline, review application, integration
-challenge: Every month, the team re-typed hundreds of supplier invoices and receipts — arriving by email, as scans and as phone photos, in French, Arabic and English — into accounting software. Month-end peaks meant overtime, and manual entry meant errors that surfaced later, when they were more expensive to fix.
-thinking: We treated AI as one step in a pipeline, not as the product. Documents are read by OCR and a language model, but every extracted value is checked against rules the accountants already trust — totals must add up, VAT rates must be valid, the supplier must exist. Anything uncertain goes to a review queue. Before rollout, the pipeline was measured against a labelled sample of the firm's own documents, so accuracy was a number, not a feeling.
+challenge: Every month, the team re-typed hundreds of supplier invoices and receipts, arriving by email, as scans and as phone photos, in French, Arabic and English, into accounting software. Month-end peaks meant overtime, and manual entry meant errors that surfaced later, when they were more expensive to fix.
+thinking: We treated AI as one step in a pipeline, not as the product. Documents are read by OCR and a language model, but every extracted value is checked against rules the accountants already trust, totals must add up, VAT rates must be valid, the supplier must exist. Anything uncertain goes to a review queue. Before rollout, the pipeline was measured against a labelled sample of the firm's own documents, so accuracy was a number, not a feeling.
 architecture:
   summary: Documents enter through a dedicated inbox, an upload portal or a scanner folder. A processing pipeline extracts and validates fields, then routes each document either straight to the accounting export or to a human review queue. Every step is logged for audit.
   layers:
@@ -39,7 +39,7 @@ execution:
     detail: As measured accuracy held, confidence thresholds were relaxed document type by document type.
 stack: [Python, FastAPI, PostgreSQL, OCR pipelines, Anthropic API, React, Docker]
 outcome:
-  summary: Staff review instead of re-typing — and every automated decision can be explained, audited and corrected.
+  summary: Staff review instead of re-typing, and every automated decision can be explained, audited and corrected.
   results:
     - label: Review, not data entry
       detail: People check highlighted values instead of typing every field from scratch.
@@ -52,6 +52,7 @@ outcome:
 featured: false
 order: 2
 demo: true
+draft: true
 publishedAt: 2026-08-15
 ---
 

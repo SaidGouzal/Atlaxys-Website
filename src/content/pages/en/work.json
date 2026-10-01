@@ -1,12 +1,12 @@
 {
   "page": "work",
   "seo": {
-    "title": "Work — Case studies in software, automation and cloud",
-    "description": "How Atlaxys approaches real engineering problems: the challenge, the thinking, the architecture, the execution and the outcome."
+    "title": "Case Studies: Software, Automation and Cloud Projects",
+    "description": "How Atlaxys works through real projects: the problem, our thinking, the technical approach, how it was built and the result."
   },
   "hero": {
-    "eyebrow": "Work",
-    "title": "Engineering stories, told properly.",
-    "lead": "Challenge, thinking, architecture, execution, outcome. Our case studies show how a system came together — not just how it looks."
+    "eyebrow": "Case studies",
+    "title": "How our projects come together.",
+    "lead": "The problem, our thinking, the technical approach, how it was built and the result. Our case studies show how a system works, not just how it looks."
   }
 }

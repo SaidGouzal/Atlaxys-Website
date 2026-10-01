@@ -69,7 +69,8 @@ export function organizationNode(locale: Locale, description: string): JsonLdNod
     areaServed: site.areaServed.map((name) => ({ '@type': 'Place', name })),
     knowsLanguage: locales.map((l) => localeMeta[l].hreflang),
     knowsAbout: [
-      'Software engineering',
+      'Software development',
+      'Custom software development',
       'Web application development',
       'Mobile application development',
       'AI automation',

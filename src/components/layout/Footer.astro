@@ -3,10 +3,10 @@
  * Footer: closing call to action, sitemap columns (services and products are
  * generated from content), contact lines, language, legal, and the lockup.
  */
-import { footerNav } from '@/config/navigation';
+import { footerNav, withoutEmptyWork } from '@/config/navigation';
 import { mailtoLink, site, telLink, whatsappLink, type SocialNetwork } from '@/config/site';
 import { routePath, useTranslations, countryName, type Locale } from '@/i18n';
-import { getLegalUrl, getLocations, getProducts, getServices } from '@/lib/content';
+import { getCaseStudies, getLegalUrl, getLocations, getProducts, getServices } from '@/lib/content';
 import Button from '../ui/Button.astro';
 import Icon, { type IconName } from '../ui/Icon.astro';
 import SignalRule from '../ui/SignalRule.astro';
@@ -21,7 +21,13 @@ interface Props {
 
 const { locale, languageTargets, showCta = true } = Astro.props;
 const t = useTranslations(locale);
-const [services, products, locations] = await Promise.all([getServices(locale), getProducts(locale), getLocations(locale)]);
+const [services, products, locations, caseStudies] = await Promise.all([
+  getServices(locale),
+  getProducts(locale),
+  getLocations(locale),
+  getCaseStudies(locale),
+]);
+const companyLinks = withoutEmptyWork(footerNav.company, caseStudies.length > 0);
 const legalLinks = await Promise.all(footerNav.legal.map(async (key) => ({ key, url: await getLegalUrl(locale, key) })));
 const morocco = locations.find((l) => l.data.kind === 'country');
 const year = new Date().getFullYear();
@@ -105,7 +111,7 @@ const socials = (Object.entries(site.social) as [SocialNetwork, string][]).filte
         <h2 class="site-footer__heading mono">{t.footer.company}</h2>
         <ul role="list">
           {
-            footerNav.company.map((key) => (
+            companyLinks.map((key) => (
               <li>
                 <a href={routePath(locale, key)}>{t.nav[key]}</a>
               </li>

@@ -8,9 +8,9 @@
  * Navigation items come from src/config/navigation.ts; the services
  * mega-menu is generated from the services collection.
  */
-import { primaryNav } from '@/config/navigation';
+import { primaryNav, withoutEmptyWork } from '@/config/navigation';
 import { routePath, useTranslations, type Locale } from '@/i18n';
-import { getLocations, getServices } from '@/lib/content';
+import { getCaseStudies, getLocations, getServices } from '@/lib/content';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import SignalRule from '../ui/SignalRule.astro';
@@ -27,6 +27,7 @@ const { locale, languageTargets } = Astro.props;
 const t = useTranslations(locale);
 const services = await getServices(locale);
 const locations = await getLocations(locale);
+const navItems = withoutEmptyWork(primaryNav, (await getCaseStudies(locale)).length > 0);
 const morocco = locations.find((l) => l.data.kind === 'country' && l.data.countryCode === 'MA');
 const current = Astro.url.pathname;
 const isActive = (href: string) => current.startsWith(href);
@@ -41,7 +42,7 @@ const isActive = (href: string) => current.startsWith(href);
     <nav class="site-nav" aria-label={t.a11y.primaryNav}>
       <ul role="list" class="site-nav__list">
         {
-          primaryNav.map((item) => {
+          navItems.map((item) => {
             const href = routePath(locale, item.route);
             return (
               <li class:list={['site-nav__item', { 'site-nav__item--mega': item.mega }]} data-mega-item={item.mega ? '' : undefined}>
@@ -136,7 +137,7 @@ const isActive = (href: string) => current.startsWith(href);
   </div>
 </header>
 
-<MobileNav locale={locale} languageTargets={languageTargets} services={services} />
+<MobileNav locale={locale} languageTargets={languageTargets} services={services} navItems={navItems} />
 
 <script>
   import { initHeader } from '@/scripts/core/header';

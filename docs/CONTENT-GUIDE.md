@@ -17,6 +17,27 @@ study, article, landing page or location.
 - In YAML front-matter, wrap long text in `>-` (see existing files) so that
   colons inside sentences don't break parsing.
 
+**Writing guidelines** (applied to every page, in every language)
+
+- Write for a business owner, not an engineer. Say what the software does
+  and why it matters; explain a technical term the first time it appears
+  ("a private test site (staging)", "connections between tools (APIs)").
+- Only claim what can be shown: no invented clients, results, statistics,
+  certifications, partnerships or guarantees. Commitments such as "free
+  30-minute call" or "reply within one working day" must be ones the team
+  actually keeps.
+- No em dashes (—), and no spaced en dashes used as a substitute. Use commas,
+  colons, full stops or parentheses. Page titles use `|` as the separator.
+- Avoid marketing clichés ("cutting-edge", "world-class", "seamless",
+  "game-changing"). Prefer a concrete sentence about what happens.
+- Keep search terms natural: put the main phrase in the title, first heading
+  and description once, and answer questions directly in FAQs.
+- Meta descriptions: 160 characters or fewer (longer ones are cut with "…").
+- Terminology: *Software Development* (EN) / *Développement logiciel* (FR) /
+  *تطوير البرمجيات* (AR); *AI & Automation*; *Cloud & DevOps*; *Technology
+  Consulting*; *Case studies*; *Articles*. Process steps: Understand, Plan,
+  Build, Launch, Support.
+
 ---
 
 ## Products — `src/content/products/<slug>.json`
@@ -88,6 +109,11 @@ The structure is the story: `challenge` → `thinking` → `architecture`
 - `testimonial` (optional) — **only with the client's written permission**.
 - `demo: true` displays an "Illustrative example" notice. Set it to `false`
   only for real, approved engagements, and never invent metrics.
+- The two existing case studies are illustrative and currently unpublished
+  (`draft: true`). While no case study is published, the "Case studies" link
+  is hidden from the header, mobile menu and footer, the home page section is
+  skipped, and `/work/` is `noindex` and left out of the sitemap. Publishing
+  the first real case study brings all of them back automatically.
 
 ## Articles — `src/content/blog/<lang>/<slug>.md` (or `.mdx`)
 
@@ -221,7 +247,7 @@ manifest). Re-check text contrast (≥ 4.5:1) if you change them.
 
 ```ts
 contact: {
-  email: 'hello@atlaxys.com',
+  email: 'contact@atlaxys.com',
   phone: '+212 7 08 00 60 33',
   whatsapp: '212708006033',          // digits only, country code, no leading 0 or +
   whatsappFloatingButton: true,

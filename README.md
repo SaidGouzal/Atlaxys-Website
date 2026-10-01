@@ -194,11 +194,11 @@ See `.env.example`. Summary:
 
 Items marked `TODO(launch)` in the code:
 
-- [ ] `src/config/site.ts` — confirm **email**, legal name, founding year, city (optional), social links, and the **company identifiers** in `site.legal` (RC, ICE, IF, registered office, publication director, CNDP receipt). The build log's `[launch-check]` lists what is missing.
+- [ ] `src/config/site.ts` — confirm legal name, founding year, city (optional), social links, and the **company identifiers** in `site.legal` (RC, ICE, IF, registered office, publication director, CNDP receipt). The build log's `[launch-check]` lists what is missing. The public email is `contact@atlaxys.com`.
 - [ ] `SITE_URL` — set the real domain in `.do/app.yaml` and the App Platform settings.
 - [ ] **Contact form** — set `PUBLIC_CONTACT_ENDPOINT` (https) and name the provider in `src/config/privacy.ts` (`formProcessor`). Until then the form is replaced by direct contact links.
 - [ ] **Security headers** — apply the header set in `docs/SECURITY.md` where the site is served (App Platform or CDN).
-- [ ] **Demo content** — replace the two illustrative case studies and confirm the three product sheets (all flagged `demo: true`), then set `site.showDemoNotices` accordingly.
+- [ ] **Demo content** — the two illustrative case studies and the placeholder products Atlaxys Docs and Atlaxys Ops are unpublished (`draft: true`); replace them with real ones. Confirm the Nexus Gym product sheet, then set its `demo` to `false` and `site.showDemoNotices` accordingly.
 - [ ] **Technology list** — `src/config/technology.ts` must only list technologies the team actually uses.
 - [ ] **Legal pages** — legal notice, privacy, cookies and terms were written from the actual implementation but must be reviewed by qualified counsel (Law 09-08 / CNDP declaration and transfers; GDPR applicability; US state law). Open items: `docs/AUDIT.md` → "Legal TODOs".
 - [ ] **Translations** — have a native speaker review the French and Arabic copy. The brand stays in Latin script ("Atlaxys") on Arabic pages; change it if you prefer a transliteration.

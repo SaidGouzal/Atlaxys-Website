@@ -1,12 +1,12 @@
 {
   "page": "work",
   "seo": {
-    "title": "Réalisations — Études de cas logiciel, automatisation et cloud",
-    "description": "Comment Atlaxys aborde de vrais problèmes d’ingénierie : l’enjeu, la réflexion, l’architecture, l’exécution et le résultat."
+    "title": "Études de cas : projets logiciels, automatisation et cloud",
+    "description": "Comment Atlaxys mène de vrais projets : le problème, notre réflexion, l’approche technique, la réalisation et le résultat."
   },
   "hero": {
-    "eyebrow": "Réalisations",
-    "title": "Des histoires d’ingénierie, racontées correctement.",
-    "lead": "Enjeu, réflexion, architecture, exécution, résultat. Nos études de cas montrent comment un système a été construit — pas seulement à quoi il ressemble."
+    "eyebrow": "Études de cas",
+    "title": "Comment nos projets prennent forme.",
+    "lead": "Le problème, notre réflexion, l’approche technique, la réalisation et le résultat. Nos études de cas montrent comment un système fonctionne, pas seulement à quoi il ressemble."
   }
 }

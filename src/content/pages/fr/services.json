@@ -1,12 +1,12 @@
 {
   "page": "services",
   "seo": {
-    "title": "Services — Développement logiciel, automatisation IA, DevOps & conseil",
-    "description": "Ingénierie logicielle, automatisation IA et des processus, DevOps & cloud, conseil technologique — par une seule équipe d’ingénierie basée au Maroc, pour des clients du monde entier."
+    "title": "Services : développement logiciel, automatisation IA, cloud et conseil",
+    "description": "Développement logiciel, automatisation IA et des processus, cloud et DevOps, conseil technologique : quatre services assurés par une même équipe basée au Maroc."
   },
   "hero": {
     "eyebrow": "Services",
-    "title": "Ce que nous construisons avec vous.",
-    "lead": "Quatre expertises qui partagent une équipe d’ingénierie, une méthode de livraison et un même niveau d’exigence. Choisissez-en une — la plupart des projets en mobilisent plusieurs."
+    "title": "Ce que nous pouvons construire avec vous.",
+    "lead": "Quatre services assurés par la même équipe, avec la même méthode et les mêmes exigences de qualité. Commencez par l’un d’eux ; la plupart des projets finissent par en combiner plusieurs."
   }
 }

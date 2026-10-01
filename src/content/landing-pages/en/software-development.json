@@ -2,16 +2,16 @@
   "translationKey": "landing-software-development",
   "campaign": "software-development",
   "seo": {
-    "title": "Custom software development — web, mobile & business apps",
-    "description": "Get your web platform, mobile app or business software built by an engineering team that designs, builds and runs it in production. Free first consultation.",
+    "title": "Custom Software Development: Web, Mobile & Business Apps",
+    "description": "Get your web platform, mobile app or business software built by a team that plans it, builds it and keeps it running after launch. Free first consultation.",
     "noindex": true
   },
   "hero": {
     "eyebrow": "Custom software development",
-    "title": "Your idea, built properly — and running in production.",
-    "lead": "Web platforms, mobile apps and business software, designed and built by one engineering team. You get working software every two weeks, and you own all of it.",
+    "title": "Your idea, built properly and ready for real use.",
+    "lead": "Web platforms, mobile apps and business software, planned and built by one team. You see a new working version every one to two weeks, and everything we build belongs to you.",
     "bullets": [
-      "Free 30-minute consultation with an engineer",
+      "Free 30-minute consultation with a developer",
       "Written scope and estimate before you commit",
       "You own the code, the accounts and the data"
     ],
@@ -21,61 +21,61 @@
   },
   "audience": {
     "title": "Built for",
-    "items": ["Founders launching a product", "SMEs outgrowing spreadsheets", "Companies replacing old software", "Teams needing senior engineers"]
+    "items": ["Founders launching a product", "Businesses outgrowing spreadsheets", "Companies replacing old software", "Teams that need experienced developers"]
   },
   "problem": {
     "title": "Sound familiar?",
     "points": [
-      "A previous project looked great in the demo and broke in real use.",
-      "You cannot get a straight answer on cost or timeline.",
-      "The developer disappeared — and so did access to your code.",
-      "Your team still re-types the same data into three different tools."
+      "A previous project looked great in the demo but broke in real use.",
+      "You cannot get a straight answer on cost or timing.",
+      "Your developer disappeared, and so did access to your code.",
+      "Your team still types the same data into three different tools."
     ]
   },
   "solution": {
     "title": "How we build",
-    "text": "We start by understanding your business, write down the architecture, then build in short iterations you can test yourself — and we stay after launch.",
+    "text": "We start by understanding your business and writing down the plan. Then we build in short cycles you can test yourself, and we stay after launch.",
     "points": [
-      { "title": "Discovery first", "text": "Workshops and a written scope, so everyone agrees on what is being built." },
-      { "title": "Working software every two weeks", "text": "A staging environment you can click through from the first sprint." },
-      { "title": "Production-ready", "text": "Automated tests, monitoring and backups from day one." },
-      { "title": "Support after launch", "text": "Maintenance and improvements — or a clean handover to your team." }
+      { "title": "Understand first", "text": "Workshops and a written scope, so everyone agrees on what is being built." },
+      { "title": "Regular working versions", "text": "A private test site you can try from the first weeks of the project." },
+      { "title": "Ready for real use", "text": "Automated tests, monitoring and backups from day one." },
+      { "title": "Support after launch", "text": "Maintenance and improvements, or a clean handover to your team." }
     ]
   },
   "benefits": {
     "title": "What you get",
     "items": [
-      { "title": "A clear estimate before you commit", "text": "Ranges and the assumptions behind them — no surprise invoices." },
-      { "title": "Engineers, not intermediaries", "text": "You talk directly to the people building your software, in English, French or Arabic." },
-      { "title": "Full ownership", "text": "Code, cloud accounts and domains registered to you from the first day." }
+      { "title": "A clear estimate before you commit", "text": "Price ranges and the assumptions behind them, so the invoices hold no surprises." },
+      { "title": "No middlemen", "text": "You talk directly to the people building your software, in English, French or Arabic." },
+      { "title": "Full ownership", "text": "Code, hosting accounts and domain names registered to you from the first day." }
     ]
   },
   "proof": {
     "title": "How to judge us",
-    "text": "We would rather show than claim. Ask us for any of these in the first call.",
+    "text": "We would rather show than claim. Ask us for any of these during the first call.",
     "items": [
-      { "title": "A sample architecture document", "text": "See exactly how we plan and document a system before building it." },
-      { "title": "A live staging demo", "text": "See how clients follow progress every two weeks." },
-      { "title": "Our own products", "text": "Software we build and maintain ourselves, held to the same standard." },
-      { "title": "Ownership in writing", "text": "IP and account-ownership clauses in the contract, before any work starts." }
+      { "title": "An example system plan", "text": "See how we plan and document a system before building it." },
+      { "title": "A test-site walkthrough", "text": "See how you would follow the progress of your project." },
+      { "title": "Our own products", "text": "Software we build and maintain ourselves, to the same standards." },
+      { "title": "Ownership in writing", "text": "Intellectual property and account ownership written into the contract before any work starts." }
     ],
     "products": ["nexus-gym"]
   },
   "process": {
-    "title": "From message to project in four steps",
+    "title": "From first message to project in four steps",
     "steps": [
       { "title": "Send your idea", "text": "The form takes two minutes. Rough ideas are welcome." },
-      { "title": "Free call", "text": "30 minutes with an engineer to understand your goals and constraints." },
-      { "title": "Written proposal", "text": "Scope, phases, estimate ranges and timeline." },
-      { "title": "Build", "text": "Iterations every two weeks, with you in the loop." }
+      { "title": "Free call", "text": "30 minutes to understand your goals and constraints." },
+      { "title": "Written proposal", "text": "Scope, phases, price range and timeline." },
+      { "title": "Build", "text": "A new working version every one to two weeks, with you involved throughout." }
     ]
   },
   "faq": {
-    "title": "Questions",
+    "title": "Frequently asked questions",
     "items": [
-      { "question": "How much does it cost?", "answer": "It depends on scope. After the free call you receive a written estimate with ranges, so you can decide with full information." },
-      { "question": "How long does a project take?", "answer": "Focused tools often take four to eight weeks; larger platforms are delivered in phases over several months." },
-      { "question": "Do you work with clients outside Morocco?", "answer": "Yes. We work remotely with clients in Europe, the Middle East, Africa and North America." }
+      { "question": "How much does it cost?", "answer": "It depends on the scope. After the free call, you receive a written estimate with a price range, so you can decide with all the information in hand." },
+      { "question": "How long does a project take?", "answer": "A focused tool often takes four to eight weeks. Larger platforms are delivered in phases over several months." },
+      { "question": "Do you work with clients outside Morocco?", "answer": "Yes. We work with clients in Morocco and abroad, mostly remotely." }
     ]
   },
   "form": {

@@ -1,30 +1,30 @@
 {
   "page": "contact",
   "seo": {
-    "title": "Contact Atlaxys — Start a software project",
-    "description": "Tell us about your project. Reach Atlaxys Consulting by form, email or WhatsApp for software engineering, AI automation, DevOps and technology consulting."
+    "title": "Contact Atlaxys | Start a Software Project",
+    "description": "Tell us about your project. Contact Atlaxys Consulting by form, email or WhatsApp about software development, AI automation, cloud hosting or technical advice."
   },
   "hero": {
     "eyebrow": "Contact",
     "title": "Tell us what you are building.",
-    "lead": "A few details help us come back with useful questions — and, when it makes sense, a first estimate. Prefer a conversation? WhatsApp and email work just as well."
+    "lead": "A few details help us come back with useful questions and, when it makes sense, a first estimate. Prefer to talk? WhatsApp and email work just as well."
   },
   "channels": {
-    "title": "Direct lines",
-    "emailText": "For briefs, RFPs and documents.",
-    "whatsappText": "For quick questions and scheduling a call."
+    "title": "Contact us directly",
+    "emailText": "For project briefs, tenders and documents.",
+    "whatsappText": "For quick questions and booking a call."
   },
   "next": {
     "title": "What happens next",
     "steps": [
-      "We read your message and reply, usually within one working day, often with a few clarifying questions.",
-      "A 30-minute call to understand the problem, the constraints and the timeline. No preparation needed.",
-      "A written proposal: approach, phases, estimate ranges and the assumptions behind them."
+      "We read your message and reply, usually within one working day, often with a few questions.",
+      "We schedule a 30-minute call to understand the problem, your constraints and your timeline. No preparation needed.",
+      "We send a written proposal: our approach, the project phases, a price range and the assumptions behind it."
     ]
   },
   "thankYou": {
     "seoTitle": "Message received",
-    "title": "Thank you — we have your message.",
-    "text": "An engineer from our team will reply by email, usually within one working day. If it is urgent, WhatsApp is the fastest way to reach us."
+    "title": "Thank you. We have your message.",
+    "text": "Someone from our team will reply by email, usually within one working day. If it is urgent, WhatsApp is the fastest way to reach us."
   }
 }

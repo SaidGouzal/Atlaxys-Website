@@ -1,30 +1,30 @@
 {
   "page": "contact",
   "seo": {
-    "title": "Contact Atlaxys — Démarrer un projet logiciel",
-    "description": "Parlez-nous de votre projet. Contactez Atlaxys Consulting par formulaire, e-mail ou WhatsApp : développement logiciel, automatisation IA, DevOps et conseil technologique."
+    "title": "Contacter Atlaxys | Démarrer un projet logiciel",
+    "description": "Parlez-nous de votre projet. Contactez Atlaxys Consulting par formulaire, e-mail ou WhatsApp : développement logiciel, automatisation IA, cloud, conseil."
   },
   "hero": {
     "eyebrow": "Contact",
     "title": "Dites-nous ce que vous construisez.",
-    "lead": "Quelques informations nous permettent de revenir avec les bonnes questions — et, quand c’est pertinent, une première estimation. Vous préférez échanger ? WhatsApp et e-mail fonctionnent tout aussi bien."
+    "lead": "Quelques informations nous permettent de revenir vers vous avec les bonnes questions et, quand c’est pertinent, une première estimation. Vous préférez en parler ? WhatsApp et l’e-mail fonctionnent tout aussi bien."
   },
   "channels": {
-    "title": "Lignes directes",
+    "title": "Nous contacter directement",
     "emailText": "Pour les cahiers des charges, appels d’offres et documents.",
-    "whatsappText": "Pour les questions rapides et planifier un appel."
+    "whatsappText": "Pour les questions rapides et pour fixer un appel."
   },
   "next": {
     "title": "La suite",
     "steps": [
-      "Nous lisons votre message et répondons, généralement sous un jour ouvré, souvent avec quelques questions de clarification.",
-      "Un appel de 30 minutes pour comprendre le problème, les contraintes et le calendrier. Aucune préparation nécessaire.",
-      "Une proposition écrite : approche, phases, fourchettes d’estimation et hypothèses."
+      "Nous lisons votre message et répondons, généralement sous un jour ouvré, souvent avec quelques questions.",
+      "Nous organisons un appel de 30 minutes pour comprendre le problème, vos contraintes et votre calendrier. Aucune préparation nécessaire.",
+      "Nous envoyons une proposition écrite : notre approche, les phases du projet, une fourchette de prix et les hypothèses retenues."
     ]
   },
   "thankYou": {
     "seoTitle": "Message reçu",
-    "title": "Merci — nous avons bien reçu votre message.",
-    "text": "Un ingénieur de notre équipe vous répondra par e-mail, généralement sous un jour ouvré. En cas d’urgence, WhatsApp est le moyen le plus rapide de nous joindre."
+    "title": "Merci. Nous avons bien reçu votre message.",
+    "text": "Un membre de notre équipe vous répondra par e-mail, généralement sous un jour ouvré. En cas d’urgence, WhatsApp est le moyen le plus rapide de nous joindre."
   }
 }

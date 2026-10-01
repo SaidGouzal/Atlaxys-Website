@@ -25,3 +25,11 @@ export const footerNav = {
   company: ['about', 'work', 'insights', 'contact'] as const satisfies readonly RouteKey[],
   legal: ['legalNotice', 'privacy', 'cookies', 'terms'] as const,
 };
+
+/**
+ * "Work" is only linked once at least one case study is published, so the
+ * menus never point visitors to an empty page.
+ */
+export function withoutEmptyWork<T extends string | { key: string }>(items: readonly T[], hasWork: boolean): T[] {
+  return items.filter((item) => hasWork || (typeof item === 'string' ? item : item.key) !== 'work');
+}

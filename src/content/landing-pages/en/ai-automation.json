@@ -2,20 +2,20 @@
   "translationKey": "landing-ai-automation",
   "campaign": "ai-automation",
   "seo": {
-    "title": "AI automation for your business — stop re-typing, start reviewing",
-    "description": "Automate invoices, orders, reports and customer requests with AI and integrations. Measured on your own data, with human review where it matters.",
+    "title": "AI Automation for Your Business: Stop Re-typing, Start Reviewing",
+    "description": "Automate invoices, orders, reports and customer requests with AI and connected tools. Tested on your own data, with human review where it matters.",
     "noindex": true
   },
   "hero": {
     "eyebrow": "AI & business automation",
     "title": "Your team should not be re-typing data.",
-    "lead": "We automate the repetitive work between your tools — invoices, orders, reports, customer requests — using integrations and AI, with a person reviewing anything uncertain.",
+    "lead": "We automate the repetitive work between your tools (invoices, orders, reports, customer requests) by connecting them and using AI, with a person reviewing anything uncertain.",
     "bullets": [
-      "Free automation audit of one process",
-      "Tested on your real documents before rollout",
+      "Free review of one process you want to automate",
+      "Tested on your real documents before going live",
       "Works with French, Arabic and English documents"
     ],
-    "primaryCta": "Book a free automation audit",
+    "primaryCta": "Book a free automation review",
     "whatsappCta": "Ask on WhatsApp",
     "whatsappMessage": "Hello Atlaxys, I would like to automate a process in my business."
   },
@@ -24,52 +24,56 @@
     "points": [
       "Invoices and receipts typed into accounting software by hand",
       "Orders arriving on WhatsApp and email, copied into spreadsheets",
-      "Weekly reports assembled manually from several tools",
+      "Weekly reports put together by hand from several tools",
       "Errors discovered weeks later, when they cost more to fix"
     ]
   },
   "solution": {
-    "title": "Automation with guardrails",
-    "text": "We connect your tools, add AI where the input is unstructured, and keep people in control with review queues and logs.",
+    "title": "Automation with safeguards",
+    "text": "We connect your tools, add AI where the information is unstructured, and keep people in control with review steps and activity logs.",
     "points": [
-      { "title": "Document extraction", "text": "Invoices, receipts, forms and scans turned into validated data." },
-      { "title": "Request routing", "text": "Messages classified and sent to the right person with context." },
-      { "title": "Automatic reports", "text": "Figures pulled from every tool into one report, on schedule." },
-      { "title": "Integrations", "text": "Your CRM, ERP, accounting and messaging tools talking to each other." }
+      { "title": "Document reading", "text": "Invoices, receipts, forms and scans turned into checked, structured data." },
+      { "title": "Request routing", "text": "Messages sorted and sent to the right person, with the context they need." },
+      { "title": "Automatic reports", "text": "Figures gathered from all your tools into one report, on schedule." },
+      { "title": "Connected tools", "text": "Your CRM, management, accounting and messaging tools sharing data with each other." }
     ]
   },
   "benefits": {
     "title": "Why it works",
     "items": [
       { "title": "Measured, not promised", "text": "We measure accuracy on a sample of your own documents before switching anything on." },
-      { "title": "People stay in control", "text": "Anything below the confidence threshold goes to a human review queue." },
-      { "title": "Your data stays protected", "text": "A privacy-first setup, designed with data-protection rules in mind." }
+      { "title": "People stay in control", "text": "Anything the system is unsure about goes to a person for review." },
+      { "title": "Your data stays protected", "text": "A setup designed around data protection rules, with only the necessary data sent to AI services." }
     ]
   },
   "proof": {
-    "title": "See the approach",
-    "text": "An illustrative example of how we design a document-automation pipeline:",
-    "caseStudies": ["ai-document-intake"]
+    "title": "How we show it works",
+    "text": "You should not have to take our word for it. Every automation project includes:",
+    "items": [
+      { "title": "A test on your own documents", "text": "Accuracy measured on a sample of your real documents, shared with you before anything goes live." },
+      { "title": "A pilot first", "text": "One process and one team, running alongside your current way of working until the results hold up." },
+      { "title": "A full activity log", "text": "You can see what was automated, why, and who approved it." }
+    ]
   },
   "process": {
     "title": "How it starts",
     "steps": [
-      { "title": "Tell us the process", "text": "Which task eats the most time? Two minutes in the form." },
-      { "title": "Free audit call", "text": "We map the process and estimate the time you could save." },
+      { "title": "Tell us about the process", "text": "Which task takes the most time? Two minutes in the form." },
+      { "title": "Free review call", "text": "We map the process and estimate the time you could save." },
       { "title": "Pilot", "text": "One process automated and measured on your real data." },
-      { "title": "Scale", "text": "Extend to the next process once the first one proves itself." }
+      { "title": "Extend", "text": "Move on to the next process once the first one has proved itself." }
     ]
   },
   "faq": {
-    "title": "Questions",
+    "title": "Frequently asked questions",
     "items": [
-      { "question": "Do we need to change our software?", "answer": "Usually not. We connect to the tools you already use through their APIs, exports or email." },
-      { "question": "Is AI accurate enough?", "answer": "For many document types, yes — but we prove it on your data first, and keep human review for uncertain cases." },
-      { "question": "Is our data used to train AI?", "answer": "No. We configure providers so your data is not used for training, and document how data is handled." }
+      { "question": "Do we need to change our software?", "answer": "Usually not. We connect to the tools you already use, through their APIs (built-in connections), exports or email." },
+      { "question": "Is AI accurate enough?", "answer": "For many types of documents, yes. But we check it on your own data first, and keep a human review step for uncertain cases." },
+      { "question": "Is our data used to train AI?", "answer": "We use AI services and settings that do not use your data for training, and we document how your data is handled." }
     ]
   },
   "form": {
-    "title": "Book a free automation audit",
+    "title": "Book a free automation review",
     "projectType": "ai-automation",
     "variant": "compact"
   },
