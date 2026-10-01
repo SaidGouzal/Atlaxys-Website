@@ -31,7 +31,7 @@ const l = useTranslations(locale).legalUi;
           <tr>
             <th scope="row">
               {p.name}
-              <span class="legal-sub"><bdi>{p.entity}</bdi></span>
+              {p.entity && <span class="legal-sub"><bdi>{p.entity}</bdi></span>}
               {p.privacyUrl && (
                 <a class="legal-sub" href={p.privacyUrl} rel="noopener noreferrer" hreflang="en">
                   {l.policy}

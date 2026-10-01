@@ -113,9 +113,9 @@
         "ar": "تجديد اشتراك لعضو تجريبي: باقات مصفّاة حسب النشاط، وتاريخ بداية يلي الاشتراك الحالي، وخصم ورمز ترويجي، مع الفترة والمبلغ الإجمالي وطريقة الأداء (نقدًا، بطاقة، تحويل، شيك)."
       },
       "caption": {
-        "en": "Renewal in a few clicks: plan, period, discount and payment — no days lost.",
-        "fr": "Renouvellement en quelques clics : formule, période, remise et paiement — sans jour perdu.",
-        "ar": "تجديد في بضع نقرات: الباقة والفترة والخصم والأداء — دون ضياع أي يوم."
+        "en": "Renewal in a few clicks: plan, period, discount and payment, with no days lost.",
+        "fr": "Renouvellement en quelques clics : formule, période, remise et paiement, sans jour perdu.",
+        "ar": "تجديد في بضع نقرات: الباقة والفترة والخصم والأداء، دون ضياع أي يوم."
       }
     },
     {
@@ -126,9 +126,9 @@
         "ar": "شاشة تسجيل الدخول إلى Nexus Gym لنادٍ رياضي، مع ملف تجريبي وحقلي اسم المستخدم وكلمة المرور ومبدّل اللغة الفرنسية / الإنجليزية / العربية والعنوان «قاعتك. تحت السيطرة.»"
       },
       "caption": {
-        "en": "Sign-in screen — the interface is available in French, English and Arabic.",
-        "fr": "Écran de connexion — l’interface existe en français, en anglais et en arabe.",
-        "ar": "شاشة تسجيل الدخول — الواجهة متاحة بالفرنسية والإنجليزية والعربية."
+        "en": "Sign-in screen. The interface is available in French, English and Arabic.",
+        "fr": "Écran de connexion. L’interface existe en français, en anglais et en arabe.",
+        "ar": "شاشة تسجيل الدخول. الواجهة متاحة بالفرنسية والإنجليزية والعربية."
       }
     }
   ],

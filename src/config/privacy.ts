@@ -230,7 +230,7 @@ export const thirdParties: ThirdParty[] = [
   {
     id: 'forms',
     name: formProcessor.name ?? 'Form-processing provider',
-    entity: formProcessor.entity ?? '—',
+    entity: formProcessor.entity ?? '',
     purpose: {
       en: 'Receives the contact and campaign forms and forwards your enquiry to our team.',
       fr: 'Reçoit les formulaires de contact et de campagne et transmet votre demande à notre équipe.',
