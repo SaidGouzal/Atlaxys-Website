@@ -122,6 +122,7 @@ const graph: (JsonLdNode | undefined)[] = [
     <meta name="theme-color" content={site.brand.ink} />
     <meta name="color-scheme" content="dark light" />
     <meta name="format-detection" content="telephone=no" />
+    {Object.entries(site.verification).map(([name, content]) => <meta name={name} content={content} />)}
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary" />
     <Schema nodes={graph} />
     {analyticsEnabled && <AnalyticsHead />}

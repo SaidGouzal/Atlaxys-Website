@@ -91,6 +91,14 @@ export const site = {
     github: '' as string,
   },
 
+  /**
+   * Site-ownership verification for SEO tools, rendered as
+   * <meta name="…" content="…"> on every page (including the root redirect).
+   */
+  verification: {
+    'sitecheckerpro-site-verification': 'af4565f71516fcbfadc624c2cd92c729',
+  } as Record<string, string>,
+
   /** Default social sharing image (1200×630, in /public). */
   defaultOgImage: {
     src: '/og/atlaxys-default.jpg',

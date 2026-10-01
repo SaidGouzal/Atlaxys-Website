@@ -19,6 +19,7 @@ const target = `/${defaultLocale}/`;
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>{site.name}</title>
     <meta name="robots" content="noindex, follow" />
+    {Object.entries(site.verification).map(([name, content]) => <meta name={name} content={content} />)}
     <link rel="canonical" href={absoluteUrl(target)} />
     {locales.map((l) => <link rel="alternate" hreflang={localeMeta[l].hreflang} href={absoluteUrl(`/${l}/`)} />)}
     <link rel="alternate" hreflang="x-default" href={absoluteUrl(target)} />

@@ -127,7 +127,7 @@ const specs = [
     <Container>
       <MediaFrame
         image={product.cover}
-        aspect="16 / 8"
+        aspect={product.cover ? `${product.cover.src.width} / ${product.cover.src.height}` : '16 / 8'}
         priority
         sizes="(min-width: 1440px) 1344px, 100vw"
         placeholderLabel={`${product.name} — ${t.labels.mediaPlaceholder}`}
@@ -175,7 +175,12 @@ const specs = [
           </h2>
           <div class="gallery">
             {product.images.map((img) => (
-              <MediaFrame image={img} caption={img.caption} aspect="16 / 10" sizes="(min-width: 1024px) 50vw, 100vw" />
+              <MediaFrame
+                image={img}
+                caption={img.caption}
+                aspect={`${img.src.width} / ${img.src.height}`}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+              />
             ))}
           </div>
         </Container>
