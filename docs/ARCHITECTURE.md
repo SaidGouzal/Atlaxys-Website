@@ -2,8 +2,8 @@
 
 ## Principles
 
-1. **Static by default.** Every page is prerendered to HTML at build time. The
-   only code that runs on a server is the lead endpoint (`/api/contact/`).
+1. **Static by default.** Every page is prerendered to HTML at build time. There
+   is no server runtime; forms POST to an external endpoint.
 2. **Content is data.** Pages never hard-code copy, navigation, products,
    posts or SEO. Everything comes from `src/content/` and `src/config/`.
 3. **One seam for the CMS.** Templates read content only through
@@ -18,12 +18,8 @@
 ## Request flow
 
 ```text
-Browser ──► DigitalOcean App Platform (TLS, CDN) ──► server/start.mjs
-                                                     │  security headers, cache headers, /healthz
-                                                     ├─► dist/client/**  (prerendered HTML, assets)
-                                                     └─► /api/contact/   (Astro on-demand route)
-                                                            ├─ zod validation, honeypot, time trap, rate limit
-                                                            └─ deliver: Resend email and/or webhook
+Browser ──► DigitalOcean App Platform Static Site (TLS, CDN) ──► dist/** (prerendered HTML, assets)
+   └─ forms ──► PUBLIC_CONTACT_ENDPOINT (external service)
 ```
 
 ## Internationalisation
@@ -112,14 +108,10 @@ loading (`components/ui/Img.astro`).
 
 ## Security
 
-- Security headers on every response (`server/start.mjs`): CSP, HSTS,
-  X-Content-Type-Options, Referrer-Policy, X-Frame-Options/frame-ancestors,
-  Permissions-Policy, COOP.
+- Static Sites cannot set custom headers; add a CDN/proxy for CSP/HSTS if needed.
 - No secrets in the client: `astro:env` separates public (inlined) from secret
-  (server-only) variables.
-- Lead endpoint: Zod validation, honeypot, minimum fill time, per-IP rate
-  limit, Astro `checkOrigin` CSRF protection, plain-text email (no HTML
-  injection), HMAC-signed webhooks.
+  variables.
+- Lead handling (validation, spam protection, delivery) lives in the external form endpoint.
 - JSON-LD is serialised with `<`, `>`, `&` escaped.
 - Third-party scripts load only after consent and only from allow-listed hosts.
 
@@ -144,7 +136,3 @@ leads. No banner is rendered when no tracker is configured.
   content.
 - **CMS:** implement a content-layer loader for Sanity/Strapi/Contentful in
   `content.config.ts`; schemas stay the source of truth.
-- **Meta Conversions API:** add a call in `src/server/lead-delivery.ts`
-  after a lead is accepted (hash email with SHA-256).
-- **Multiple server instances:** move the in-memory rate limiter to a
-  managed Redis/Valkey.
