@@ -1,0 +1,49 @@
+---
+/**
+ * Third-party recipients for the privacy policy, generated from
+ * src/config/privacy.ts — a vendor appears only when the build enables it.
+ */
+import { activeThirdParties } from '@/config/privacy';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const l = useTranslations(locale).legalUi;
+---
+
+<div class="table-scroll table-scroll--wide" role="region" aria-labelledby={`services-caption-${locale}`} tabindex="0">
+  <table>
+    <caption id={`services-caption-${locale}`}>{l.servicesCaption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{l.service}</th>
+        <th scope="col">{l.purpose}</th>
+        <th scope="col">{l.data}</th>
+        <th scope="col">{l.when}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        activeThirdParties.map((p) => (
+          <tr>
+            <th scope="row">
+              {p.name}
+              <span class="legal-sub"><bdi>{p.entity}</bdi></span>
+              {p.privacyUrl && (
+                <a class="legal-sub" href={p.privacyUrl} rel="noopener noreferrer" hreflang="en">
+                  {l.policy}
+                </a>
+              )}
+            </th>
+            <td>{p.purpose[locale]}</td>
+            <td>{p.data[locale]}</td>
+            <td>{p.when[locale]}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

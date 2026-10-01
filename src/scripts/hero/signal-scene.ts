@@ -300,10 +300,16 @@ export function createSignalScene(container: HTMLElement, field: SignalField, op
   onScroll();
 
   // ---- Loop ------------------------------------------------------------
-  const start = performance.now();
+  // Time only advances while the animation is running, so pausing freezes it in place.
+  let elapsed = 0;
+  let last = performance.now();
   renderer.setAnimationLoop(() => {
-    if (!visible || document.hidden) return;
-    const t = (performance.now() - start) / 1000;
+    const now = performance.now();
+    const dt = now - last;
+    last = now;
+    if (!visible || document.hidden || hero.classList.contains('is-motion-paused')) return;
+    elapsed += Math.min(dt, 100);
+    const t = elapsed / 1000;
     const draw = MathUtils.clamp((t - 0.1) / 2.2, 0, 1);
     const eased = 1 - Math.pow(1 - draw, 3);
 

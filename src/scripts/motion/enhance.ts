@@ -27,7 +27,8 @@ const isRTL = () => document.documentElement.dir === 'rtl';
 function rtlFallback() {
   document.querySelectorAll<HTMLElement>('[data-split]').forEach((el) => {
     el.classList.add('is-split');
-    gsap.from(el, { autoAlpha: 0, y: 28, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
+    // opacity (not autoAlpha/visibility) keeps the heading in the accessibility tree.
+    gsap.from(el, { opacity: 0, y: 28, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
   });
   document.querySelectorAll<HTMLElement>('[data-scrub-words]').forEach((el) => {
     el.classList.add('is-split');

@@ -1,0 +1,50 @@
+---
+/**
+ * Cookie / browser-storage inventory for the cookie policy, generated from
+ * src/config/privacy.ts — it only lists what the deployed build can set.
+ */
+import { activeStorage } from '@/config/privacy';
+import { analyticsEnabled } from '@/config/analytics';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const l = useTranslations(locale).legalUi;
+---
+
+{!analyticsEnabled && <p class="legal-note">{l.noTrackers}</p>}
+<div class="table-scroll table-scroll--wide" role="region" aria-labelledby={`storage-caption-${locale}`} tabindex="0">
+  <table>
+    <caption id={`storage-caption-${locale}`}>{l.storageCaption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">{l.name}</th>
+        <th scope="col">{l.category}</th>
+        <th scope="col">{l.purpose}</th>
+        <th scope="col">{l.duration}</th>
+        <th scope="col">{l.type}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        activeStorage.map((item) => (
+          <tr>
+            <th scope="row">
+              <code dir="ltr">{item.name}</code>
+              <span class="legal-sub">
+                {item.provider} · {item.firstParty ? l.firstParty : l.thirdParty}
+              </span>
+            </th>
+            <td>{l.categories[item.category]}</td>
+            <td>{item.purpose[locale]}</td>
+            <td>{item.duration[locale]}</td>
+            <td>{l.kinds[item.kind]}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

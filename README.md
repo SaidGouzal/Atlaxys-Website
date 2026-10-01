@@ -14,6 +14,8 @@ driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 | Adding & editing content | [docs/CONTENT-GUIDE.md](docs/CONTENT-GUIDE.md) |
 | SEO / AEO strategy | [docs/SEO-STRATEGY.md](docs/SEO-STRATEGY.md) |
 | Deployment | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
+| Security (CSP, headers) | [docs/SECURITY.md](docs/SECURITY.md) |
+| Accessibility / privacy / security audit | [docs/AUDIT.md](docs/AUDIT.md) |
 | Quality audit | [docs/QUALITY-AUDIT.md](docs/QUALITY-AUDIT.md) |
 
 ---
@@ -63,10 +65,12 @@ Other scripts:
 ## Project structure
 
 ```text
-.do/                      DigitalOcean App Platform specs (Static Site)
+.do/                      DigitalOcean App Platform spec (Static Site)
+integrations/csp.mjs      Build step: Content-Security-Policy meta tag per page
 docs/                     Architecture, design system, content guide, SEO, deployment, audit
 public/                   Favicons, icons, brand files, default social image
 scripts/brand-assets.mjs  Logo → favicon / OG image pipeline
+scripts/audit/            Accessibility, consent, CSP and reflow regression tests (see docs/AUDIT.md)
 src/
   assets/brand/           Official logo files (source/) + derived transparent versions
   components/
@@ -190,13 +194,14 @@ See `.env.example`. Summary:
 
 Items marked `TODO(launch)` in the code:
 
-- [ ] `src/config/site.ts` — confirm **email**, legal name, founding year, city (optional), social links.
+- [ ] `src/config/site.ts` — confirm **email**, legal name, founding year, city (optional), social links, and the **company identifiers** in `site.legal` (RC, ICE, IF, registered office, publication director, CNDP receipt). The build log's `[launch-check]` lists what is missing.
 - [ ] `SITE_URL` — set the real domain in `.do/app.yaml` and the App Platform settings.
-- [ ] **Lead delivery** — set `RESEND_API_KEY` + `LEAD_EMAIL_TO` + `LEAD_EMAIL_FROM`, or `LEAD_WEBHOOK_URL`. Without either, the form shows an error and asks visitors to email/WhatsApp instead (leads are also logged).
+- [ ] **Contact form** — set `PUBLIC_CONTACT_ENDPOINT` (https) and name the provider in `src/config/privacy.ts` (`formProcessor`). Until then the form is replaced by direct contact links.
+- [ ] **Security headers** — apply the header set in `docs/SECURITY.md` where the site is served (App Platform or CDN).
 - [ ] **Demo content** — replace the two illustrative case studies and confirm the three product sheets (all flagged `demo: true`), then set `site.showDemoNotices` accordingly.
 - [ ] **Technology list** — `src/config/technology.ts` must only list technologies the team actually uses.
-- [ ] **Legal pages** — have privacy, cookies and terms reviewed by a lawyer (Law 09-08 / CNDP; GDPR for EU visitors).
+- [ ] **Legal pages** — legal notice, privacy, cookies and terms were written from the actual implementation but must be reviewed by qualified counsel (Law 09-08 / CNDP declaration and transfers; GDPR applicability; US state law). Open items: `docs/AUDIT.md` → "Legal TODOs".
 - [ ] **Translations** — have a native speaker review the French and Arabic copy. The brand stays in Latin script ("Atlaxys") on Arabic pages; change it if you prefer a transliteration.
-- [ ] **Analytics** — add IDs; check the consent banner appears and nothing loads before consent.
+- [ ] **Analytics** — add IDs; check the consent banner appears, nothing loads before consent, and the cookie/privacy tables list the new vendor. Prefer GA4 over GTM (see `docs/SECURITY.md`).
 - [ ] **Search Console / Bing Webmaster** — verify the domain and submit `/sitemap.xml`.
 - [ ] Replace media placeholders with real product screenshots as they become available.

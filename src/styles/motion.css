@@ -50,10 +50,22 @@
   transition: clip-path 1s var(--ease-out);
 }
 
-/* Line-by-line heading reveal (GSAP SplitText) — hidden until split. */
+/* Line-by-line heading reveal (GSAP SplitText) — transparent until split.
+   Opacity, not visibility: hidden headings would vanish from the
+   accessibility tree (screen-reader heading navigation) until scrolled to. */
 .motion [data-split]:not(.is-split),
 .motion [data-scrub-words]:not(.is-split) {
-  visibility: hidden;
+  opacity: 0;
+}
+
+/* Never leave a keyboard-focused element (or its container) invisible while
+   it waits for its reveal (WCAG 2.4.7 / 2.4.11). */
+.motion [data-reveal]:focus-within,
+.motion [data-reveal]:focus-visible {
+  opacity: 1;
+  transform: none;
+  clip-path: none;
+  transition: none;
 }
 
 .split-line {

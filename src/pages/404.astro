@@ -2,7 +2,8 @@
 /**
  * 404. One page for every language: the path prefix (/fr/…, /ar/…) decides
  * which copy is shown, and a disconnected trace animates where the route
- * should have been. Served with a 404 status by the Node server.
+ * should have been. App Platform serves it with a 404 status
+ * (error_document in .do/app.yaml).
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/ui/Button.astro';
@@ -130,7 +131,8 @@ const en = useTranslations('en');
     }
 
     .nf__end {
-      animation: nf-blink 1.6s steps(2, jump-none) 1.6s infinite;
+      /* Three blinks, then still: no blinking beyond 5 seconds (WCAG 2.2.2). */
+      animation: nf-blink 1.6s steps(2, jump-none) 1.6s 2;
     }
   }
 

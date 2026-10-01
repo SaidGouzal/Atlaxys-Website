@@ -5,11 +5,11 @@
  * enhancements are code-split and fetched when the browser is idle, and only
  * for visitors who have not asked for reduced motion.
  */
-import { captureAttribution } from './analytics/attribution';
 import { initClickTracking } from './analytics/track';
 import { initReveal } from './motion/reveal';
 
-captureAttribution();
+// Campaign attribution is captured by the consent manager, and only after
+// marketing consent (src/scripts/analytics/consent.ts).
 initClickTracking();
 initReveal();
 

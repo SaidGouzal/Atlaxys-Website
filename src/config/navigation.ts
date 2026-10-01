@@ -23,5 +23,5 @@ export const primaryNav: NavItem[] = [
 /** Footer columns. `services` and `products` are filled from content. */
 export const footerNav = {
   company: ['about', 'work', 'insights', 'contact'] as const satisfies readonly RouteKey[],
-  legal: ['privacy', 'terms', 'cookies'] as const,
+  legal: ['legalNotice', 'privacy', 'cookies', 'terms'] as const,
 };

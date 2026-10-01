@@ -4,7 +4,8 @@
  *
  *  - <html lang dir>, fonts, SEO head, favicons, JSON-LD graph
  *  - header / footer (full site) or the lean landing-page variant
- *  - floating WhatsApp button, consent banner (only if tags are configured)
+ *  - consent banner (first in tab order; only if tags are configured),
+ *    floating WhatsApp button
  *  - the site-wide client module (reveals, tracking, idle-loaded GSAP)
  *
  * Structured data: Organization + WebSite + WebPage (+ BreadcrumbList) are
@@ -98,6 +99,7 @@ const graph: (JsonLdNode | undefined)[] = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <script is:inline>
       (function (d) {
         d.classList.add('js');
@@ -120,7 +122,6 @@ const graph: (JsonLdNode | undefined)[] = [
     <meta name="theme-color" content={site.brand.ink} />
     <meta name="color-scheme" content="dark light" />
     <meta name="format-detection" content="telephone=no" />
-    <meta name="generator" content={Astro.generator} />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary" />
     <Schema nodes={graph} />
     {analyticsEnabled && <AnalyticsHead />}
@@ -128,6 +129,7 @@ const graph: (JsonLdNode | undefined)[] = [
   </head>
   <body data-page={page}>
     <SkipLink label={t.a11y.skipToContent} />
+    {analyticsEnabled && <ConsentBanner locale={locale} />}
     {variant === 'landing' ? <LandingHeader locale={locale} /> : <Header locale={locale} languageTargets={languageTargets} />}
     <main id="main" tabindex="-1">
       <slot />
@@ -140,7 +142,6 @@ const graph: (JsonLdNode | undefined)[] = [
       )
     }
     {whatsappFloat && <WhatsAppFloat locale={locale} message={whatsappMessage} />}
-    {analyticsEnabled && <ConsentBanner locale={locale} />}
     <script>
       import '@/scripts/main';
     </script>

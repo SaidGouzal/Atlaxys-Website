@@ -357,7 +357,7 @@ const locations = defineCollection({
 const legal = defineCollection({
   loader: perLocale('legal'),
   schema: z.object({
-    translationKey: z.enum(['privacy', 'terms', 'cookies']),
+    translationKey: z.enum(['privacy', 'terms', 'cookies', 'legalNotice']),
     title: z.string(),
     description: z.string(),
     updatedAt: z.coerce.date(),

@@ -1,0 +1,47 @@
+---
+/**
+ * Company identification for the Legal notice. Shows only values confirmed in
+ * src/config/site.ts (`site.legal`); missing ones are reported at build time
+ * by src/lib/launch-check.ts instead of being guessed here.
+ */
+import { privacyEmail, site } from '@/config/site';
+import { countryName, useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = useTranslations(locale).legalUi.company;
+const { legal } = site;
+const country = countryName(site.address.countryCode, locale);
+
+const rows: [string, string | undefined, boolean?][] = [
+  [c.name, site.legalName ?? site.name],
+  [c.legalForm, legal.legalForm],
+  [c.shareCapital, legal.shareCapital],
+  [c.address, legal.registeredAddress ?? country],
+  [c.rc, legal.rc, true],
+  [c.ice, legal.ice, true],
+  [c.taxId, legal.taxId, true],
+  [c.director, legal.publicationDirector],
+  [c.email, site.contact.email, true],
+  [c.phone, site.contact.phone, true],
+  [c.privacyEmail, privacyEmail !== site.contact.email ? privacyEmail : undefined, true],
+  [c.cndp, legal.cndpReceipt, true],
+  [c.euRep, legal.euRepresentative],
+];
+---
+
+<dl class="legal-details">
+  {
+    rows
+      .filter(([, value]) => Boolean(value))
+      .map(([label, value, ltr]) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>{ltr ? <span class="ltr">{value}</span> : value}</dd>
+        </div>
+      ))
+  }
+</dl>

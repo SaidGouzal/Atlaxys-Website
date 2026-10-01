@@ -6,6 +6,7 @@
  */
 import { localeMeta, routePath, useTranslations, type Locale } from '@/i18n';
 import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
 import SignalField from './SignalField.astro';
 
 interface Props {
@@ -126,6 +127,17 @@ const parts = segments.map((segment) => ({
         ))
       }
     </ul>
+    <button
+      type="button"
+      class="hero__motion mono"
+      data-motion-toggle
+      data-label-pause={t.a11y.pauseAnimation}
+      data-label-play={t.a11y.playAnimation}
+    >
+      <span class="hero__motion-icon" data-motion-icon="pause"><Icon name="pause" size={16} /></span>
+      <span class="hero__motion-icon" data-motion-icon="play" hidden><Icon name="play" size={16} /></span>
+      <span data-motion-label>{t.a11y.pauseAnimation}</span>
+    </button>
     <a href="#statement" class="hero__scroll mono">
       <span>{t.a11y.scrollHint}</span>
       <span class="hero__scroll-line" aria-hidden="true"></span>
@@ -134,7 +146,8 @@ const parts = segments.map((segment) => ({
 </section>
 
 <script>
-  import { initHeroField } from '@/scripts/hero';
+  import { initHeroField, initMotionToggle } from '@/scripts/hero';
+  initMotionToggle();
   initHeroField();
 </script>
 
@@ -271,10 +284,55 @@ const parts = segments.map((segment) => ({
     position: relative;
     z-index: 1;
     display: flex;
+    flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
-    gap: var(--space-l);
+    gap: var(--space-s) var(--space-l);
     padding-block-start: var(--space-xl);
+  }
+
+  @media (min-width: 64rem) {
+    .hero__footer {
+      flex-wrap: nowrap;
+    }
+  }
+
+  /* Pause control for the continuous background animation (WCAG 2.2.2).
+     Only shown when that animation actually runs: JS on, motion allowed. */
+  .hero__motion {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: var(--color-text-2);
+    border: 1px solid var(--color-line-strong);
+    background: color-mix(in srgb, var(--ink-950) 70%, transparent);
+    max-width: 100%;
+    text-align: start;
+    transition:
+      color var(--dur-2),
+      border-color var(--dur-2);
+  }
+
+  .hero__motion:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-2);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .hero__motion {
+      display: inline-flex;
+    }
+  }
+
+  /* Only the decorative loops pause — never the text's one-off entrance, which
+     would otherwise freeze half-transparent if paused early. */
+  .hero.is-motion-paused .hero__pulse::after,
+  .hero.is-motion-paused .hero__scroll-line::after,
+  :global(.hero.is-motion-paused .signal-field svg),
+  :global(.hero.is-motion-paused .signal-field svg *) {
+    animation-play-state: paused !important;
   }
 
   .hero__capabilities {

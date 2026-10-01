@@ -32,5 +32,8 @@ export const vendorCategories = {
 /** True when at least one tracker is configured — otherwise no consent banner is needed. */
 export const analyticsEnabled = Object.values(analyticsConfig).some(Boolean);
 
-/** Bump when the consent categories change to re-ask every visitor. */
-export const consentVersion = 1;
+/**
+ * Bump when the consent categories or vendors change, to re-ask every visitor.
+ * v2: campaign attribution moved behind marketing consent; GPC honoured.
+ */
+export const consentVersion = 2;

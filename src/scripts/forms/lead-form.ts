@@ -6,7 +6,7 @@
 import { readAttribution } from '../analytics/attribution';
 import { track } from '../analytics/track';
 
-type Messages = Record<'required' | 'email' | 'tooShort' | 'choose' | 'offline' | 'rateLimited' | 'submitting', string>;
+type Messages = Record<'required' | 'email' | 'tooShort' | 'choose' | 'offline' | 'rateLimited' | 'submitting' | 'phone', string>;
 type Field = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -18,7 +18,9 @@ function fieldError(field: Field, messages: Messages): string | null {
   if (field instanceof HTMLInputElement && field.type === 'email' && !EMAIL.test(value)) return messages.email;
   const min = Number(field.getAttribute('minlength') ?? 0);
   if (min && value.length < min) return messages.tooShort;
-  if (field instanceof HTMLInputElement && field.pattern && !new RegExp(`^(?:${field.pattern})$`).test(value)) return messages.required;
+  if (field instanceof HTMLInputElement && field.pattern && !new RegExp(`^(?:${field.pattern})$`).test(value)) {
+    return field.type === 'tel' ? messages.phone : messages.required;
+  }
   return null;
 }
 
@@ -118,15 +120,26 @@ function initForm(form: HTMLFormElement) {
       return;
     }
 
+    // Only an absolute https endpoint is ever used (validated at build time too).
+    const endpoint = form.getAttribute('action') ?? '';
+    if (!/^https:\/\//.test(endpoint)) {
+      fail();
+      return;
+    }
+
     const data: Record<string, unknown> = Object.fromEntries(new FormData(form).entries());
-    data.attribution = readAttribution();
+    // Empty when marketing consent was not given (see analytics/attribution.ts).
+    const attribution = readAttribution();
+    if (Object.keys(attribution).length) data.attribution = attribution;
     setBusy(true);
 
     try {
-      const response = await fetch(form.action, {
+      const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'content-type': 'application/json', accept: 'application/json' },
         body: JSON.stringify(data),
+        credentials: 'omit',
+        referrerPolicy: 'strict-origin-when-cross-origin',
         signal: AbortSignal.timeout(15000),
       });
 

@@ -6,6 +6,12 @@ interface AtlaxysAnalyticsConfig {
   metaPixel: string;
   linkedIn: string;
   consentVersion: number;
+  consentMaxAgeDays: number;
+}
+
+interface Navigator {
+  /** Global Privacy Control signal (https://globalprivacycontrol.org). */
+  globalPrivacyControl?: boolean;
 }
 
 interface Window {

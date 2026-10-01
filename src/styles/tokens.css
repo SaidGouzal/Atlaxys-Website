@@ -175,6 +175,28 @@
   color-scheme: light;
 }
 
+/* Visitors who ask for more contrast: brighter secondary text, visible
+   hairlines and stronger control borders. The default design is unchanged. */
+@media (prefers-contrast: more) {
+  :root {
+    --color-text-2: var(--steel-100);
+    --color-muted: var(--steel-200);
+    --color-subtle: var(--steel-400);
+    --color-line: rgb(195 203 213 / 0.4);
+    --color-line-strong: rgb(195 203 213 / 0.6);
+    --color-control-border: var(--steel-300);
+  }
+
+  [data-theme='light'] {
+    --color-text-2: var(--ink-950);
+    --color-muted: #262b32;
+    --color-subtle: var(--ink-500);
+    --color-line: rgb(8 9 11 / 0.35);
+    --color-line-strong: rgb(8 9 11 / 0.55);
+    --color-control-border: var(--ink-500);
+  }
+}
+
 /* Arabic: Kufi display, no tracking (tracking breaks cursive joining). */
 :root:lang(ar) {
   --font-sans: 'Noto Kufi Arabic', 'Archivo', 'Archivo Fallback', Tahoma, 'Segoe UI', sans-serif;

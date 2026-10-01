@@ -108,23 +108,30 @@ loading (`components/ui/Img.astro`).
 
 ## Security
 
-- Static Sites cannot set custom headers; add a CDN/proxy for CSP/HSTS if needed.
-- No secrets in the client: `astro:env` separates public (inlined) from secret
-  variables.
-- Lead handling (validation, spam protection, delivery) lives in the external form endpoint.
+See [SECURITY.md](SECURITY.md). In short: a build-time Content-Security-Policy
+(`integrations/csp.mjs`, per-page script hashes, vendor hosts only when
+configured), validated public environment values, no secrets, no third-party
+code before consent, and HTTP-only headers (HSTS, frame-ancestors, nosniff)
+applied where the site is served.
+
 - JSON-LD is serialised with `<`, `>`, `&` escaped.
-- Third-party scripts load only after consent and only from allow-listed hosts.
+- Search results and form errors are rendered with `textContent`, never HTML.
 
-## Analytics and consent
+## Analytics, consent and privacy inventory
 
-`src/config/analytics.ts` centralises IDs (env vars). `AnalyticsHead` sets
-Google Consent Mode v2 to *denied* by default. `ConsentBanner` + 
-`scripts/analytics/consent.ts` store the choice (localStorage), then
-`vendors.ts` loads GA4/GTM (analytics) and Meta Pixel/LinkedIn (marketing).
-`track.ts` exposes `track(event, params)` and delegated `data-track`
-attributes; `generate_lead` maps to Meta `Lead`, contact clicks to `Contact`.
-Campaign attribution (UTM, fbclid, gclid) is kept per session and sent with
-leads. No banner is rendered when no tracker is configured.
+`src/config/analytics.ts` centralises IDs (env vars). `src/config/privacy.ts`
+is the inventory of every storage key and third-party recipient; the cookie
+and privacy policies render their tables from it (`components/legal/`), so
+the published policies follow the build.
+
+`AnalyticsHead` sets Google Consent Mode v2 to *denied*. `ConsentBanner` +
+`scripts/analytics/consent.ts` store the choice in localStorage for 180 days
+(versioned), honour Global Privacy Control (marketing off), and on withdrawal
+delete the vendors' first-party cookies and reload. Only then does
+`vendors.ts` load GA4/GTM (analytics) and Meta Pixel/LinkedIn (marketing);
+campaign attribution (`attribution.ts`) is captured only with marketing
+consent. `track.ts` exposes `track(event, params)` and delegated `data-track`
+attributes; events never leave the page unless a vendor was allowed to load.
 
 ## Scaling the architecture
 

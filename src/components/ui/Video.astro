@@ -1,7 +1,8 @@
 ---
 /**
  * Muted, inline, decorative-or-demo video. Autoplay only happens when the
- * visitor allows motion; otherwise the poster frame shows with controls.
+ * visitor allows motion; otherwise the poster frame shows. Native controls
+ * are always present so a looping video can be paused (WCAG 2.2.2).
  * Provide `captions` (WebVTT) for any video that carries speech.
  */
 interface Props {
@@ -27,7 +28,7 @@ const { src, type = 'video/mp4', poster, label, captions, autoplay = true, loop 
   preload="none"
   aria-label={label}
   data-autoplay={autoplay ? '' : undefined}
-  controls={!autoplay}
+  controls
 >
   <source src={src} type={type} />
   {captions && <track kind="captions" src={captions.src} srclang={captions.srclang} label={captions.label} default />}
@@ -36,13 +37,21 @@ const { src, type = 'video/mp4', poster, label, captions, autoplay = true, loop 
 <script>
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach((video) => {
-    if (reduce.matches) {
-      video.controls = true;
-      return;
-    }
+    if (reduce.matches) return;
+    // Autoplay while visible — unless the visitor paused it themselves.
+    let userPaused = false;
+    video.addEventListener('pause', () => {
+      if (document.visibilityState === 'visible' && video.dataset.autoPausing !== 'true') userPaused = true;
+      delete video.dataset.autoPausing;
+    });
+    video.addEventListener('play', () => (userPaused = false));
     const io = new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting) void video.play().catch(() => (video.controls = true));
-      else video.pause();
+      if (entry?.isIntersecting) {
+        if (!userPaused) void video.play().catch(() => undefined);
+      } else if (!video.paused) {
+        video.dataset.autoPausing = 'true';
+        video.pause();
+      }
     });
     io.observe(video);
   });

@@ -59,16 +59,13 @@ drift).
 | Check | Result |
 |---|---|
 | `astro check` (TypeScript + Astro) | 0 errors, 0 warnings, 0 hints |
-| Build | 86 pages (EN/FR/AR) + sitemap, robots, llms.txt, manifest, search indexes |
+| Build | 89 pages (EN/FR/AR, incl. 4 legal pages per language) + sitemap, robots, llms.txt, manifest, search indexes |
 | Keyboard: skip link → main; tab order; mega-menu open (Enter), traverse, close (Esc) with focus return | ✔ |
 | Mobile menu `<dialog>`: focus moves in, Esc closes, focus returns to the Menu button | ✔ |
 | Reduced motion: no hidden content, no WebGL, no GSAP, 0 running animations | ✔ |
-| Consent: 0 third-party requests before consent; accept loads GA4 + Meta only; reject loads nothing; choice persists; banner localised | ✔ |
-| Lead endpoint: validation (422), honeypot (silent 200), no channel configured (503 + logged), wrong method (405) | ✔ |
-| Server: security headers on every response, `/healthz`, 404 status, 301 to trailing slash | ✔ |
+| Consent: see docs/AUDIT.md (38 scripted checks, October 2026) | ✔ |
 | Pinned process (desktop): track translates, counter 01→05, nodes light in order | ✔ |
 | WebGL hero: loads on capable desktops, SVG fallback elsewhere, RTL mirrored | ✔ |
-| Pure static build (`OUTPUT=static`): no server output, analytics bootstrap present | ✔ |
 
 ## Checklist review
 

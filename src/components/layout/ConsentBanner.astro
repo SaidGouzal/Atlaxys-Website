@@ -1,10 +1,13 @@
 ---
 /**
- * Cookie consent: a non-blocking bottom panel (no dark pattern — "Reject"
- * is as prominent as "Accept") plus a settings dialog. Only rendered when an
+ * Cookie consent: a non-blocking panel placed first in the tab order, plus a
+ * preferences dialog. No dark patterns: "Reject non-essential" and "Accept
+ * all" have identical styling and weight, nothing is pre-ticked, and the
+ * same three choices are available inside the dialog. Only rendered when an
  * analytics or marketing tag is configured.
  */
 import { useTranslations, type Locale } from '@/i18n';
+import { vendorsFor } from '@/config/privacy';
 import { getLegalUrl } from '@/lib/content';
 import Button from '../ui/Button.astro';
 import Modal from '../ui/Modal.astro';
@@ -16,9 +19,10 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 const cookiesUrl = await getLegalUrl(locale, 'cookies');
+const vendors = { analytics: vendorsFor('analytics'), marketing: vendorsFor('marketing') };
 ---
 
-<section class="consent" role="region" aria-labelledby="consent-title" hidden data-consent-banner>
+<section class="consent" aria-labelledby="consent-title" hidden data-consent-banner>
   <div class="consent__inner">
     <div class="consent__text">
       <h2 id="consent-title" class="consent__title">{t.consent.title}</h2>
@@ -28,26 +32,27 @@ const cookiesUrl = await getLegalUrl(locale, 'cookies');
     </div>
     <div class="consent__actions">
       <Button variant="secondary" icon={false} data-consent-action="reject">{t.consent.rejectAll}</Button>
-      <Button variant="secondary" icon={false} data-modal-open="consent-settings">{t.consent.customize}</Button>
-      <Button icon={false} data-consent-action="accept">{t.consent.acceptAll}</Button>
+      <Button variant="secondary" icon={false} data-consent-action="accept">{t.consent.acceptAll}</Button>
+      <Button variant="link" icon={false} data-modal-open="consent-settings" aria-haspopup="dialog">{t.consent.customize}</Button>
     </div>
   </div>
 </section>
 
 <Modal id="consent-settings" title={t.consent.dialogTitle} closeLabel={t.a11y.close}>
+  <p class="consent-form__intro">{t.consent.dialogIntro}</p>
   <form class="consent-form" data-consent-form>
-    <fieldset class="consent-form__row">
-      <legend class="visually-hidden">{t.consent.necessaryTitle}</legend>
+    <div class="consent-form__row">
       <div>
         <p class="consent-form__label">{t.consent.necessaryTitle}</p>
         <p class="consent-form__desc">{t.consent.necessaryText}</p>
       </div>
       <span class="consent-form__always mono">{t.consent.alwaysOn}</span>
-    </fieldset>
+    </div>
     <label class="consent-form__row">
       <span>
         <span class="consent-form__label">{t.consent.analyticsTitle}</span>
         <span class="consent-form__desc">{t.consent.analyticsText}</span>
+        {vendors.analytics.length > 0 && <span class="consent-form__desc">{t.consent.providers} {vendors.analytics.join(', ')}</span>}
       </span>
       <input type="checkbox" name="analytics" class="switch" />
     </label>
@@ -55,12 +60,17 @@ const cookiesUrl = await getLegalUrl(locale, 'cookies');
       <span>
         <span class="consent-form__label">{t.consent.marketingTitle}</span>
         <span class="consent-form__desc">{t.consent.marketingText}</span>
+        {vendors.marketing.length > 0 && <span class="consent-form__desc">{t.consent.providers} {vendors.marketing.join(', ')}</span>}
+        <span class="consent-form__desc consent-form__gpc" hidden data-gpc-note>{t.consent.gpcNote}</span>
       </span>
       <input type="checkbox" name="marketing" class="switch" />
     </label>
     <div class="consent-form__actions">
-      <Button type="submit" icon={false}>{t.consent.save}</Button>
+      <Button type="submit" variant="secondary" icon={false}>{t.consent.save}</Button>
+      <Button variant="secondary" icon={false} data-consent-action="reject">{t.consent.rejectAll}</Button>
+      <Button variant="secondary" icon={false} data-consent-action="accept">{t.consent.acceptAll}</Button>
     </div>
+    <p class="consent-form__desc"><a href={cookiesUrl}>{t.consent.policyLink}</a></p>
   </form>
 </Modal>
 
@@ -121,6 +131,16 @@ const cookiesUrl = await getLegalUrl(locale, 'cookies');
     gap: 0;
   }
 
+  .consent-form__intro {
+    color: var(--color-text-2);
+    margin-block-end: var(--space-s);
+  }
+
+  .consent-form__gpc {
+    color: var(--color-text-2);
+    margin-block-start: 0.25rem;
+  }
+
   .consent-form__row {
     display: flex;
     align-items: center;
@@ -151,8 +171,26 @@ const cookiesUrl = await getLegalUrl(locale, 'cookies');
   }
 
   .consent-form__actions {
-    margin-block-start: var(--space-m);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block: var(--space-m) var(--space-s);
   }
+
+  .consent-form__row:has(input:disabled) {
+    cursor: not-allowed;
+  }
+
+  .switch:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .switch:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
 
   .switch {
     appearance: none;
@@ -191,5 +229,24 @@ const cookiesUrl = await getLegalUrl(locale, 'cookies');
 
   :global([dir='rtl']) .switch:checked::after {
     transform: translateX(-1.25rem);
+  }
+
+  /* Windows High Contrast: keep the on/off state visible with system colours. */
+  @media (forced-colors: active) {
+    .switch {
+      forced-color-adjust: none;
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .switch::after {
+      background: ButtonText;
+    }
+    .switch:checked {
+      border-color: Highlight;
+      background: Highlight;
+    }
+    .switch:checked::after {
+      background: HighlightText;
+    }
   }
 </style>

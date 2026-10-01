@@ -7,6 +7,10 @@ import Section from '@/components/ui/Section.astro';
 import { formatDate, useTranslations } from '@/i18n';
 import { getLegalAlternates, getLegalPaths, type LegalPage } from '@/lib/content';
 import { crumbs } from '@/lib/seo/crumbs';
+import { reportLaunchGaps } from '@/lib/launch-check';
+import CompanyDetails from '@/components/legal/CompanyDetails.astro';
+import ServiceTable from '@/components/legal/ServiceTable.astro';
+import StorageTable from '@/components/legal/StorageTable.astro';
 
 export const getStaticPaths = getLegalPaths;
 
@@ -20,6 +24,7 @@ const t = useTranslations(locale);
 const { Content } = await render(page.entry);
 const alternates = await getLegalAlternates(page.key);
 const trail = crumbs(locale, { name: data.title, url: page.url });
+reportLaunchGaps();
 ---
 
 <BaseLayout
@@ -36,7 +41,7 @@ const trail = crumbs(locale, { name: data.title, url: page.url });
         {t.labels.lastUpdated}: <time datetime={data.updatedAt.toISOString()}>{formatDate(data.updatedAt, locale)}</time>
       </p>
       <div class="prose legal-body">
-        <Content />
+        <Content components={{ CompanyDetails, ServiceTable, StorageTable }} />
       </div>
     </Container>
   </Section>

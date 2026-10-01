@@ -80,6 +80,7 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, { 'btn--full': fullWi
     letter-spacing: 0.005em;
     text-decoration: none;
     white-space: nowrap;
+    max-width: 100%;
     transition: color var(--dur-2) var(--ease-out);
     -webkit-tap-highlight-color: transparent;
   }
@@ -197,6 +198,16 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, { 'btn--full': fullWi
   @media (forced-colors: active) {
     .btn {
       border: 1px solid ButtonText;
+    }
+  }
+
+  /* Long labels (French, German…) wrap on very narrow screens instead of
+     widening the page (WCAG 1.4.10 Reflow at 320 CSS px). */
+  @media (max-width: 30rem) {
+    .btn {
+      white-space: normal;
+      text-align: center;
+      overflow-wrap: anywhere;
     }
   }
 </style>

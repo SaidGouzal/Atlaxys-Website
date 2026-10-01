@@ -1,10 +1,11 @@
 /**
  * First-touch campaign attribution for the current visit.
  *
- * Reads utm_* / fbclid / gclid from the landing URL and keeps them in
- * sessionStorage (first-party, cleared when the tab closes) so the lead form
- * can send them with the enquiry — even if the visitor browses a few pages
- * before contacting us. No cookies, no cross-site tracking.
+ * Runs ONLY after the visitor accepts the marketing category (see consent.ts):
+ * reads utm_* / fbclid / gclid from the landing URL and keeps them, with the
+ * referring site and landing page, in sessionStorage (first-party, cleared
+ * when the tab closes) so the lead form can send them with an enquiry. It is
+ * deleted as soon as marketing consent is withdrawn.
  */
 const KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'] as const;
 const STORAGE_KEY = 'atlaxys-attribution';
@@ -22,9 +23,22 @@ export function captureAttribution() {
     });
     data.landing_page = window.location.pathname;
     if (document.referrer && !document.referrer.startsWith(window.location.origin)) {
-      data.referrer = document.referrer.slice(0, 300);
+      // Origin only: a full referrer URL can carry personal data in its path or query.
+      try {
+        data.referrer = new URL(document.referrer).origin;
+      } catch {
+        /* malformed referrer — skip */
+      }
     }
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    /* storage unavailable */
+  }
+}
+
+export function clearAttribution() {
+  try {
+    sessionStorage.removeItem(STORAGE_KEY);
   } catch {
     /* storage unavailable */
   }

@@ -2,6 +2,8 @@
  * Third-party tag loaders. Each vendor is injected at most once and only
  * after consent for its category. IDs come from the central config
  * (src/config/analytics.ts → window.__atlaxysAnalytics).
+ *
+ * Every host used here must also be allowlisted in integrations/csp.mjs.
  */
 import type { ConsentState } from './consent';
 
@@ -28,7 +30,10 @@ export function updateGoogleConsent(state: ConsentState) {
 function loadGa4(id: string) {
   inject(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`, 'ga4');
   window.gtag?.('js', new Date());
-  window.gtag?.('config', id, { anonymize_ip: true });
+  // GA4 does not log or store IP addresses. Google signals (cross-device
+  // linking with signed-in Google accounts) stays off; ad storage follows the
+  // marketing choice through Consent Mode.
+  window.gtag?.('config', id, { allow_google_signals: false });
 }
 
 function loadGtm(id: string) {

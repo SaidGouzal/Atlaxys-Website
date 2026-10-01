@@ -31,6 +31,23 @@ function capable(): boolean {
   );
 }
 
+/**
+ * "Pause background animation" button (WCAG 2.2.2): freezes the CSS loops,
+ * the SVG field and the WebGL render loop (which checks the same class).
+ */
+export function initMotionToggle() {
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const button = hero?.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+  if (!hero || !button) return;
+  const label = button.querySelector<HTMLElement>('[data-motion-label]')!;
+  const icons = button.querySelectorAll<HTMLElement>('[data-motion-icon]');
+  button.addEventListener('click', () => {
+    const paused = hero.classList.toggle('is-motion-paused');
+    label.textContent = (paused ? button.dataset.labelPlay : button.dataset.labelPause) ?? '';
+    icons.forEach((icon) => (icon.hidden = icon.dataset.motionIcon !== (paused ? 'play' : 'pause')));
+  });
+}
+
 export function initHeroField() {
   const root = document.querySelector<HTMLElement>('[data-signal-field]');
   const mount = root?.querySelector<HTMLElement>('[data-signal-gl]');

@@ -53,6 +53,8 @@ const { items, label, class: className } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .breadcrumbs li + li::before {
@@ -75,9 +77,9 @@ const { items, label, class: className } = Astro.props;
 
   .breadcrumbs [aria-current='page'] {
     color: var(--color-text-2);
-    max-width: 40ch;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    /* Wraps instead of being truncated: no hidden text, no page widening. */
+    max-width: min(40ch, 100%);
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 </style>

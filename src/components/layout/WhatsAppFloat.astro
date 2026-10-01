@@ -89,9 +89,10 @@ const t = useTranslations(locale);
     background: var(--ink-700);
   }
 
+  /* Step aside while the consent banner is up — out of the tab order too, so
+     keyboard focus never lands on an invisible button. */
   :global(body.has-consent-banner) .wa-float {
-    opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
   }
 
   @media (max-width: 29.99rem) {

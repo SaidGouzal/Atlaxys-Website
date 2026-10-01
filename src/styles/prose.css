@@ -3,6 +3,7 @@
    ========================================================================== */
 
 .prose {
+  min-width: 0; /* a table or code block scrolls inside, never widens the page */
   --flow-space: 1.25em;
   font-size: var(--step-0);
   line-height: var(--leading-loose);
@@ -125,8 +126,6 @@
   width: 100%;
   font-size: var(--step--1);
   line-height: 1.5;
-  display: block;
-  overflow-x: auto;
 }
 
 .prose :is(th, td) {
@@ -159,4 +158,85 @@
   font-size: var(--step--1);
   color: var(--color-muted);
   margin-block-start: 0.75em;
+}
+
+/* ---- Legal pages: generated inventories and company details ------------ */
+.prose .table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+}
+
+.prose .table-scroll:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Every prose table sits in .table-scroll (rehype plugin / legal components):
+   wide tables keep readable columns and scroll inside the box on phones. */
+.prose .table-scroll--wide table {
+  min-width: 40rem;
+}
+
+.prose .table-scroll > table {
+  margin: 0;
+}
+
+.prose caption {
+  caption-side: top;
+  padding: 0.75em 1em;
+  text-align: start;
+  font-weight: 600;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.prose tbody th {
+  font-family: var(--font-sans);
+  font-size: var(--step--1);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.prose .legal-sub {
+  display: block;
+  margin-block-start: 0.25em;
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.prose .legal-note {
+  padding: 1em 1.25em;
+  border-inline-start: 3px solid var(--color-accent);
+  background: var(--color-surface);
+}
+
+.prose .legal-details {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.prose .legal-details > div {
+  display: grid;
+  gap: 0.25em 1.5em;
+  padding-block: 0.75em;
+  border-bottom: 1px solid var(--color-line);
+}
+
+@media (min-width: 40rem) {
+  .prose .legal-details > div {
+    grid-template-columns: 14rem 1fr;
+  }
+}
+
+.prose .legal-details dt {
+  color: var(--color-muted);
+}
+
+.prose .legal-details dd {
+  margin: 0;
+  color: var(--color-text);
 }

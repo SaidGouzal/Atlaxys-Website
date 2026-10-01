@@ -16,6 +16,8 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: calc(var(--header-height) + 1.5rem);
+  /* Set by the consent manager while its banner is on screen (WCAG 2.4.11). */
+  scroll-padding-bottom: var(--consent-offset, 0px);
   hanging-punctuation: first last;
 }
 
@@ -71,14 +73,33 @@ button {
   padding: 0;
 }
 
+/* `anywhere` (not `break-word`) also lowers the min-content width, so a long
+   word can't widen a grid/flex track past a 320px viewport (WCAG 1.4.10). */
 p,
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  overflow-wrap: break-word;
+h6,
+li,
+dt,
+dd,
+label,
+legend,
+figcaption,
+blockquote {
+  overflow-wrap: anywhere;
+}
+
+/* Very narrow screens: hyphenate large display type rather than break words
+   at arbitrary letters (uses the page language). */
+@media (max-width: 30rem) {
+  h1,
+  h2,
+  .display {
+    hyphens: auto;
+  }
 }
 
 p {

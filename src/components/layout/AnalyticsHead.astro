@@ -3,11 +3,13 @@
  * Analytics bootstrap (rendered only when at least one tracker ID is set).
  * Declares Google Consent Mode v2 defaults as "denied" before anything else.
  * No vendor script is requested until the visitor opts in — see
- * src/scripts/analytics/.
+ * src/scripts/analytics/. The IDs are validated in astro.config.mjs, so
+ * nothing but [A-Z0-9-] can reach this inline script.
  */
 import { analyticsConfig, consentVersion } from '@/config/analytics';
+import { consentMaxAgeDays } from '@/config/privacy';
 
-const config = { ...analyticsConfig, consentVersion };
+const config = { ...analyticsConfig, consentVersion, consentMaxAgeDays };
 ---
 
 <script is:inline define:vars={{ config }}>
@@ -25,4 +27,5 @@ const config = { ...analyticsConfig, consentVersion };
     security_storage: 'granted',
     wait_for_update: 500,
   });
+  window.gtag('set', 'ads_data_redaction', true);
 </script>

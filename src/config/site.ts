@@ -41,6 +41,42 @@ export const site = {
     postalCode: undefined as string | undefined,
   },
 
+  /**
+   * Company identification for the Legal notice and the privacy policy.
+   * Every value must be copied from official registration documents
+   * (statuts, RC extract, ICE certificate, CNDP receipt). Leave `undefined`
+   * until confirmed — never guess. Missing values are listed as a warning at
+   * build time (see src/lib/launch-check.ts) and simply not displayed.
+   */
+  legal: {
+    /** Legal form, e.g. "SARL" or "SARL AU". TODO(launch) */
+    legalForm: undefined as string | undefined,
+    /** Share capital, e.g. "100 000 MAD". TODO(launch) */
+    shareCapital: undefined as string | undefined,
+    /** Registre du Commerce number and court, e.g. "RC Casablanca 000000". TODO(launch) */
+    rc: undefined as string | undefined,
+    /** Identifiant Commun de l'Entreprise (15 digits). TODO(launch) */
+    ice: undefined as string | undefined,
+    /** Identifiant Fiscal. TODO(launch) */
+    taxId: undefined as string | undefined,
+    /** Registered office (siège social), full postal address. TODO(launch) */
+    registeredAddress: undefined as string | undefined,
+    /** Legal representative / person responsible for the website's content. TODO(launch) */
+    publicationDirector: undefined as string | undefined,
+    /** Inbox for data-protection requests. Falls back to contact.email. */
+    privacyEmail: undefined as string | undefined,
+    /**
+     * CNDP receipt or authorisation number covering the processing done through
+     * this website (contact enquiries, analytics). TODO(legal review)
+     */
+    cndpReceipt: undefined as string | undefined,
+    /**
+     * Representative in the EU (GDPR art. 27), only if counsel confirms one is
+     * required. Name + address. TODO(legal review)
+     */
+    euRepresentative: undefined as string | undefined,
+  },
+
   timezone: 'Africa/Casablanca',
 
   /** Regions Atlaxys actively serves — used in copy and structured data. */
@@ -89,6 +125,9 @@ export function whatsappLink(message?: string): string {
 export function mailtoLink(subject?: string): string {
   return subject ? `mailto:${site.contact.email}?subject=${encodeURIComponent(subject)}` : `mailto:${site.contact.email}`;
 }
+
+/** Where privacy / data-subject requests go. */
+export const privacyEmail = site.legal.privacyEmail ?? site.contact.email;
 
 export function telLink(): string {
   return `tel:${site.contact.phone.replace(/[^\d+]/g, '')}`;
