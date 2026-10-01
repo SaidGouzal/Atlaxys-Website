@@ -22,7 +22,7 @@ driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 
 ## Requirements
 
-- **Node.js 20.3 or newer** (`.nvmrc` pins the version).
+- **Node.js 20 or 22** (`engines` in `package.json`; `.nvmrc` pins 20). The site stays on Astro 5, which supports both. Astro 6+ needs Node 22.12+ and a migration, so do not merge major Astro upgrades from Dependabot without one.
   - Windows: install from nodejs.org or use `nvm-windows`, then `nvm use 22`.
   - macOS/Linux: `nvm install && nvm use`.
 - npm 10+
