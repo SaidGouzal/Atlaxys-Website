@@ -160,7 +160,7 @@ const fid = (field: string) => `${id}-${field}`;
             <div class="field__select">
               <select id={fid('country')} name="country" autocomplete="country">
                 <option value="">{f.selectCountry}</option>
-                <optgroup label="—">
+                <optgroup label={f.priorityCountries}>
                   {priority.map((c) => (
                     <option value={c.code}>{c.name}</option>
                   ))}

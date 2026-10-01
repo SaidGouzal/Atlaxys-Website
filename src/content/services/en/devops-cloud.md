@@ -1,82 +1,81 @@
 ---
 translationKey: devops-cloud
-title: DevOps & Cloud
-tagline: Infrastructure, pipelines and monitoring that make releases boring.
-summary: We design cloud architecture, automate deployments with CI/CD, containerise applications and set up monitoring — on AWS, DigitalOcean or your own servers — so releases are frequent and uneventful.
+title: Cloud & DevOps
+tagline: Reliable hosting, automatic releases and monitoring, so updates go out without stress.
+summary: We set up and look after the cloud hosting your software runs on. We automate testing and releases (CI/CD), package applications in containers and add monitoring, on AWS, DigitalOcean or your own servers, so updates are frequent and uneventful.
 order: 3
 seo:
-  title: DevOps consulting & cloud architecture (AWS, DigitalOcean)
-  description: CI/CD pipelines, Docker, infrastructure as code, monitoring and cloud architecture on AWS and DigitalOcean. DevOps consulting by Atlaxys, Morocco.
+  title: "DevOps Consulting & Cloud Hosting: AWS, DigitalOcean"
+  description: Cloud hosting, automated releases (CI/CD), Docker, infrastructure as code and monitoring on AWS and DigitalOcean. DevOps services by Atlaxys Consulting.
 hero:
   eyebrow: Service 03
-  title: Infrastructure you never have to think about.
-  lead: Reproducible environments, automated pipelines and monitoring that tells you about problems before your customers do — sized for your stage, with costs you can predict.
+  title: Hosting you do not have to worry about.
+  lead: Servers set up the same way every time, releases that run automatically, and monitoring that warns you about problems before your customers notice them. Sized for your stage, with costs you can predict.
 capabilities:
-  - title: CI/CD pipelines
-    description: Every change tested, built and deployed the same way, with one-click rollbacks.
-    items: [GitHub Actions, Preview environments, Automated database migrations]
+  - title: Automated releases (CI/CD)
+    description: Every change is tested, prepared and put live the same way, and can be reversed in one click if something goes wrong.
+    items: [GitHub Actions, A test version for each change, Automatic database updates]
   - title: Cloud architecture
-    description: The right services for your load and budget — no over-engineering, no single points of failure you did not choose.
+    description: The right hosting services for your traffic and budget, without unnecessary complexity and without hidden single points of failure.
     items: [AWS, DigitalOcean, Managed databases and storage]
-  - title: Containers and orchestration
-    description: Dockerised applications that run identically on a laptop, in staging and in production.
-    items: [Docker, Kubernetes when justified, App platforms]
+  - title: Containers
+    description: Applications packaged so they run the same way on a developer's laptop, on the test site and in production.
+    items: [Docker, Kubernetes when justified, Managed app platforms]
   - title: Infrastructure as code
-    description: Environments described in version-controlled code, reviewable and reproducible.
-    items: [Terraform, Environment parity, Secrets management]
+    description: Your server setup written down as code, so it can be reviewed, versioned and rebuilt identically.
+    items: [Terraform, Identical test and live setups, Safe storage of passwords and keys]
   - title: Monitoring and reliability
-    description: Metrics, logs, traces and alerts that point to causes, not just symptoms.
-    items: [Uptime and error tracking, Dashboards and alerting, Backups and restore drills]
+    description: Measurements, logs and alerts that point to the cause of a problem, not just its symptoms.
+    items: [Uptime and error tracking, Dashboards and alerts, Backups and restore tests]
   - title: Cost and security reviews
-    description: Find the waste and the weak spots in an existing setup, and fix them in order of impact.
-    items: [Cloud cost optimisation, Access and permission audits, Patch and update routines]
+    description: Find the waste and the weak points in an existing setup, then fix them in order of importance.
+    items: [Lower cloud bills, Access and permission review, Update routines]
 deliverables:
-  - Infrastructure diagram and runbook
-  - Infrastructure as code in your repository
-  - CI/CD pipeline with automated tests and deploys
+  - A diagram of your hosting setup and an operations guide
+  - Your server setup as code, stored in your account
+  - An automated testing and release process
   - Monitoring dashboards and alert rules
-  - Backup and disaster-recovery procedure, tested
-  - Monthly cost report and optimisation plan
+  - A tested backup and recovery procedure
+  - A monthly cost report and savings plan
 technologies: [AWS, DigitalOcean, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, PostgreSQL, Grafana, Prometheus, Sentry]
 approach:
-  - title: Right-sized, not resume-driven
-    text: A two-person startup does not need Kubernetes. We match the platform to the team that will run it.
-  - title: Everything in code
-    text: If it is not in version control, it does not exist. Environments can be rebuilt from scratch.
-  - title: Observability first
-    text: Alerts and dashboards ship with the first release, not after the first outage.
+  - title: Sized for your team
+    text: A two-person startup does not need the same setup as a large company. We match the hosting to the team that will run it, not to the latest trend.
+  - title: Everything written as code
+    text: If a setting only exists in someone's memory, it will be lost. Every environment can be rebuilt from scratch.
+  - title: Monitoring from day one
+    text: Alerts and dashboards go live with the first release, not after the first outage.
 faqs:
-  - question: AWS or DigitalOcean?
-    answer: AWS offers the widest range of services and compliance options; DigitalOcean is simpler and more predictable on cost for many web products. We recommend based on your workload, team and budget — and design so a move stays possible.
-  - question: Can you take over an existing infrastructure?
-    answer: Yes. We start with an audit of access, costs, backups, security and deployment, then fix the highest risks first while keeping everything running.
-  - question: Do you offer ongoing infrastructure support?
-    answer: Yes — monitoring, updates, incident response and monthly cost reviews on a retainer, with response times agreed in writing.
+  - question: Should we use AWS or DigitalOcean?
+    answer: AWS offers the widest range of services and compliance options. DigitalOcean is simpler and its costs are easier to predict for many web products. We recommend one based on your needs, your team and your budget, and we set things up so that moving later remains possible.
+  - question: Can you take over an existing hosting setup?
+    answer: Yes. We start by reviewing access, costs, backups, security and how releases are done. We then fix the biggest risks first, while keeping everything running.
+  - question: Do you offer ongoing hosting support?
+    answer: Yes. We offer monthly support covering monitoring, updates, incident response and cost reviews, with response times agreed in writing.
 related:
-  caseStudies: [multi-site-operations-platform]
   posts: [devops-baseline-small-teams]
-keywords: [DevOps consulting, cloud architecture, CI/CD, AWS, DigitalOcean, Docker, Kubernetes, infrastructure as code, DevOps Maroc]
-updatedAt: 2026-09-01
+keywords: [DevOps consulting, cloud hosting, cloud architecture, CI/CD, AWS, DigitalOcean, Docker, Kubernetes, infrastructure as code, DevOps Maroc]
+updatedAt: 2026-10-01
 ---
 
-## Signs you need this
+## Signs you need this service
 
-- Deployments are manual, stressful and happen late at night.
-- Only one person knows how production is set up.
-- You learn about outages from customers.
-- The cloud bill grows faster than your usage.
-- Nobody has tested restoring a backup.
+- Releases are done by hand, are stressful and often happen late at night.
+- Only one person knows how the live servers are set up.
+- You hear about outages from your customers.
+- Your cloud bill is growing faster than your usage.
+- Nobody has ever tested restoring a backup.
 
-## A pragmatic baseline
+## A practical foundation
 
-For most products we aim for the same foundation, adapted to scale:
+For most products, we put the same foundation in place and adapt it to their size:
 
-1. **Source control and review** — protected main branch, pull requests, automated checks.
-2. **One-command environments** — containers and infrastructure as code, so staging matches production.
-3. **Automated delivery** — tests, builds and deploys on every merge; migrations handled safely; rollbacks in one step.
-4. **Observability** — error tracking, structured logs, uptime checks and a small set of meaningful alerts.
-5. **Resilience** — automated backups, a tested restore procedure, and least-privilege access for people and services.
+1. **Code management and review.** A protected main version of the code, changes reviewed before they are accepted, and automatic checks.
+2. **Environments you can recreate in one step.** Containers and infrastructure as code, so the test site matches the live one.
+3. **Automated releases.** Tests, preparation and release run on every approved change, database updates are handled safely, and going back to the previous version takes one step.
+4. **Monitoring.** Error tracking, searchable logs, uptime checks and a small number of alerts that actually matter.
+5. **Resilience.** Automatic backups, a tested restore procedure, and only the access each person and service needs.
 
 ## Cloud providers we work with
 
-We work mostly with **AWS** and **DigitalOcean**, and with dedicated or on-premise servers when data residency or cost requires it. For Moroccan organisations with local hosting requirements, we design for the constraints of local data centres while keeping the same automation and monitoring standards.
+We work mainly with **AWS** and **DigitalOcean**, and with dedicated or on-site servers when data location rules or costs require it. For Moroccan organisations that must host data locally, we work within the constraints of local data centres while keeping the same automation and monitoring standards.

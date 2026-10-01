@@ -2,80 +2,79 @@
 translationKey: ai-automation
 title: AI & Automation
 navLabel: AI & Automation
-tagline: Automate the busywork. Put AI where it measurably helps.
-summary: We automate repetitive business processes and integrate AI into real workflows — document processing, internal assistants, AI agents and API integrations — with guardrails and measurable results.
+tagline: Automate repetitive work, and use AI where it clearly helps.
+summary: We automate repetitive business tasks and add AI to everyday workflows, such as reading documents, routing requests and answering internal questions, with checks and human review built in.
 order: 2
 seo:
-  title: AI automation & workflow automation services
-  description: Business process automation, AI agents, document processing and API integrations by Atlaxys. Practical AI for companies in Morocco and worldwide — with guardrails.
+  title: AI Automation & Business Process Automation Services
+  description: Workflow automation, AI document processing, AI assistants and software integrations for businesses in Morocco and abroad, with human review built in.
 hero:
   eyebrow: Service 02
-  title: Automation that removes work — not just adds a chatbot.
-  lead: We find the repetitive, error-prone work in your operations and engineer it away — with integrations, workflow automation and, where it genuinely helps, AI models wrapped in validation, logging and human review.
+  title: Automation that removes work, not just a chatbot.
+  lead: We find the repetitive, error-prone tasks in your daily operations and automate them. We connect your tools so data flows on its own and, where it genuinely helps, add AI, with checks, logs and a person reviewing anything uncertain.
 capabilities:
   - title: Workflow automation
-    description: Connect the tools you already use so data moves without copy-and-paste.
+    description: Connect the tools you already use so information moves between them without copying and pasting.
     items: [CRM, ERP and accounting sync, Approval flows, Scheduled reports]
   - title: AI document processing
-    description: Extract structured data from invoices, contracts, forms and scans — with confidence scores and review queues.
-    items: [OCR and layout parsing, Validation rules, Human-in-the-loop review]
-  - title: AI agents and assistants
-    description: Internal assistants that answer from your own documents and can take bounded actions in your systems.
-    items: [Retrieval over company knowledge, Tool use with permissions, Audit logs]
-  - title: API integrations
-    description: Reliable connections to payment providers, marketplaces, logistics carriers and government services.
-    items: [Webhooks and retries, Idempotency, Monitoring]
-  - title: Internal AI tools
-    description: Focused tools for specific jobs — drafting, classification, summarisation, search — built into your existing interface.
-    items: [Prompt and model evaluation, Cost controls, Data privacy by design]
+    description: Read invoices, contracts, forms and scans automatically and turn them into structured data, with a confidence score for each value and a review step for unclear cases.
+    items: [Text recognition from scans (OCR), Checks against your business rules, Human review]
+  - title: AI assistants
+    description: Internal assistants that answer staff questions using your own documents, and can carry out simple, pre-approved actions in your systems.
+    items: [Answers from your company documents, Actions with permissions, Full activity log]
+  - title: Software integrations (APIs)
+    description: Reliable connections to payment providers, marketplaces, delivery companies and online government services.
+    items: [Automatic retries when a service is down, No duplicate actions, Monitoring]
+  - title: Focused AI tools
+    description: Small tools for specific jobs, such as drafting, sorting, summarising or searching, added to the software your team already uses.
+    items: [Quality testing of AI answers, Cost controls, Privacy built in]
 deliverables:
-  - Process map with automation opportunities ranked by value
+  - A map of your process with automation opportunities ranked by value
   - Working automations with monitoring and alerts
-  - Evaluation set and accuracy report for AI components
-  - Runbook for failures and edge cases
-  - Cost model for API and model usage
+  - An accuracy report for every AI step, based on your own examples
+  - A guide for handling failures and unusual cases
+  - An estimate of ongoing AI and software service costs
 technologies: [Python, Node.js, OpenAI API, Anthropic API, LangChain, n8n, PostgreSQL, pgvector, OCR pipelines, Docker]
 approach:
   - title: Automate the process before adding AI
-    text: Many wins need no model at all — just clean integrations and rules. We add AI where the input is genuinely unstructured.
-  - title: Measure accuracy before rollout
-    text: Every AI component is tested against a set of real, labelled examples from your business, and ships with a threshold for human review.
+    text: Many gains need no AI at all, just well-connected tools and clear rules. We add AI where the information is genuinely unstructured, such as scans, emails or free text.
+  - title: Measure accuracy before launch
+    text: Every AI step is tested on a set of real examples from your business, and anything below an agreed confidence level goes to a person for review.
   - title: Keep people in control
-    text: Automations are logged, reversible and observable. Staff see what happened and why, and can override it.
+    text: Every automated action is logged and can be reversed. Your staff can see what happened and why, and can override it.
 faqs:
   - question: Is our data used to train AI models?
-    answer: We configure providers so that business data is not used for model training, and we can keep sensitive processing on infrastructure you control. Data handling is documented for your compliance team.
+    answer: We choose AI services and settings that do not use your business data to train their models, and we can keep the most sensitive processing on servers you control. How your data is handled is documented so your team can review it.
   - question: What is a good first automation project?
-    answer: A high-volume, rules-heavy task that people dislike — invoice entry, order routing, report compilation. It is easy to measure before and after, and pays back quickly.
-  - question: Do AI automations work in French and Arabic?
-    answer: Yes. Modern models handle French and Arabic well, including mixed-language documents. We test on your real documents in each language before relying on the results.
-  - question: What happens when the AI is wrong?
-    answer: Outputs below a confidence threshold, or that fail validation rules, go to a human review queue. Nothing irreversible happens without a check that fits the risk.
+    answer: A frequent, rule-based task that people dislike, such as entering invoices, routing orders or compiling reports. It is easy to measure before and after, and it usually pays off quickly.
+  - question: Does AI automation work in French and Arabic?
+    answer: Yes. Current AI models handle French and Arabic well, including documents that mix languages. We test on your real documents in each language before relying on the results.
+  - question: What happens when the AI gets something wrong?
+    answer: Results with low confidence, or that fail your business rules, are sent to a person for review. Nothing that cannot be undone happens without a check suited to the risk.
 related:
-  caseStudies: [ai-document-intake]
   posts: [ai-automation-moroccan-businesses]
-keywords: [AI automation, business process automation, AI agents, workflow automation, document processing, automatisation IA, intelligence artificielle, أتمتة]
-updatedAt: 2026-09-01
+keywords: [AI automation, business process automation, workflow automation, AI document processing, AI assistant, automatisation IA, intelligence artificielle, أتمتة]
+updatedAt: 2026-10-01
 ---
 
 ## Where automation pays off first
 
-The best candidates share three traits: they happen often, they follow rules most of the time, and mistakes are expensive or annoying. Typical examples:
+The best tasks to automate have three things in common: they happen often, they follow clear rules most of the time, and mistakes are costly or frustrating. Typical examples:
 
-- Re-typing data from emails, PDFs or scans into an ERP or accounting system
+- Re-typing data from emails, PDFs or scans into accounting or management software
 - Chasing approvals across email and messaging apps
-- Compiling weekly reports from several tools
-- Routing customer requests to the right person with the right context
-- Reconciling orders, payments and deliveries across platforms
+- Putting together weekly reports from several tools
+- Sending customer requests to the right person with the right information
+- Matching orders, payments and deliveries across different platforms
 
-## How we approach an automation project
+## How we run an automation project
 
-1. **Map the process as it really runs** — including the workarounds nobody wrote down.
-2. **Rank opportunities** by time saved, error reduction and implementation risk.
-3. **Build the plumbing first**: reliable integrations, idempotent jobs, retries and alerts.
-4. **Add AI where input is unstructured** — documents, free text, images — and evaluate it on your own data.
-5. **Roll out gradually**, with a human review step that we relax as measured accuracy allows.
+1. **Map the process as it really happens**, including the workarounds nobody wrote down.
+2. **Rank the opportunities** by time saved, errors avoided and how hard they are to implement.
+3. **Build reliable connections first**, with automatic retries and alerts when something fails.
+4. **Add AI where the information is unstructured**, such as documents, free text or images, and test it on your own data.
+5. **Roll out gradually**, starting with human review of every result and reducing it as measured accuracy allows.
 
-## AI with guardrails
+## AI with safeguards
 
-Language models are powerful and fallible. We treat them like any other dependency that can fail: inputs are validated, outputs are checked against business rules, every decision is logged, costs are capped and monitored, and sensitive data is handled according to a documented policy. The goal is not a clever demo; it is a process that runs every day without surprises.
+AI models are powerful, but they make mistakes. We treat them like any other component that can fail: what goes in is checked, what comes out is compared against your business rules, every decision is logged, costs are capped and monitored, and sensitive data is handled according to a written policy. The goal is not an impressive demo. It is a process that runs every day without surprises.

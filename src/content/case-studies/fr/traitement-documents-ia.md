@@ -1,5 +1,5 @@
 ---
-# CONTENU DE DÉMONSTRATION — étude de cas illustrative, sans client réel.
+# CONTENU DE DÉMONSTRATION: étude de cas illustrative, sans client réel.
 # À remplacer par une mission publiée, puis passer `demo: false`.
 translationKey: ai-document-intake
 title: De la ressaisie des factures à leur simple validation
@@ -12,12 +12,12 @@ industry: professional-services
 services: [ai-automation, software-engineering]
 products: [atlaxys-docs]
 year: 2026
-duration: Illustratif — 10 semaines
+duration: Illustratif, 10 semaines
 role: Analyse des processus, chaîne IA, application de validation, intégration
 challenge: >-
-  Chaque mois, l’équipe ressaisissait des centaines de factures et de justificatifs — reçus par e-mail, en scan ou en photo, en français, en arabe et en anglais — dans le logiciel comptable. Les pics de fin de mois imposaient des heures supplémentaires, et la saisie manuelle générait des erreurs découvertes plus tard, quand elles coûtaient plus cher à corriger.
+  Chaque mois, l’équipe ressaisissait des centaines de factures et de justificatifs, reçus par e-mail, en scan ou en photo, en français, en arabe et en anglais, dans le logiciel comptable. Les pics de fin de mois imposaient des heures supplémentaires, et la saisie manuelle générait des erreurs découvertes plus tard, quand elles coûtaient plus cher à corriger.
 thinking: >-
-  Nous avons traité l’IA comme une étape d’une chaîne, pas comme le produit. Les documents sont lus par OCR et par un modèle de langage, mais chaque valeur extraite est contrôlée par des règles auxquelles les comptables font déjà confiance — les totaux doivent concorder, les taux de TVA être valides, le fournisseur exister. Tout ce qui est incertain part en relecture. Avant le déploiement, la chaîne a été mesurée sur un échantillon annoté des propres documents du cabinet — la précision était un chiffre, pas une impression.
+  Nous avons traité l’IA comme une étape d’une chaîne, pas comme le produit. Les documents sont lus par OCR et par un modèle de langage, mais chaque valeur extraite est contrôlée par des règles auxquelles les comptables font déjà confiance, les totaux doivent concorder, les taux de TVA être valides, le fournisseur exister. Tout ce qui est incertain part en relecture. Avant le déploiement, la chaîne a été mesurée sur un échantillon annoté des propres documents du cabinet, la précision était un chiffre, pas une impression.
 architecture:
   summary: >-
     Les documents arrivent par une boîte e-mail dédiée, un portail de dépôt ou un dossier de numérisation. La chaîne de traitement extrait et contrôle les champs, puis oriente chaque document soit directement vers l’export comptable, soit vers une file de relecture humaine. Chaque étape est journalisée pour l’audit.
@@ -44,7 +44,7 @@ execution:
 stack: [Python, FastAPI, PostgreSQL, OCR pipelines, Anthropic API, React, Docker]
 outcome:
   summary: >-
-    Les équipes valident au lieu de ressaisir — et chaque décision automatisée peut être expliquée, auditée et corrigée.
+    Les équipes valident au lieu de ressaisir, et chaque décision automatisée peut être expliquée, auditée et corrigée.
   results:
     - label: Valider, pas saisir
       detail: Les collaborateurs vérifient des valeurs mises en évidence au lieu de taper chaque champ.
@@ -57,6 +57,7 @@ outcome:
 featured: false
 order: 2
 demo: true
+draft: true
 publishedAt: 2026-08-15
 ---
 

@@ -1,5 +1,5 @@
 {
-  "_comment": "DEMO: placeholder product (working title). Replace name and details, then set \"demo\": false.",
+  "_comment": "DEMO: placeholder product (working title), unpublished with \"draft\": true. Replace name and details, then set \"demo\": false and remove \"draft\".",
   "name": "Atlaxys Ops",
   "tagline": {
     "en": "Sales, stock and invoicing in one place for growing SMEs.",
@@ -39,9 +39,9 @@
     {
       "title": { "en": "Daily dashboard", "fr": "Tableau de bord quotidien", "ar": "لوحة قيادة يومية" },
       "description": {
-        "en": "Sales, margins, receivables and low stock — the numbers that matter each morning.",
-        "fr": "Ventes, marges, créances et ruptures — les chiffres qui comptent chaque matin.",
-        "ar": "المبيعات والهوامش والمستحقات ونقص المخزون — الأرقام المهمة كل صباح."
+        "en": "Sales, margins, receivables and low stock: the numbers that matter each morning.",
+        "fr": "Ventes, marges, créances et ruptures : les chiffres qui comptent chaque matin.",
+        "ar": "المبيعات والهوامش والمستحقات ونقص المخزون: الأرقام المهمة كل صباح."
       }
     }
   ],
@@ -50,5 +50,6 @@
   "posts": ["custom-erp-vs-saas"],
   "featured": false,
   "order": 3,
-  "demo": true
+  "demo": true,
+  "draft": true
 }

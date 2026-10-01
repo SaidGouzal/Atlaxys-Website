@@ -1,69 +1,69 @@
 {
   "page": "about",
   "seo": {
-    "title": "About Atlaxys — An engineering-led technology consultancy from Morocco",
-    "description": "Atlaxys Consulting is a Morocco-based technology consultancy and software engineering studio working with clients worldwide. Our story, how we work and what we refuse to do."
+    "title": "About Atlaxys Consulting | Software Company in Morocco",
+    "description": "Atlaxys Consulting is a software development and technology consulting company based in Morocco. Who we are, how we work and what you can expect from us."
   },
   "hero": {
     "eyebrow": "About Atlaxys",
     "title": "Consulting that ends in working software.",
-    "lead": "Atlaxys started from a simple observation: too much technology advice stops at the slide deck. So we built a company where the people who advise you are the people who build the system — and stay accountable for it in production."
+    "lead": "Atlaxys started from a simple observation: a lot of technology advice stops at the presentation. So we built a company where the people who advise you are the people who build your system, and who stay responsible for it once it is live."
   },
   "story": {
     "eyebrow": "Our story",
-    "title": "Built in Morocco. Built for anywhere.",
+    "title": "Based in Morocco. Working with clients at home and abroad.",
     "paragraphs": [
-      "Atlaxys Consulting is a technology consulting and software engineering company based in Morocco. We work with founders, SMEs and established organisations that need software to do real work: platforms their customers use every day, tools their teams depend on, and automations that remove hours of manual effort each week.",
-      "Morocco is our home and an increasingly serious place to build technology — a growing engineering talent pool, deep ties to Europe and Africa, and a working culture that moves easily between English, French and Arabic. We serve Moroccan businesses directly, and we work with international companies that want an engineering partner close to them in time zone and in culture.",
-      "We are deliberately engineering-led. Every engagement is run by people who write code, design infrastructure and answer for what happens in production. That is what we mean by consulting that ends in working software."
+      "Atlaxys Consulting is a software development and technology consulting company based in Morocco. We work with founders, small and medium-sized businesses and larger organisations that need software to do real work: platforms their customers use every day, tools their teams depend on, and automations that save hours of manual work each week.",
+      "Morocco is our home and a good place to build technology. Teams here are used to working across English, French and Arabic, and the time zone is close to Europe's. We work directly with Moroccan businesses, and with companies abroad that want a technical partner close to them in time zone and culture.",
+      "Every project is led by people who write code, set up hosting and take responsibility for what happens after launch. That is what we mean by consulting that ends in working software."
     ]
   },
   "facts": {
     "title": "Atlaxys at a glance",
     "items": [
       { "label": "Company", "value": "Atlaxys Consulting" },
-      { "label": "What we do", "value": "Technology consulting, software engineering, AI automation, DevOps & cloud, and digital products" },
+      { "label": "What we do", "value": "Software development, AI and automation, cloud and DevOps, technology consulting, and our own software products" },
       { "label": "Based in", "value": "Morocco" },
-      { "label": "Clients in", "value": "Morocco, Europe, the Middle East, Africa and North America" },
+      { "label": "Clients", "value": "Businesses in Morocco and abroad" },
       { "label": "Working languages", "value": "English, French, Arabic" },
-      { "label": "Engagements", "value": "Fixed-scope projects, dedicated product teams, technical advisory" }
+      { "label": "Ways to work together", "value": "Fixed-scope projects, dedicated product teams, technical advisory" }
     ]
   },
   "engagement": {
     "eyebrow": "Working together",
-    "title": "Three ways to engage.",
-    "intro": "Pick the model that fits the stage you are at. Many clients start with one and move to another as the product grows.",
+    "title": "Three ways to work with us.",
+    "intro": "Choose the option that fits where you are today. You can start with one and switch to another as your product grows.",
     "items": [
       {
         "title": "Project",
-        "text": "A defined outcome with a written scope, milestones and a fixed or capped budget.",
-        "bestFor": "New products, migrations and well-understood builds."
+        "text": "A defined result, with a written scope, milestones and a fixed or capped budget.",
+        "bestFor": "New products, migrations and projects with clear requirements."
       },
       {
         "title": "Product team",
-        "text": "A dedicated Atlaxys team working as an extension of yours, month to month, on your roadmap.",
-        "bestFor": "Evolving roadmaps where speed and continuity matter."
+        "text": "A dedicated Atlaxys team that works as an extension of yours, month by month, on your priorities.",
+        "bestFor": "Products that keep evolving, where speed and continuity matter."
       },
       {
         "title": "Advisory",
-        "text": "Architecture reviews, technical audits and CTO-level guidance, a few days each month.",
-        "bestFor": "Teams that build in-house and want senior technical judgement."
+        "text": "Architecture reviews, technical audits and senior technical guidance (similar to a part-time CTO), a few days each month.",
+        "bestFor": "Companies that build in-house and want an experienced outside view."
       }
     ]
   },
   "refusals": {
     "eyebrow": "Principles",
-    "title": "Things we refuse to do.",
+    "title": "Things we will not do.",
     "items": [
       "Sell you a platform you do not need.",
-      "Hide important decisions inside the codebase.",
-      "Hold your code, data or accounts hostage.",
-      "Promise dates we cannot defend.",
-      "Ship something we would not be comfortable running ourselves."
+      "Hide important decisions inside the code, where you cannot see them.",
+      "Keep your code, data or accounts out of your reach.",
+      "Promise deadlines we do not believe we can meet.",
+      "Deliver something we would not be comfortable running ourselves."
     ]
   },
   "cta": {
-    "title": "Let's see if we are a fit.",
-    "text": "A 30-minute conversation is usually enough to know whether we can help — and if we cannot, we will say so and point you somewhere better."
+    "title": "Let's see if we are a good fit.",
+    "text": "A 30-minute conversation is usually enough to know whether we can help. If we cannot, we will tell you honestly and suggest where to look instead."
   }
 }

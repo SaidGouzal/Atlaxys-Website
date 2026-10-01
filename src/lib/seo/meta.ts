@@ -20,7 +20,7 @@ export interface SeoProps {
 }
 
 export function fullTitle(title: string, siteName: string): string {
-  return title.includes('Atlaxys') ? title : `${title} — ${siteName}`;
+  return title.includes('Atlaxys') ? title : `${title} | ${siteName}`;
 }
 
 /** Trim a description to a search-friendly length at a word boundary. */

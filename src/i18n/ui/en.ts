@@ -1,15 +1,15 @@
 /**
- * English UI dictionary — the reference for every other language.
+ * English UI dictionary: the reference for every other language.
  * Short interface strings only; page copy lives in src/content/.
  */
 const en = {
   meta: {
     siteName: 'Atlaxys Consulting',
-    defaultTitle: 'Atlaxys Consulting — Software engineering, AI automation & cloud',
+    defaultTitle: 'Atlaxys Consulting | Software Development, AI Automation & Cloud',
     defaultDescription:
-      'Atlaxys is a technology consultancy and software engineering studio based in Morocco. We design, build and run web platforms, mobile apps, business software, AI automations and cloud infrastructure for clients worldwide.',
+      'Atlaxys Consulting is a software development and technology consulting company in Morocco. We build web and mobile apps, business software and AI automations.',
     orgDescription:
-      'Atlaxys Consulting is a Morocco-based technology consulting and software engineering company. It designs, builds and operates web applications, mobile apps, internal business software, AI-powered automations and cloud infrastructure for clients in Morocco and internationally.',
+      'Atlaxys Consulting is a software development and technology consulting company based in Morocco. It plans, builds and maintains web applications, mobile apps, business software, AI automations and cloud hosting for businesses in Morocco and abroad.',
     slogan: 'We build the software your business runs on.',
   },
 
@@ -28,7 +28,7 @@ const en = {
     backToTop: 'Back to top',
     scrollHint: 'Scroll',
     loading: 'Loading',
-    homeLink: 'Atlaxys Consulting — home',
+    homeLink: 'Atlaxys Consulting, home page',
     pauseAnimation: 'Pause background animation',
     playAnimation: 'Play background animation',
   },
@@ -37,8 +37,8 @@ const en = {
     home: 'Home',
     services: 'Services',
     products: 'Products',
-    work: 'Work',
-    insights: 'Insights',
+    work: 'Case studies',
+    insights: 'Articles',
     about: 'About',
     contact: 'Contact',
     letsTalk: "Let's talk",
@@ -51,26 +51,26 @@ const en = {
     cookies: 'Cookie policy',
     cookieSettings: 'Cookie settings',
     legalNotice: 'Legal notice',
-    megaTitle: 'Four practices, one engineering team.',
+    megaTitle: 'Four services, one team.',
     megaProductsTitle: 'Our own products',
-    megaProductsText: 'Business software we build, license and maintain.',
+    megaProductsText: 'Ready-made business software that we build and maintain.',
     megaMoroccoTitle: 'Working in Morocco',
-    megaMoroccoText: 'Local presence, three languages, international standards.',
+    megaMoroccoText: 'Based in Morocco, working in French, Arabic and English.',
   },
 
   cta: {
     startProject: 'Start a project',
     discussProject: 'Discuss your project',
     talkToUs: 'Talk to Atlaxys',
-    seeWork: 'See our work',
+    seeWork: 'See our case studies',
     howWeWork: 'How we work',
     exploreService: 'Explore the service',
     viewProduct: 'View product',
     allProducts: 'All products',
     readCaseStudy: 'Read the case study',
-    allWork: 'All work',
+    allWork: 'All case studies',
     readArticle: 'Read article',
-    allInsights: 'All insights',
+    allInsights: 'All articles',
     requestDemo: 'Request a demo',
     openDemo: 'Open live demo',
     download: 'Download',
@@ -106,21 +106,21 @@ const en = {
     features: 'Features',
     pricing: 'Pricing',
     deliverables: 'What you get',
-    capabilities: 'Capabilities',
+    capabilities: 'What we do',
     approach: 'Our approach',
     contents: 'Contents',
-    faq: 'Questions',
+    faq: 'Frequently asked questions',
     relatedServices: 'Related services',
     relatedProducts: 'Related products',
-    relatedWork: 'Related work',
+    relatedWork: 'Related case studies',
     relatedInsights: 'Further reading',
     published: 'Published',
     updated: 'Updated',
     author: 'Written by',
     challenge: 'Challenge',
-    thinking: 'Thinking',
+    thinking: 'Our thinking',
     architecture: 'Architecture',
-    execution: 'Execution',
+    execution: 'How it was built',
     technology: 'Technology',
     outcome: 'Outcome',
     testimonial: 'Client voice',
@@ -137,7 +137,7 @@ const en = {
     illustrative: 'Illustrative example',
     illustrativeNote:
       'This case study is illustrative demo content. It does not describe a real client engagement and will be replaced with a published project.',
-    demoProductNote: 'Draft product description — names, features and availability will be confirmed before publication.',
+    demoProductNote: 'Draft product description. Features, platforms and availability are still being confirmed and may change.',
     mediaPlaceholder: 'Screenshot placeholder',
     step: 'Step',
     minRead: (minutes: number) => `${minutes} min read`,
@@ -157,13 +157,13 @@ const en = {
 
   footer: {
     headline: 'Have something to build?',
-    text: 'Tell us what you are working on. An engineer will reply — not a sales sequence.',
+    text: 'Tell us what you are working on. You will hear back from the people who would build it, not from an automated sales email.',
     company: 'Company',
     services: 'Services',
     products: 'Products',
     contact: 'Contact',
     language: 'Language',
-    based: 'Based in Morocco. Working worldwide.',
+    based: 'Based in Morocco. Working with clients in Morocco and abroad.',
     rights: 'All rights reserved.',
   },
 
@@ -178,11 +178,12 @@ const en = {
     timeline: 'Timeline',
     message: 'Your project',
     messageHint: 'What are you building, who is it for, and what does success look like?',
-    budgetHint: 'A rough range is enough — estimates in euros.',
+    budgetHint: 'A rough range is enough. Amounts are in euros.',
     optional: 'optional',
     select: 'Select…',
     selectCountry: 'Select a country',
     otherCountries: 'All countries',
+    priorityCountries: 'Most common',
     errorRequired: 'This field is required.',
     errorEmail: 'Enter a valid email address, for example name@company.com.',
     errorTooShort: (min: number) => `Please write at least ${min} characters.`,
@@ -192,10 +193,10 @@ const en = {
     submitting: 'Sending…',
     successTitle: 'Message received.',
     successText:
-      'Thank you — your message is with our team and we will reply by email. If it is urgent, WhatsApp is the fastest way to reach us.',
+      'Thank you. Your message has reached our team and we will reply by email. If it is urgent, WhatsApp is the fastest way to reach us.',
     errorTitle: 'Your message could not be sent.',
     errorText: 'Something went wrong on our side. Please try again in a moment, or reach us directly:',
-    offlineText: 'You seem to be offline. Nothing was sent — check your connection and try again.',
+    offlineText: 'You seem to be offline. Nothing was sent. Check your connection and try again.',
     rateLimitedText: 'Too many attempts from this connection. Please wait a few minutes or contact us directly.',
     privacyBefore: 'We use these details only to answer your enquiry and, if you ask, prepare a proposal. They are sent through our form provider to our team. See our',
     privacyLink: 'privacy policy',
@@ -219,15 +220,15 @@ const en = {
       },
       budgets: {
         'lt-5k': 'Under €5k',
-        '5k-15k': '€5k – €15k',
-        '15k-50k': '€15k – €50k',
+        '5k-15k': '€5k to €15k',
+        '15k-50k': '€15k to €50k',
         'gt-50k': 'Over €50k',
         unsure: 'Not sure yet',
       },
       timelines: {
         asap: 'As soon as possible',
-        '1-3-months': 'In 1–3 months',
-        '3-6-months': 'In 3–6 months',
+        '1-3-months': 'In 1 to 3 months',
+        '3-6-months': 'In 3 to 6 months',
         exploring: 'Just exploring',
       },
     },
@@ -306,8 +307,8 @@ const en = {
   },
 
   notFound: {
-    title: 'This route is not wired to anything.',
-    text: 'The page you asked for does not exist or has moved. The rest of the system is running fine.',
+    title: 'We could not find this page.',
+    text: 'The page may have moved, or the link may be incorrect.',
     suggestions: 'Try one of these instead:',
   },
 
@@ -318,20 +319,20 @@ const en = {
 
   empty: {
     products: 'No products are listed yet. Check back soon.',
-    work: 'Case studies are being written up. In the meantime, ask us about recent projects.',
+    work: 'Case studies are coming soon. In the meantime, ask us about our recent projects.',
     insights: 'No articles published in this language yet.',
     related: 'Nothing related yet.',
   },
 
   landing: {
     formTitle: 'Tell us about your project',
-    formText: 'Two minutes. An engineer replies — usually within one working day.',
+    formText: 'It takes about two minutes. We usually reply within one working day.',
     or: 'or',
     menuContact: 'Get in touch',
   },
 
   langSwitch: {
-    unavailable: 'Not translated yet — opens the section page',
+    unavailable: 'Not translated yet. Opens the section page instead.',
   },
 };
 

@@ -2,16 +2,16 @@
   "translationKey": "landing-software-development",
   "campaign": "developpement-logiciel",
   "seo": {
-    "title": "Développement de logiciels sur mesure — web, mobile et métier",
-    "description": "Votre plateforme web, application mobile ou logiciel métier, conçu, développé et exploité en production par une équipe d’ingénieurs. Premier échange offert.",
+    "title": "Développement de logiciels sur mesure : web, mobile et métier",
+    "description": "Votre plateforme web, application mobile ou logiciel métier, conçu, développé et suivi après le lancement par une même équipe. Premier échange offert.",
     "noindex": true
   },
   "hero": {
     "eyebrow": "Développement logiciel sur mesure",
-    "title": "Votre projet, bien construit — et en production.",
-    "lead": "Plateformes web, applications mobiles et logiciels métier, conçus et développés par une seule équipe d’ingénieurs. Un logiciel fonctionnel toutes les deux semaines — et tout vous appartient.",
+    "title": "Votre projet, bien construit et prêt pour un usage réel.",
+    "lead": "Plateformes web, applications mobiles et logiciels métier, conçus et développés par une seule équipe. Vous voyez une nouvelle version fonctionnelle toutes les une à deux semaines, et tout ce que nous développons vous appartient.",
     "bullets": [
-      "Échange gratuit de 30 minutes avec un ingénieur",
+      "Échange gratuit de 30 minutes avec un développeur",
       "Périmètre et estimation écrits avant tout engagement",
       "Le code, les comptes et les données sont à vous"
     ],
@@ -21,61 +21,61 @@
   },
   "audience": {
     "title": "Pour qui",
-    "items": ["Fondateurs qui lancent un produit", "PME qui ont dépassé les tableurs", "Entreprises qui remplacent un vieux logiciel", "Équipes qui manquent d’ingénieurs seniors"]
+    "items": ["Fondateurs qui lancent un produit", "Entreprises qui ont dépassé les tableurs", "Entreprises qui remplacent un ancien logiciel", "Équipes qui ont besoin de développeurs expérimentés"]
   },
   "problem": {
     "title": "Ça vous parle ?",
     "points": [
-      "Un projet précédent était superbe en démo et s’est effondré en usage réel.",
+      "Un projet précédent était superbe en démo, mais n’a pas tenu en usage réel.",
       "Impossible d’obtenir une réponse claire sur le coût ou les délais.",
-      "Le développeur a disparu — et l’accès à votre code avec lui.",
-      "Votre équipe ressaisit encore les mêmes données dans trois outils."
+      "Votre développeur a disparu, et l’accès à votre code avec lui.",
+      "Votre équipe saisit encore les mêmes données dans trois outils différents."
     ]
   },
   "solution": {
-    "title": "Notre façon de construire",
-    "text": "Nous commençons par comprendre votre activité, nous écrivons l’architecture, puis nous développons par itérations courtes que vous testez vous-même — et nous restons après la mise en ligne.",
+    "title": "Notre façon de travailler",
+    "text": "Nous commençons par comprendre votre activité et par écrire le plan. Nous développons ensuite par cycles courts que vous testez vous-même, et nous restons après le lancement.",
     "points": [
-      { "title": "Le cadrage d’abord", "text": "Ateliers et périmètre écrit, pour que tout le monde soit d’accord sur ce qui est construit." },
-      { "title": "Un logiciel toutes les deux semaines", "text": "Un environnement de recette accessible dès le premier sprint." },
-      { "title": "Prêt pour la production", "text": "Tests automatisés, supervision et sauvegardes dès le premier jour." },
-      { "title": "Accompagnement après la mise en ligne", "text": "Maintenance et évolutions — ou passation propre à votre équipe." }
+      { "title": "Comprendre d’abord", "text": "Ateliers et périmètre écrit, pour que tout le monde soit d’accord sur ce qui est développé." },
+      { "title": "Des versions fonctionnelles régulières", "text": "Un site de test privé que vous pouvez essayer dès les premières semaines du projet." },
+      { "title": "Prêt pour un usage réel", "text": "Tests automatiques, surveillance et sauvegardes dès le premier jour." },
+      { "title": "Accompagnement après le lancement", "text": "Maintenance et améliorations, ou passation propre à votre équipe." }
     ]
   },
   "benefits": {
     "title": "Ce que vous obtenez",
     "items": [
-      { "title": "Une estimation claire avant de vous engager", "text": "Des fourchettes et les hypothèses associées — pas de facture surprise." },
-      { "title": "Des ingénieurs, pas des intermédiaires", "text": "Vous échangez directement avec ceux qui développent votre logiciel, en français, en arabe ou en anglais." },
-      { "title": "Propriété totale", "text": "Code, comptes cloud et domaines à votre nom dès le premier jour." }
+      { "title": "Une estimation claire avant de vous engager", "text": "Des fourchettes de prix et les hypothèses retenues, pour éviter les factures surprises." },
+      { "title": "Pas d’intermédiaires", "text": "Vous échangez directement avec les personnes qui développent votre logiciel, en français, en arabe ou en anglais." },
+      { "title": "Propriété totale", "text": "Code, comptes d’hébergement et noms de domaine à votre nom dès le premier jour." }
     ]
   },
   "proof": {
     "title": "Comment nous juger",
-    "text": "Nous préférons montrer qu’affirmer. Demandez-nous l’un de ces éléments dès le premier appel.",
+    "text": "Nous préférons montrer plutôt qu’affirmer. Demandez-nous l’un de ces éléments lors du premier appel.",
     "items": [
-      { "title": "Un exemple de document d’architecture", "text": "Voyez comment nous planifions et documentons un système avant de le construire." },
-      { "title": "Une démo de recette en direct", "text": "Voyez comment nos clients suivent l’avancement toutes les deux semaines." },
-      { "title": "Nos propres produits", "text": "Des logiciels que nous développons et maintenons nous-mêmes, avec la même exigence." },
-      { "title": "La propriété écrite noir sur blanc", "text": "Clauses de propriété intellectuelle et des comptes dans le contrat, avant tout démarrage." }
+      { "title": "Un exemple de plan de système", "text": "Voyez comment nous préparons et documentons un système avant de le développer." },
+      { "title": "Une présentation du site de test", "text": "Voyez comment vous suivriez l’avancement de votre projet." },
+      { "title": "Nos propres produits", "text": "Des logiciels que nous développons et maintenons nous-mêmes, avec les mêmes exigences." },
+      { "title": "La propriété écrite noir sur blanc", "text": "Propriété intellectuelle et propriété des comptes inscrites dans le contrat, avant tout démarrage." }
     ],
     "products": ["nexus-gym"]
   },
   "process": {
-    "title": "Du message au projet en quatre étapes",
+    "title": "Du premier message au projet en quatre étapes",
     "steps": [
-      { "title": "Décrivez votre idée", "text": "Le formulaire prend deux minutes. Les idées brutes sont les bienvenues." },
-      { "title": "Échange gratuit", "text": "30 minutes avec un ingénieur pour comprendre vos objectifs et contraintes." },
-      { "title": "Proposition écrite", "text": "Périmètre, phases, fourchettes d’estimation et calendrier." },
-      { "title": "Développement", "text": "Des itérations toutes les deux semaines, avec vous dans la boucle." }
+      { "title": "Décrivez votre idée", "text": "Le formulaire prend deux minutes. Les idées encore floues sont les bienvenues." },
+      { "title": "Échange gratuit", "text": "30 minutes pour comprendre vos objectifs et vos contraintes." },
+      { "title": "Proposition écrite", "text": "Périmètre, phases, fourchette de prix et calendrier." },
+      { "title": "Développement", "text": "Une nouvelle version fonctionnelle toutes les une à deux semaines, en vous associant tout au long du projet." }
     ]
   },
   "faq": {
-    "title": "Questions",
+    "title": "Questions fréquentes",
     "items": [
-      { "question": "Combien ça coûte ?", "answer": "Cela dépend du périmètre. Après l’échange gratuit, vous recevez une estimation écrite avec des fourchettes, pour décider en toute connaissance de cause." },
-      { "question": "Combien de temps dure un projet ?", "answer": "Un outil ciblé prend souvent quatre à huit semaines ; les plateformes plus larges sont livrées par phases sur plusieurs mois." },
-      { "question": "Travaillez-vous avec des clients hors du Maroc ?", "answer": "Oui. Nous travaillons à distance avec des clients en Europe, au Moyen-Orient, en Afrique et en Amérique du Nord." }
+      { "question": "Combien ça coûte ?", "answer": "Cela dépend du périmètre. Après l’échange gratuit, vous recevez une estimation écrite avec une fourchette de prix, pour décider en toute connaissance de cause." },
+      { "question": "Combien de temps dure un projet ?", "answer": "Un outil ciblé prend souvent quatre à huit semaines. Les plateformes plus importantes sont livrées par phases sur plusieurs mois." },
+      { "question": "Travaillez-vous avec des clients hors du Maroc ?", "answer": "Oui. Nous travaillons avec des clients au Maroc et à l’étranger, principalement à distance." }
     ]
   },
   "form": {

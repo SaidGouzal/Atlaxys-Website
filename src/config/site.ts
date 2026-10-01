@@ -18,8 +18,8 @@ export const site = {
   foundingYear: undefined as number | undefined,
 
   contact: {
-    /** TODO(launch): confirm the public inbox. */
-    email: 'hello@atlaxys.com',
+    /** Public inbox shown on every contact button, the footer and structured data. */
+    email: 'contact@atlaxys.com',
     /** Display format. */
     phone: '+212 7 08 00 60 33',
     /**

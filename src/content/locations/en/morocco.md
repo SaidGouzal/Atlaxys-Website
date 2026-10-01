@@ -4,58 +4,58 @@ name: Morocco
 kind: country
 countryCode: MA
 seo:
-  title: Software development & IT consulting in Morocco — Atlaxys
-  description: Software development, web and mobile apps, AI automation, DevOps and technology consulting for Moroccan businesses — in French, Arabic and English, to international standards.
+  title: Software Development & IT Consulting in Morocco | Atlaxys
+  description: Software development, web and mobile apps, AI automation, cloud hosting and technology consulting for businesses in Morocco, in French, Arabic and English.
 hero:
   eyebrow: Morocco
   title: Software development and technology consulting in Morocco.
-  lead: We are a Moroccan engineering company. We build web platforms, mobile apps, business software, AI automations and cloud infrastructure for Moroccan businesses — in French, Arabic and English, to the standards international clients expect.
+  lead: Atlaxys is a Moroccan software company. We build web platforms, mobile apps, business software, AI automations and cloud hosting for businesses in Morocco, in French, Arabic and English, using the same methods we apply for clients abroad.
 highlights:
-  - title: Local, not remote
-    text: Based in Morocco, we can run workshops on site, understand local processes and meet your team in person when a project calls for it.
+  - title: Based here
+    text: We are based in Morocco, so we can run workshops on site, understand how local businesses operate and meet your team in person when a project needs it.
   - title: Three working languages
-    text: Interfaces, documentation and meetings in French, Arabic or English — including proper right-to-left Arabic interfaces.
-  - title: Built for local reality
-    text: Local payment methods, WhatsApp as a business channel, offline-capable software for places with unreliable connectivity.
-  - title: Data protection by design
-    text: Personal data handled with Morocco's Law 09-08 and CNDP requirements in mind, and GDPR where European users are involved.
-  - title: International standards
-    text: The same architecture, testing, security and documentation practices we apply for clients in Europe and North America.
+    text: Software, documentation and meetings in French, Arabic or English, including proper right-to-left Arabic interfaces.
+  - title: Built for local conditions
+    text: Local payment methods, WhatsApp as a business channel, and software that keeps working when the internet connection is unreliable.
+  - title: Data protection from the start
+    text: Personal data handled with Moroccan Law 09-08 and CNDP requirements in mind, and with the GDPR in mind when European users are involved.
+  - title: Same standards everywhere
+    text: The same planning, testing, security and documentation practices on every project, wherever the client is based.
 services: []
 faqs:
-  - question: Does Atlaxys work with businesses across Morocco?
-    answer: Yes. We work with companies throughout Morocco — most collaboration happens remotely, with on-site workshops and meetings when they add value to the project.
+  - question: Does Atlaxys work with businesses anywhere in Morocco?
+    answer: Yes. We can work with companies in any Moroccan city. Most collaboration happens remotely, with on-site workshops and meetings when they help the project.
   - question: Can you build software in Arabic and French?
-    answer: Yes. We build multilingual interfaces in French, Arabic and English, including right-to-left layouts, Arabic search and localised dates and numbers.
+    answer: Yes. We build software with interfaces in French, Arabic and English, including right-to-left layouts, Arabic search and local date and number formats.
   - question: How is data protection handled for Moroccan projects?
-    answer: We design systems with Law 09-08 and CNDP requirements in mind — data minimisation, access control, documented processing and attention to cross-border transfers — and work with your legal counsel on declarations.
+    answer: We design systems with Law 09-08 and CNDP requirements in mind. That means collecting only the data you need, controlling who can access it, documenting how it is processed and paying attention to transfers outside Morocco. We work with your legal adviser on any declarations to the CNDP.
   - question: Can you host our system in Morocco?
-    answer: Where data residency is required, we can deploy on Moroccan data centres or your own servers, keeping the same automation, monitoring and backup standards.
+    answer: Yes. When data must stay in the country, we can deploy on Moroccan data centres or on your own servers, with the same automation, monitoring and backup standards.
 related:
   posts: [ai-automation-moroccan-businesses, cost-of-custom-software-morocco]
 publish: true
-updatedAt: 2026-09-01
+updatedAt: 2026-10-01
 ---
 
-## A Moroccan software company with an international standard
+## A Moroccan software company with international standards
 
-Moroccan businesses are digitising fast — retailers and distributors moving beyond spreadsheets, service companies automating paperwork, industrial and logistics firms connecting sites and fleets. Many of them have been let down by projects that looked good in a demo and struggled in production.
+More and more Moroccan businesses are moving their operations to software: retailers and distributors moving beyond spreadsheets, service companies reducing paperwork, and industrial and logistics firms connecting their sites and vehicles. Too often, though, a project that looks good in a demo struggles once it is used every day.
 
-Atlaxys exists to close that gap. We combine **local presence** — the language, the business culture, the realities of connectivity and payment — with the **engineering discipline** of international software teams: written architecture, automated testing and deployment, monitoring and documentation you own.
+Atlaxys was created to close that gap. We combine **local knowledge** (the languages, the business culture, the realities of connectivity and payment) with **solid engineering methods**: a written plan, automated testing and releases, monitoring, and documentation you own.
 
-## What Moroccan clients ask us to build
+## What we build for Moroccan businesses
 
-- **Business software and internal platforms** that replace spreadsheets and disconnected tools — sales, stock, operations, field teams.
-- **Web platforms and customer portals**, fast and search-friendly, in French and Arabic.
+- **Business software and internal tools** that replace spreadsheets and disconnected applications, for sales, stock, operations and field teams.
+- **Websites, web platforms and customer portals** that load fast and are easy to find on search engines, in French and Arabic.
 - **Mobile applications** for customers and field staff, including offline use.
 - **AI and workflow automation** for documents, orders and customer requests arriving by email and WhatsApp.
-- **Cloud and DevOps foundations** — reliable hosting, deployment pipelines, backups and monitoring.
-- **Technology consulting** — audits, architecture reviews and help choosing between vendors.
+- **Cloud hosting and DevOps**: reliable hosting, automated releases, backups and monitoring.
+- **Technology consulting**: technical audits, architecture reviews and help choosing between providers.
 
-## Working together
+## How we work together
 
-Most engagements begin with a short discovery phase: we meet your team, map the process as it really runs, and deliver a written scope and estimate. Development then proceeds in short iterations, with working software you can test every one to two weeks.
+Most projects start with a short discovery phase. We meet your team, map how the process really works today, and give you a written scope and estimate. Development then moves forward in short cycles, with a new working version for you to test every one to two weeks.
 
-## Serving businesses across the country
+## Working with businesses across the country
 
-We work with organisations across Morocco — including Casablanca, Rabat, Marrakech, Tangier, Agadir and Fez — and with Moroccan companies operating internationally. Wherever you are, the process is the same: a direct line to the engineers doing the work.
+We work with businesses anywhere in Morocco, whether you are in Casablanca, Rabat, Marrakech, Tangier, Agadir, Fez or elsewhere, as well as with Moroccan companies operating abroad. Wherever you are, the process is the same, with direct contact with the people building your software.

@@ -41,9 +41,16 @@ export const GET: APIRoute = async () => {
   const entries: UrlEntry[] = [];
   const buildTime = new Date();
 
+  const hasWork = Object.fromEntries(
+    await Promise.all(locales.map(async (l) => [l, (await getCaseStudies(l)).length > 0] as const)),
+  ) as Record<Locale, boolean>;
+
   for (const path of STATIC_PATHS) {
     const alternates = mirroredAlternates(path);
-    for (const l of locales) entries.push({ loc: alternates[l], lastmod: buildTime, alternates });
+    for (const l of locales) {
+      if (path === '/work/' && !hasWork[l]) continue;
+      entries.push({ loc: alternates[l], lastmod: buildTime, alternates });
+    }
   }
 
   for (const locale of locales) {

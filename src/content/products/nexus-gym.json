@@ -1,5 +1,5 @@
 {
-  "_comment": "DEMO: draft product sheet. Confirm features, platforms, status and pricing, then set \"demo\": false.",
+  "_comment": "Real product. Confirm every feature, platform, status and pricing detail below, then set \"demo\": false to remove the draft notice.",
   "name": "Nexus Gym",
   "tagline": {
     "en": "Membership, check-in and billing for gyms and fitness clubs.",
@@ -170,6 +170,18 @@
       }
     }
   ],
+  "seo": {
+    "title": {
+      "en": "Nexus Gym: Gym and Fitness Club Management Software",
+      "fr": "Nexus Gym : logiciel de gestion pour salles de sport",
+      "ar": "Nexus Gym: برنامج لإدارة القاعات الرياضية ونوادي اللياقة"
+    },
+    "description": {
+      "en": "Nexus Gym manages memberships, check-in, payments, classes and reports for gyms and fitness clubs, and keeps the front desk working offline.",
+      "fr": "Nexus Gym gère adhésions, contrôle d’accès, paiements, cours et rapports pour salles de sport et clubs de fitness, même hors connexion.",
+      "ar": "يدير Nexus Gym الاشتراكات والدخول والمدفوعات والحصص والتقارير للقاعات الرياضية ونوادي اللياقة، ويواصل الاستقبال العمل دون اتصال."
+    }
+  },
   "featured": true,
   "order": 1,
   "demo": true

@@ -76,7 +76,7 @@ function initForm(form: HTMLFormElement) {
         const li = document.createElement('li');
         const a = document.createElement('a');
         a.href = `#${field.id}`;
-        a.textContent = `${labelText(field)} — ${message}`;
+        a.textContent = `${labelText(field)}: ${message}`;
         a.addEventListener('click', (e) => {
           e.preventDefault();
           field.focus();

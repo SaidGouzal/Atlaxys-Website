@@ -1,12 +1,12 @@
 {
   "page": "products",
   "seo": {
-    "title": "Products — Business software built by Atlaxys",
-    "description": "Software products built and maintained by Atlaxys Consulting: gym and fitness club management, document management and business management for SMEs."
+    "title": "Products: Business Software Built by Atlaxys",
+    "description": "Ready-made software products built and maintained by Atlaxys Consulting, including Nexus Gym, a management application for gyms and fitness clubs."
   },
   "hero": {
     "eyebrow": "Products",
     "title": "Software we build and maintain ourselves.",
-    "lead": "Services are what we build for you. Products are what we have already built — ready-made software for specific jobs, licensed to businesses and improved continuously."
+    "lead": "Our services are about building software for you. Our products are software we have already built: ready-made applications for specific jobs, which we keep improving."
   }
 }

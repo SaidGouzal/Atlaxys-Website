@@ -28,7 +28,7 @@ const path = routePath(locale, 'work');
   pageType="CollectionPage"
   breadcrumbs={trail}
   schema={[itemListNode(path, caseStudies.map((c) => ({ name: c.data.title, url: c.url })))]}
-  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/work/') }}
+  seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/work/'), noindex: caseStudies.length === 0 }}
 >
   <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
 

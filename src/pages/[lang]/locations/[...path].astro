@@ -62,7 +62,7 @@ const areaType = data.kind === 'country' ? 'Country' : data.kind === 'city' ? 'C
       url: location.url,
       name: data.hero.title,
       description: data.hero.lead,
-      serviceType: 'Software engineering and technology consulting',
+      serviceType: 'Software development and technology consulting',
       capabilities: services.map((s) => s.data.title),
       locale,
       areaServed: [{ '@type': areaType, name: data.name }],

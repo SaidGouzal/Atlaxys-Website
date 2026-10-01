@@ -1,12 +1,12 @@
 {
   "page": "products",
   "seo": {
-    "title": "Produits — Logiciels métier édités par Atlaxys",
-    "description": "Logiciels développés et maintenus par Atlaxys Consulting : gestion de salles de sport, gestion documentaire et gestion d’entreprise pour les PME."
+    "title": "Produits : logiciels métier développés par Atlaxys",
+    "description": "Logiciels prêts à l’emploi développés et maintenus par Atlaxys Consulting, dont Nexus Gym, logiciel de gestion pour salles de sport et clubs de fitness."
   },
   "hero": {
     "eyebrow": "Produits",
     "title": "Des logiciels que nous développons et maintenons nous-mêmes.",
-    "lead": "Nos services, c’est ce que nous construisons pour vous. Nos produits, c’est ce que nous avons déjà construit — des logiciels prêts à l’emploi pour des besoins précis, proposés sous licence et améliorés en continu."
+    "lead": "Nos services consistent à développer des logiciels pour vous. Nos produits sont des logiciels que nous avons déjà développés : des applications prêtes à l’emploi pour des besoins précis, que nous continuons d’améliorer."
   }
 }
