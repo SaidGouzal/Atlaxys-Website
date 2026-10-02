@@ -47,3 +47,10 @@ export const countryCodes = [
 
 /** Minimum time (ms) between form render and submit — cheap bot filter. */
 export const minFillTimeMs = 2500;
+
+/**
+ * Web3Forms access key. Public by design (it only allows sending to the inbox
+ * registered with it), so it is safe to ship in the page. Used only when
+ * PUBLIC_CONTACT_ENDPOINT is https://api.web3forms.com/submit.
+ */
+export const web3formsAccessKey = 'd552b15c-d38b-4df4-ac99-99f903ce1a90';

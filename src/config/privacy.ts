@@ -54,9 +54,9 @@ export interface ThirdParty {
  * policy. Until then the policy describes it generically.
  */
 export const formProcessor: { name?: string; entity?: string; privacyUrl?: string } = {
-  name: undefined,
-  entity: undefined,
-  privacyUrl: undefined,
+  name: 'Web3Forms',
+  entity: 'Web3Forms (Vercel-hosted service)',
+  privacyUrl: 'https://web3forms.com/privacy',
 };
 
 /** Consent is asked again after this many days (and whenever consentVersion changes). */

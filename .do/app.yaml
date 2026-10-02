@@ -47,7 +47,7 @@ ingress:
 static_sites:
   - name: web
     github:
-      repo: YOUR-GITHUB-ORG/atlaxys-website
+      repo: saidgouzal/atlaxys-website
       branch: main
       deploy_on_push: true
     environment_slug: node-js
@@ -64,7 +64,7 @@ static_sites:
       # Web3Forms, a DigitalOcean Function, an n8n webhook…). Name that
       # provider in src/config/privacy.ts — it appears in the privacy policy.
       - key: PUBLIC_CONTACT_ENDPOINT
-        value: ''
+        value: https://api.web3forms.com/submit
         scope: BUILD_TIME
       # Analytics / advertising IDs. Leave empty to ship no trackers (and no
       # consent banner). Each one set here is loaded only after consent and

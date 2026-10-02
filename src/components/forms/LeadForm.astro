@@ -17,7 +17,7 @@
  * by direct contact links instead of shipping a form that cannot send.
  */
 import { PUBLIC_CONTACT_ENDPOINT } from 'astro:env/client';
-import { budgetRanges, countryCodes, priorityCountries, projectTypes, timelines, type ProjectType } from '@/config/forms';
+import { web3formsAccessKey, budgetRanges, countryCodes, priorityCountries, projectTypes, timelines, type ProjectType } from '@/config/forms';
 import { mailtoLink, site, telLink, whatsappLink } from '@/config/site';
 import { countryName, localeMeta, useTranslations, type Locale } from '@/i18n';
 import { getLegalUrl } from '@/lib/content';
@@ -43,6 +43,7 @@ const Heading = headingLevel;
 const t = useTranslations(locale);
 const f = t.form;
 const endpoint = PUBLIC_CONTACT_ENDPOINT || '';
+const isWeb3Forms = endpoint.startsWith('https://api.web3forms.com/');
 const formAvailable = Boolean(endpoint) || import.meta.env.DEV;
 const privacyUrl = await getLegalUrl(locale, 'privacy');
 const full = variant === 'full';
@@ -255,6 +256,8 @@ const fid = (field: string) => `${id}-${field}`;
       <input id={fid('website')} name="website" type="text" tabindex="-1" autocomplete="off" />
     </div>
 
+    {isWeb3Forms && <input type="hidden" name="access_key" value={web3formsAccessKey} />}
+    {isWeb3Forms && <input type="hidden" name="subject" value={`New enquiry from atlaxys.com (${name})`} />}
     <input type="hidden" name="locale" value={locale} />
     <input type="hidden" name="source" value={Astro.url.pathname} />
     <input type="hidden" name="landing" value={landing} />
