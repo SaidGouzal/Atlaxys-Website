@@ -100,7 +100,7 @@ const trail = crumbs(locale, 'services', { name: data.title, url: service.url })
     data.approach.length > 0 && (
       <Section theme="light" labelledby="approach-title">
         <Container class="approach">
-          <SectionHeader id="approach-title" index="02" eyebrow={t.cta.howWeWork} title={t.labels.approach} size="md" />
+          <SectionHeader id="approach-title" index="02" eyebrow={t.cta.howWeWork} title={`${t.labels.approach}${locale === 'fr' ? ' : ' : ': '}${data.title}`} size="md" />
           <ol role="list" class="approach__list">
             {data.approach.map((a, i) => (
               <li class="approach__item" data-reveal>

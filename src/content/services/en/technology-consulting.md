@@ -6,7 +6,7 @@ summary: Experienced technical advice when an important decision is on the table
 order: 4
 seo:
   title: Technology Consulting, Technical Audits & Fractional CTO
-  description: Architecture reviews, technical audits, system modernisation and part-time CTO support from Atlaxys Consulting, advice from a team that also builds software.
+  description: Architecture reviews, technical audits, system modernisation and part-time CTO support, from a team that also builds software.
 hero:
   eyebrow: Service 04
   title: Experienced technical advice for important decisions.

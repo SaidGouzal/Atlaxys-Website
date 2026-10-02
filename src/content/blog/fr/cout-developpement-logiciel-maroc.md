@@ -2,6 +2,8 @@
 translationKey: cost-of-custom-software-morocco
 title: Combien coûte le développement d’un logiciel sur mesure au Maroc ?
 description: Ce qui détermine vraiment le prix d’un logiciel sur mesure au Maroc, comment lire une estimation et maîtriser votre budget, sans moyennes inventées.
+seo:
+  title: "Combien coûte un logiciel sur mesure au Maroc ?"
 publishedAt: 2026-09-10
 updatedAt: 2026-10-01
 category: Business

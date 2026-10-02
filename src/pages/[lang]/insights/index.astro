@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
 import EmptyState from '@/components/ui/EmptyState.astro';
 import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
 import { formatDate, localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
 import { getPageCopy, getPosts } from '@/lib/content';
 import { crumbs } from '@/lib/seo/crumbs';
@@ -69,6 +70,21 @@ const path = routePath(locale, 'insights');
       }
     </Container>
   </Section>
+
+  {
+    copy.intro && featured && (
+      <Section spacing="flush-top" labelledby="about-articles-title">
+        <Container class="about-articles">
+          <SectionHeader id="about-articles-title" eyebrow={copy.intro.eyebrow} title={copy.intro.title} intro={copy.intro.intro} size="md" />
+          {copy.intro.paragraphs.length > 0 && (
+            <div class="prose" data-reveal>
+              {copy.intro.paragraphs.map((p) => <p>{p}</p>)}
+            </div>
+          )}
+        </Container>
+      </Section>
+    )
+  }
 
   <Section spacing="flush-top">
     <Container>

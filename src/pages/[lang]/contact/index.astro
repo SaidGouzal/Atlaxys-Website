@@ -1,15 +1,17 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import LeadForm from '@/components/forms/LeadForm.astro';
+import FAQ from '@/components/sections/FAQ.astro';
 import PageHero from '@/components/sections/PageHero.astro';
 import Container from '@/components/ui/Container.astro';
 import Icon from '@/components/ui/Icon.astro';
 import Section from '@/components/ui/Section.astro';
 import SignalRule from '@/components/ui/SignalRule.astro';
 import { mailtoLink, site, telLink, whatsappLink } from '@/config/site';
-import { countryName, localeStaticPaths, mirroredAlternates, useTranslations, type Locale } from '@/i18n';
+import { countryName, localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
 import { getPageCopy } from '@/lib/content';
 import { crumbs } from '@/lib/seo/crumbs';
+import { faqNode } from '@/lib/seo/schema';
 
 export const getStaticPaths = localeStaticPaths;
 
@@ -27,6 +29,7 @@ const place = [site.address.locality, countryName(site.address.countryCode, loca
   breadcrumbs={trail}
   whatsappFloat={false}
   footerCta={false}
+  schema={[faqNode(routePath(locale, 'contact'), copy.faq?.items ?? [])]}
   seo={{ title: copy.seo.title, description: copy.seo.description, alternates: mirroredAlternates('/contact/') }}
 >
   <PageHero eyebrow={copy.hero.eyebrow} title={copy.hero.title} lead={copy.hero.lead} breadcrumbs={trail} breadcrumbLabel={t.a11y.breadcrumb} />
@@ -101,6 +104,16 @@ const place = [site.address.locality, countryName(site.address.countryCode, loca
       </aside>
     </Container>
   </Section>
+
+  {
+    copy.faq && (
+      <Section spacing="flush-top" labelledby="contact-faq">
+        <Container>
+          <FAQ id="contact-faq" eyebrow={t.labels.faq} title={copy.faq.title} items={copy.faq.items} />
+        </Container>
+      </Section>
+    )
+  }
 </BaseLayout>
 
 <style>

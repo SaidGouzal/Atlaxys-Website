@@ -115,8 +115,9 @@ const isActive = (href: string) => current.startsWith(href);
     </nav>
 
     <div class="site-header__actions">
-      <a href={routePath(locale, 'search')} class="site-header__icon-link" aria-label={t.nav.search}>
+      <a href={routePath(locale, 'search')} class="site-header__icon-link">
         <Icon name="search" size={19} />
+        <span class="visually-hidden">{t.nav.search}</span>
       </a>
       <LanguageSwitcher locale={locale} targets={languageTargets} />
       <Button href={routePath(locale, 'contact')} class="site-header__cta" magnetic icon="arrow-up-right">

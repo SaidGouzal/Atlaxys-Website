@@ -1,11 +1,11 @@
 ---
 translationKey: software-engineering
 title: Développement logiciel
-tagline: Plateformes web, applications mobiles et logiciels métier, conçus pour un usage quotidien.
+tagline: Web, mobile et logiciels métier, conçus pour le quotidien.
 summary: Nous concevons et développons des applications web, des applications mobiles, des API et des logiciels métier sur mesure, de la conception à la mise en ligne, avec un code qui vous appartient et sur lequel votre équipe peut construire.
 order: 1
 seo:
-  title: "Développement logiciel sur mesure : web, mobile et logiciels métier"
+  title: "Développement logiciel sur mesure : web, mobile, métier"
   description: Applications web et mobiles, SaaS et logiciels métier sur mesure, conçus et développés par Atlaxys Consulting pour des clients au Maroc et à l’étranger.
 hero:
   eyebrow: Service 01

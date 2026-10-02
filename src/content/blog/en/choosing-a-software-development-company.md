@@ -2,6 +2,8 @@
 translationKey: choosing-a-software-development-company
 title: "How to choose a software development company: a practical checklist"
 description: Twelve questions that separate teams who can really deliver from teams who only pitch well, useful whether you hire in Morocco, Europe or anywhere else.
+seo:
+  title: "How to choose a software development company: a checklist"
 publishedAt: 2026-08-28
 updatedAt: 2026-10-01
 category: Business

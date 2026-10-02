@@ -2,7 +2,7 @@
   "page": "contact",
   "seo": {
     "title": "Contact Atlaxys | Start a Software Project",
-    "description": "Tell us about your project. Contact Atlaxys Consulting by form, email or WhatsApp about software development, AI automation, cloud hosting or technical advice."
+    "description": "Tell us about your project. Reach Atlaxys Consulting by form, email or WhatsApp about software, AI automation, cloud hosting or technical advice."
   },
   "hero": {
     "eyebrow": "Contact",
@@ -26,5 +26,26 @@
     "seoTitle": "Message received",
     "title": "Thank you. We have your message.",
     "text": "Someone from our team will reply by email, usually within one working day. If it is urgent, WhatsApp is the fastest way to reach us."
+  },
+  "faq": {
+    "title": "Before you get in touch",
+    "items": [
+      {
+        "question": "What should I include in my message?",
+        "answer": "What you want the software to do, who will use it, the tools you already rely on and any deadline you have in mind. A rough idea is enough: we ask the questions that fill the gaps."
+      },
+      {
+        "question": "Do you work with clients outside Morocco?",
+        "answer": "Yes. We are based in Morocco and work with clients in Morocco and abroad. Most collaboration happens remotely, by video call, email and WhatsApp, with on-site meetings when a project needs them."
+      },
+      {
+        "question": "Which languages can we use?",
+        "answer": "English, French or Arabic, in writing and on calls. Write to us in whichever is easiest for you."
+      },
+      {
+        "question": "Will I know the price before committing?",
+        "answer": "Yes. After the first call we send a written proposal with our approach, the project phases, a price range and the assumptions behind it. You then decide whether to go ahead."
+      }
+    ]
   }
 }

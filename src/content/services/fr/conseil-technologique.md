@@ -5,7 +5,7 @@ tagline: Conseil en architecture, audits techniques et CTO à temps partagé.
 summary: Un conseil technique expérimenté quand une décision importante se présente, qu’il s’agisse d’architecture, d’audit technique, de plan de modernisation, de pratiques de développement ou d’un CTO à temps partagé.
 order: 4
 seo:
-  title: Conseil technologique, audit technique et CTO à temps partagé
+  title: Conseil technologique, audit et CTO à temps partagé
   description: "Revues d’architecture, audits techniques, modernisation de systèmes et CTO à temps partagé : les conseils d’une équipe qui développe aussi des logiciels."
 hero:
   eyebrow: Service 04

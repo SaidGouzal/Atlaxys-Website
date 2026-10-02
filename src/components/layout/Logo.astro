@@ -27,6 +27,7 @@ const height = Math.round((width * wordmark.height) / wordmark.width);
   height={height}
   densities={[1, 2, 3]}
   formats={['avif', 'webp']}
+  fallbackFormat="webp"
   loading={eager ? 'eager' : 'lazy'}
   decoding="async"
   class:list={['logo', className]}

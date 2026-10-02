@@ -2,7 +2,7 @@
 translationKey: ai-automation
 title: IA & automatisation
 navLabel: IA & automatisation
-tagline: Automatisez les tâches répétitives, et utilisez l’IA là où elle aide vraiment.
+tagline: Automatisez le répétitif, avec l’IA là où elle aide vraiment.
 summary: Nous automatisons les tâches répétitives de votre entreprise et intégrons l’IA à votre travail quotidien (lecture de documents, tri des demandes, réponses aux questions internes), avec des vérifications et une relecture humaine.
 order: 2
 seo:

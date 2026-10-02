@@ -4,7 +4,7 @@ name: Maroc
 kind: country
 countryCode: MA
 seo:
-  title: Développement logiciel & conseil informatique au Maroc | Atlaxys
+  title: Développement logiciel et conseil IT au Maroc | Atlaxys
   description: Développement logiciel, applications web et mobiles, automatisation IA, cloud et conseil pour les entreprises au Maroc, en français, arabe et anglais.
 hero:
   eyebrow: Maroc

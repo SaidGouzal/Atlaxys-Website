@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button.astro';
 import Container from '@/components/ui/Container.astro';
 import EmptyState from '@/components/ui/EmptyState.astro';
 import Section from '@/components/ui/Section.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
 import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
 import { getPageCopy, getProducts } from '@/lib/content';
 import { crumbs } from '@/lib/seo/crumbs';
@@ -35,14 +36,15 @@ const path = routePath(locale, 'products');
     </Fragment>
   </PageHero>
 
-  <Section theme="light" aria-label={t.labels.products}>
+  <Section theme="light" labelledby={copy.intro ? 'catalog-title' : undefined} aria-label={copy.intro ? undefined : t.labels.products}>
     <Container>
+      {copy.intro && <SectionHeader id="catalog-title" eyebrow={copy.intro.eyebrow} title={copy.intro.title} intro={copy.intro.intro} size="md" />}
       {
         products.length > 0 ? (
           <ul role="list" class="product-grid" data-reveal-stagger="80">
             {products.map((product) => (
               <li data-reveal>
-                <ProductCard product={product} locale={locale} headingLevel="h2" />
+                <ProductCard product={product} locale={locale} headingLevel={copy.intro ? 'h3' : 'h2'} />
               </li>
             ))}
           </ul>
@@ -50,6 +52,13 @@ const path = routePath(locale, 'products');
           <EmptyState text={t.empty.products}>
             <Button href={routePath(locale, 'contact')}>{t.cta.talkToUs}</Button>
           </EmptyState>
+        )
+      }
+      {
+        copy.intro && copy.intro.paragraphs.length > 0 && (
+          <div class="catalog-notes prose" data-reveal>
+            {copy.intro.paragraphs.map((p) => <p>{p}</p>)}
+          </div>
         )
       }
     </Container>
@@ -63,6 +72,10 @@ const path = routePath(locale, 'products');
 </BaseLayout>
 
 <style>
+  .catalog-notes {
+    margin-block-start: var(--space-xl);
+  }
+
   .product-grid {
     display: grid;
     gap: var(--grid-gap);

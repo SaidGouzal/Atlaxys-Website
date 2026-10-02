@@ -32,7 +32,9 @@ study, article, landing page or location.
   "game-changing"). Prefer a concrete sentence about what happens.
 - Keep search terms natural: put the main phrase in the title, first heading
   and description once, and answer questions directly in FAQs.
-- Meta descriptions: 160 characters or fewer (longer ones are cut with "…").
+- Page titles: 60 characters or fewer, brand included. The " | Atlaxys Consulting"
+  suffix is added only when it fits, so keep the main phrase first.
+- Meta descriptions: 155 characters or fewer (longer ones are cut with "…").
 - Terminology: *Software Development* (EN) / *Développement logiciel* (FR) /
   *تطوير البرمجيات* (AR); *AI & Automation*; *Cloud & DevOps*; *Technology
   Consulting*; *Case studies*; *Articles*. Process steps: Understand, Plan,

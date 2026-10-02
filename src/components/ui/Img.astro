@@ -2,6 +2,8 @@
 /**
  * Responsive image: AVIF + WebP sources, intrinsic size (no layout shift),
  * lazy by default. Pass `priority` for above-the-fold images (LCP).
+ * The <img> fallback is WebP too: a full-size PNG fallback of a screenshot
+ * weighs several hundred kB, and crawlers measure the fallback.
  */
 import { Picture } from 'astro:assets';
 
@@ -23,6 +25,7 @@ if (!candidateWidths.includes(src.width) && src.width < 1920) candidateWidths.pu
   src={src}
   alt={alt}
   formats={['avif', 'webp']}
+  fallbackFormat="webp"
   widths={candidateWidths}
   sizes={sizes}
   loading={priority ? 'eager' : 'lazy'}

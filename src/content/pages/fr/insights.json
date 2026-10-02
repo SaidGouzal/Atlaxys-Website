@@ -8,5 +8,14 @@
     "eyebrow": "Articles",
     "title": "Des articles pratiques sur le développement de logiciels.",
     "lead": "Des articles clairs sur les coûts, la préparation d’un projet, l’automatisation et le bon fonctionnement des logiciels, écrits par les personnes qui font le travail."
+  },
+  "intro": {
+    "eyebrow": "À propos de ces articles",
+    "title": "Écrits pour celles et ceux qui décident.",
+    "intro": "Chaque article répond à une question que les dirigeants nous posent avant un projet logiciel : ce qu’il coûte, comment choisir un partenaire, où l’automatisation aide et comment garder un logiciel en bon état de marche.",
+    "paragraphs": [
+      "Nous écrivons à partir du travail lui-même, pas des tendances. Quand un chiffre dépend de votre situation, nous expliquons ce qui le détermine au lieu de citer une moyenne.",
+      "Les articles sont publiés en anglais, et certains existent aussi en français et en arabe. Chacun renvoie aux services et produits concernés, pour passer d’une question à une prochaine étape."
+    ]
   }
 }

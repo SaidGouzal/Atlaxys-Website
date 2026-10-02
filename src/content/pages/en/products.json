@@ -8,5 +8,16 @@
     "eyebrow": "Products",
     "title": "Software we build and maintain ourselves.",
     "lead": "Our services are about building software for you. Our products are software we have already built: ready-made applications for specific jobs, which we keep improving."
+  },
+  "intro": {
+    "eyebrow": "How products work",
+    "title": "Ready-made software for specific jobs.",
+    "intro": "A product is software we have already built and keep maintaining, so you start from something that exists instead of commissioning a project from scratch.",
+    "paragraphs": [
+      "Each product page explains what the software does, who it is for, the platforms it runs on and its current status. It also says how pricing works: a subscription, a licence or a quote.",
+      "The best way to judge a product is to see it. Ask for a demo with your own questions in mind, and we will walk you through the parts that matter for your business.",
+      "If your needs go beyond what a product covers, our software development service can build the missing part, or a tool made entirely for your business.",
+      "Questions the product page does not answer? Write to us by email or WhatsApp and we will reply, usually within one working day."
+    ]
   }
 }

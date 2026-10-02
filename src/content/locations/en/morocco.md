@@ -5,7 +5,7 @@ kind: country
 countryCode: MA
 seo:
   title: Software Development & IT Consulting in Morocco | Atlaxys
-  description: Software development, web and mobile apps, AI automation, cloud hosting and technology consulting for businesses in Morocco, in French, Arabic and English.
+  description: Software development, web and mobile apps, AI automation, cloud and technology consulting for businesses in Morocco, in French, Arabic and English.
 hero:
   eyebrow: Morocco
   title: Software development and technology consulting in Morocco.

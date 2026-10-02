@@ -1,7 +1,7 @@
 ---
 translationKey: devops-cloud
 title: Cloud & DevOps
-tagline: Reliable hosting, automatic releases and monitoring, so updates go out without stress.
+tagline: Reliable hosting and automatic releases for stress-free updates.
 summary: We set up and look after the cloud hosting your software runs on. We automate testing and releases (CI/CD), package applications in containers and add monitoring, on AWS, DigitalOcean or your own servers, so updates are frequent and uneventful.
 order: 3
 seo:

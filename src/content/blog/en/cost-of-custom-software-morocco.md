@@ -2,6 +2,8 @@
 translationKey: cost-of-custom-software-morocco
 title: How much does custom software development cost in Morocco?
 description: What really drives the price of custom software in Morocco, how to read an estimate and how to keep your budget under control, without made-up averages.
+seo:
+  title: "How much does custom software cost in Morocco?"
 publishedAt: 2026-09-10
 updatedAt: 2026-10-01
 category: Business

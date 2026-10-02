@@ -6,7 +6,7 @@ summary: نُعِدّ الاستضافة السحابية التي يعمل عل
 order: 3
 seo:
   title: "استشارات DevOps والاستضافة السحابية: AWS وDigitalOcean"
-  description: إعداد الاستضافة السحابية، والنشر الآلي (CI/CD)، وDocker، والبنية التحتية كشيفرة، والمراقبة على AWS وDigitalOcean. خدمات DevOps من Atlaxys Consulting في المغرب.
+  description: استضافة سحابية ونشر آلي (CI/CD) وDocker والبنية التحتية كشيفرة والمراقبة على AWS وDigitalOcean، من Atlaxys Consulting في المغرب.
 hero:
   eyebrow: الخدمة 03
   title: استضافة لا داعي للقلق بشأنها.

@@ -73,18 +73,18 @@
   "cover": {
     "src": "./images/nexus-gym-dashboard.png",
     "alt": {
-      "en": "Nexus Gym dashboard with demo data: active members, visits, new members, renewals due, net revenue, expenses, result and amounts outstanding, above daily revenue and expense charts and revenue by activity.",
-      "fr": "Tableau de bord de Nexus Gym avec des données de démonstration : membres actifs, visites, nouveaux membres, renouvellements à venir, recettes nettes, dépenses, résultat et restes à payer, au-dessus des graphiques des recettes et dépenses par jour et des recettes par activité.",
-      "ar": "لوحة تحكم Nexus Gym ببيانات تجريبية: الأعضاء النشطون، الزيارات، الأعضاء الجدد، التجديدات المستحقة، صافي الإيرادات، المصاريف، النتيجة والمبالغ المتبقية، فوق رسوم بيانية للإيرادات والمصاريف اليومية والإيرادات حسب النشاط."
+      "en": "Nexus Gym dashboard with demo data: members, visits, renewals, revenue and expenses, with charts",
+      "fr": "Tableau de bord Nexus Gym (démo) : membres, visites, renouvellements, recettes et dépenses",
+      "ar": "لوحة تحكم Nexus Gym ببيانات تجريبية: الأعضاء والزيارات والتجديدات والإيرادات والمصاريف"
     }
   },
   "images": [
     {
       "src": "./images/nexus-gym-check-in-screen.png",
       "alt": {
-        "en": "Client screen at the entrance showing “Access granted” and a welcome message in French and Arabic for a demo member, with their six-month all-access plan, expiry date and 178 days remaining.",
-        "fr": "Écran client à l’entrée affichant « Accès autorisé » et un message de bienvenue en français et en arabe pour un membre de démonstration, avec sa formule semestrielle tout accès, sa date d’expiration et 178 jours restants.",
-        "ar": "شاشة العميل عند المدخل تعرض «دخول مسموح» ورسالة ترحيب بالفرنسية والعربية لعضو تجريبي، مع اشتراكه نصف السنوي الشامل وتاريخ انتهائه و178 يومًا متبقية."
+        "en": "Entrance screen showing “Access granted”, a welcome message, the member’s plan and days remaining",
+        "fr": "Écran d’entrée : « Accès autorisé », message de bienvenue, formule du membre et jours restants",
+        "ar": "شاشة المدخل تعرض «دخول مسموح» ورسالة ترحيب واشتراك العضو والأيام المتبقية"
       },
       "caption": {
         "en": "Client screen at the door: access status, plan and days left, in two languages.",
@@ -95,9 +95,9 @@
     {
       "src": "./images/nexus-gym-new-member.png",
       "alt": {
-        "en": "“New member” form with photo capture or import, identity fields (first name, last name, sex, date of birth, ID number), contact details and an emergency contact section.",
-        "fr": "Formulaire « Nouveau membre » avec prise ou import de photo, identité (prénom, nom, sexe, date de naissance, n° CIN), coordonnées et section contact d’urgence.",
-        "ar": "نموذج «عضو جديد» مع التقاط الصورة أو استيرادها، وحقول الهوية (الاسم، النسب، الجنس، تاريخ الازدياد، رقم البطاقة الوطنية)، وبيانات الاتصال، وقسم جهة الاتصال في حالات الطوارئ."
+        "en": "“New member” form: photo, identity fields, contact details and emergency contact",
+        "fr": "Formulaire « Nouveau membre » : photo, identité, coordonnées et contact d’urgence",
+        "ar": "نموذج «عضو جديد»: الصورة وحقول الهوية وبيانات الاتصال وجهة الاتصال في الطوارئ"
       },
       "caption": {
         "en": "Member file: photo, identity, contact and emergency details.",
@@ -108,9 +108,9 @@
     {
       "src": "./images/nexus-gym-renewal.png",
       "alt": {
-        "en": "Subscription renewal for a demo member: plans filtered by activity, start date chained after the current subscription, discount and promo code, with the period, total to pay and payment method (cash, card, transfer, cheque).",
-        "fr": "Renouvellement d’abonnement pour un membre de démonstration : formules filtrées par activité, date de début enchaînée après l’abonnement en cours, remise et code promo, avec la période, le total à payer et le mode de paiement (espèces, carte, virement, chèque).",
-        "ar": "تجديد اشتراك لعضو تجريبي: باقات مصفّاة حسب النشاط، وتاريخ بداية يلي الاشتراك الحالي، وخصم ورمز ترويجي، مع الفترة والمبلغ الإجمالي وطريقة الأداء (نقدًا، بطاقة، تحويل، شيك)."
+        "en": "Subscription renewal: plan by activity, start date, discount or promo code, total and payment",
+        "fr": "Renouvellement d’abonnement : formule, date de début, remise ou code promo, total et paiement",
+        "ar": "تجديد اشتراك: الباقة حسب النشاط وتاريخ البداية والخصم أو الرمز الترويجي والمبلغ وطريقة الأداء"
       },
       "caption": {
         "en": "Renewal in a few clicks: plan, period, discount and payment, with no days lost.",
@@ -121,9 +121,9 @@
     {
       "src": "./images/nexus-gym-sign-in.png",
       "alt": {
-        "en": "Nexus Gym sign-in screen for a club, with a demo profile, username and password fields, a French / English / Arabic language switch and the headline “Your gym. Under control.”",
-        "fr": "Écran de connexion de Nexus Gym pour un club, avec profil de démonstration, champs identifiant et mot de passe, choix de langue français / anglais / arabe et le titre « Votre salle. Sous contrôle. »",
-        "ar": "شاشة تسجيل الدخول إلى Nexus Gym لنادٍ رياضي، مع ملف تجريبي وحقلي اسم المستخدم وكلمة المرور ومبدّل اللغة الفرنسية / الإنجليزية / العربية والعنوان «قاعتك. تحت السيطرة.»"
+        "en": "Nexus Gym sign-in screen with username and password fields and a French, English and Arabic switch",
+        "fr": "Écran de connexion Nexus Gym : identifiant, mot de passe et choix de la langue",
+        "ar": "شاشة تسجيل الدخول إلى Nexus Gym: اسم المستخدم وكلمة المرور واختيار اللغة"
       },
       "caption": {
         "en": "Sign-in screen. The interface is available in French, English and Arabic.",

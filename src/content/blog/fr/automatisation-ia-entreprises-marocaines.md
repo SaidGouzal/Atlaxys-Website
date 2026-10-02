@@ -2,6 +2,8 @@
 translationKey: ai-automation-moroccan-businesses
 title: "Automatisation IA pour les entreprises marocaines : par où commencer"
 description: "Automatiser avec l’IA au Maroc : choisir le premier processus, gérer français, arabe et darija, protéger les données (loi 09-08) et mesurer les résultats."
+seo:
+  title: "Automatisation IA en entreprise au Maroc : par où commencer"
 publishedAt: 2026-09-18
 updatedAt: 2026-10-01
 category: IA & automatisation

@@ -69,9 +69,11 @@ HTML → `public, max-age=0, must-revalidate`.
 
 Options:
 
-1. **App Platform** — check the current DigitalOcean documentation for
-   response-header support on Static Sites (it could not be verified from the
-   audit environment). If supported, add the headers above to the app spec.
+1. **App Platform Static Site** — not possible. A Static Site component can
+   only set CORS headers (`ingress.rules[].cors`); custom response headers
+   need a Service component (checked against the App Platform app-spec
+   reference, October 2026). This is why crawlers report the headers above
+   as missing on every page.
 2. **Cloudflare (or another CDN) in front of the app** — add the headers with a
    "Modify response header" / Transform rule on the zone.
 3. **Switch the component to a Web Service** (a tiny Node/Caddy/nginx server

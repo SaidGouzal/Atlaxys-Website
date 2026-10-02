@@ -1,7 +1,9 @@
 ---
 translationKey: choosing-a-software-development-company
 title: "Comment choisir une société de développement logiciel : la check-list"
-description: Douze questions pour distinguer les équipes capables de livrer de celles qui savent seulement convaincre, que vous cherchiez au Maroc, en Europe ou ailleurs.
+description: Douze questions pour distinguer les équipes qui savent livrer de celles qui savent seulement convaincre, au Maroc, en Europe ou ailleurs.
+seo:
+  title: "Choisir une société de développement logiciel : check-list"
 publishedAt: 2026-08-28
 updatedAt: 2026-10-01
 category: Business

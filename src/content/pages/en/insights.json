@@ -8,5 +8,14 @@
     "eyebrow": "Articles",
     "title": "Practical writing about building software.",
     "lead": "Clear articles on costs, planning, automation and keeping software running, written by the people who do the work."
+  },
+  "intro": {
+    "eyebrow": "About these articles",
+    "title": "Written for the people who decide.",
+    "intro": "Each article answers a question business owners ask us before a software project: what it costs, how to choose a partner, where automation helps and how to keep software running.",
+    "paragraphs": [
+      "We write from the work itself, not from trends. Where a figure depends on your situation, we explain what drives it instead of quoting an average.",
+      "Articles are published in English, and some are also available in French and Arabic. Each one links to the services and products it relates to, so you can go from a question to a next step."
+    ]
   }
 }

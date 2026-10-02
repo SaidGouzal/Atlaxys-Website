@@ -1,7 +1,7 @@
 ---
 translationKey: software-engineering
 title: Software Development
-tagline: Web platforms, mobile apps and business software, built to be used every day.
+tagline: Web platforms, mobile apps and business software for everyday use.
 summary: We plan and build custom web applications, mobile apps, APIs and business software, from the first design to launch, with code that belongs to you and that your team can build on.
 order: 1
 seo:

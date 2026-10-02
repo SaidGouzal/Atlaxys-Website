@@ -51,7 +51,7 @@ const priced = product.pricing?.plans.find((p) => typeof p.price === 'number');
 const periodLabel = { month: t.labels.perMonth, year: t.labels.perYear, 'one-time': t.labels.oneTime } as const;
 const money = (value: number, currency: string) =>
   formatNumber(value, locale, { style: 'currency', currency, maximumFractionDigits: 0 });
-const demoHref = `${routePath(locale, 'contact')}?product=${encodeURIComponent(product.slug)}`;
+const demoHref = `${routePath(locale, 'contact')}#product=${encodeURIComponent(product.slug)}`;
 
 const specs = [
   { label: t.labels.category, value: product.category },
@@ -98,8 +98,10 @@ const specs = [
             <span class="mono">{t.labels.product} · {product.category}</span>
             <Tag status={product.status}>{statusLabel}</Tag>
           </p>
-          <h1 class="product-hero__name">{product.name}</h1>
-          <p class="lead">{product.tagline}</p>
+          <h1 class="product-hero__heading">
+            <span class="product-hero__name">{product.name}</span>
+            <span class="lead product-hero__tagline">{product.tagline}</span>
+          </h1>
           <div class="product-hero__actions">
             <Button href={demoHref} size="lg" magnetic>{t.cta.requestDemo}</Button>
             {
@@ -138,7 +140,7 @@ const specs = [
   <Section labelledby="overview-title">
     <Container class="overview">
       <div class="overview__text">
-        <h2 id="overview-title" class="h3">{product.tagline}</h2>
+        <h2 id="overview-title" class="h3">{product.seo.title ?? `${product.name}: ${product.category}`}</h2>
         <p class="overview__desc">{product.description}</p>
       </div>
       <div data-reveal>
@@ -271,7 +273,18 @@ const specs = [
     color: var(--color-muted);
   }
 
+  /* The tagline sits inside the h1 so each language version has its own heading. */
+  .product-hero__heading {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .product-hero__tagline {
+    font-weight: 400;
+  }
+
   .product-hero__name {
+    display: block;
     font-family: var(--font-display);
     font-stretch: 125%;
     font-weight: 800;

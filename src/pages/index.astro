@@ -1,8 +1,10 @@
 ---
 /**
- * Root URL. Sends visitors to their language: an explicit earlier choice
- * first, then the browser's preferred languages, then English. Crawlers
- * (and visitors without JavaScript) follow the meta refresh to /en/.
+ * Root URL. In production App Platform answers "/" with a 301 to /en/
+ * (ingress rule in .do/app.yaml), so this page is only the fallback: it sends
+ * visitors to their language (an explicit earlier choice first, then the
+ * browser's preferred languages, then English), and crawlers and visitors
+ * without JavaScript follow the meta refresh to /en/.
  */
 import { site } from '@/config/site';
 import { defaultLocale, localeMeta, locales } from '@/i18n/config';

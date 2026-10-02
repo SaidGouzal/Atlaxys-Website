@@ -418,6 +418,8 @@ const contactPage = z.object({
   hero: heroBlock,
   channels: z.object({ title: z.string(), emailText: z.string(), whatsappText: z.string() }),
   next: z.object({ title: z.string(), steps: z.array(z.string()) }),
+  /** Questions answered below the form (also emitted as FAQPage structured data). */
+  faq: z.object({ title: z.string(), items: z.array(faq) }).optional(),
   thankYou: z.object({ seoTitle: z.string(), title: z.string(), text: z.string() }),
 });
 
@@ -425,6 +427,8 @@ const indexPage = z.object({
   page: z.enum(['services', 'products', 'work', 'insights', 'search']),
   seo: pageSeo,
   hero: heroBlock,
+  /** Optional section introducing the listing (heading, intro and paragraphs). */
+  intro: sectionIntro.extend({ paragraphs: z.array(z.string()).default([]) }).optional(),
 });
 
 const pages = defineCollection({

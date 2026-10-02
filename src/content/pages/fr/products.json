@@ -8,5 +8,16 @@
     "eyebrow": "Produits",
     "title": "Des logiciels que nous développons et maintenons nous-mêmes.",
     "lead": "Nos services consistent à développer des logiciels pour vous. Nos produits sont des logiciels que nous avons déjà développés : des applications prêtes à l’emploi pour des besoins précis, que nous continuons d’améliorer."
+  },
+  "intro": {
+    "eyebrow": "Fonctionnement",
+    "title": "Des logiciels prêts à l’emploi pour des besoins précis.",
+    "intro": "Un produit est un logiciel que nous avons déjà développé et que nous continuons de maintenir : vous partez d’un outil existant au lieu de commander un projet à partir de zéro.",
+    "paragraphs": [
+      "Chaque fiche produit explique ce que fait le logiciel, à qui il s’adresse, les plateformes sur lesquelles il fonctionne et son état actuel. Elle précise aussi le mode de tarification : abonnement, licence ou devis.",
+      "Le meilleur moyen de juger un produit est de le voir. Demandez une démo avec vos propres questions en tête : nous vous montrons les parties qui comptent pour votre activité.",
+      "Si vos besoins dépassent ce que couvre un produit, notre service de développement logiciel peut construire la partie manquante, ou un outil entièrement conçu pour votre entreprise.",
+      "Une question à laquelle la fiche produit ne répond pas ? Écrivez-nous par e-mail ou WhatsApp : nous répondons généralement sous un jour ouvré."
+    ]
   }
 }

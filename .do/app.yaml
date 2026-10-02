@@ -22,6 +22,28 @@ domains:
   - domain: atlaxys.com
     type: ALIAS
 
+# App Platform's edge rewrites every email address into a
+# /cdn-cgi/l/email-protection link, which crawlers report as a broken (4xx)
+# internal link. The address is public anyway (contact@atlaxys.com).
+disable_email_obfuscation: true
+
+# "/" has no content of its own: send it to the default language with a real
+# 301 instead of the page's client-side meta refresh. src/pages/index.astro
+# stays as the fallback (local preview, or if this rule is removed).
+ingress:
+  rules:
+    - match:
+        path:
+          exact: /
+      redirect:
+        uri: /en/
+        redirect_code: 301
+    - match:
+        path:
+          prefix: /
+      component:
+        name: web
+
 static_sites:
   - name: web
     github:

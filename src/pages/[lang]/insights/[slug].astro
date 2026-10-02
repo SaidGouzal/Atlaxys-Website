@@ -115,9 +115,9 @@ const author = data.author?.name ?? site.name;
       {
         toc.length > 1 && (
           <nav class="article__toc" aria-labelledby="toc-title">
-            <h2 id="toc-title" class="mono article__toc-title">
+            <p id="toc-title" class="mono article__toc-title">
               {t.labels.contents}
-            </h2>
+            </p>
             <ol role="list">
               {toc.map((h) => (
                 <li>
@@ -266,6 +266,7 @@ const author = data.author?.name ?? site.name;
   }
 
   .article__toc-title {
+    line-height: var(--leading-snug);
     color: var(--color-muted);
     margin-block-end: var(--space-s);
   }

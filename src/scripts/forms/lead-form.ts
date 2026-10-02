@@ -54,8 +54,10 @@ function initForm(form: HTMLFormElement) {
 
   form.querySelector<HTMLInputElement>('[data-started-at]')!.value = String(Date.now());
 
-  // "Request a demo" links pass ?product=<slug>; carry it into the message.
-  const product = new URLSearchParams(window.location.search).get('product');
+  // "Request a demo" links pass #product=<slug> (a fragment, so crawlers see a
+  // single contact URL); ?product=<slug> is still read for older links and ads.
+  const product =
+    new URLSearchParams(window.location.hash.slice(1)).get('product') ?? new URLSearchParams(window.location.search).get('product');
   const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]');
   if (product && /^[a-z0-9-]{2,60}$/.test(product) && message && !message.value) {
     message.value = `[${product}] `;

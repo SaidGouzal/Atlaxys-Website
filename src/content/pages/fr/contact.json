@@ -25,6 +25,27 @@
   "thankYou": {
     "seoTitle": "Message reçu",
     "title": "Merci. Nous avons bien reçu votre message.",
-    "text": "Un membre de notre équipe vous répondra par e-mail, généralement sous un jour ouvré. En cas d’urgence, WhatsApp est le moyen le plus rapide de nous joindre."
+    "text": "Un membre de l’équipe vous répondra par e-mail, généralement sous un jour ouvré. En cas d’urgence, WhatsApp est le moyen le plus rapide."
+  },
+  "faq": {
+    "title": "Avant de nous écrire",
+    "items": [
+      {
+        "question": "Que dois-je indiquer dans mon message ?",
+        "answer": "Ce que le logiciel doit faire, qui va l’utiliser, les outils que vous utilisez déjà et l’échéance que vous avez en tête. Une idée générale suffit : nous posons les questions qui complètent le reste."
+      },
+      {
+        "question": "Travaillez-vous avec des clients hors du Maroc ?",
+        "answer": "Oui. Nous sommes basés au Maroc et travaillons avec des clients au Maroc et à l’étranger. L’essentiel de la collaboration se fait à distance, par visioconférence, e-mail et WhatsApp, avec des rencontres sur place quand le projet le demande."
+      },
+      {
+        "question": "Dans quelle langue pouvons-nous échanger ?",
+        "answer": "En français, en arabe ou en anglais, à l’écrit comme lors des appels. Écrivez-nous dans la langue qui vous convient le mieux."
+      },
+      {
+        "question": "Connaîtrai-je le prix avant de m’engager ?",
+        "answer": "Oui. Après le premier appel, nous envoyons une proposition écrite avec notre approche, les phases du projet, une fourchette de prix et les hypothèses retenues. Vous décidez ensuite de la suite."
+      }
+    ]
   }
 }

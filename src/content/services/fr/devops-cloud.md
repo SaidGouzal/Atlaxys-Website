@@ -1,12 +1,12 @@
 ---
 translationKey: devops-cloud
 title: Cloud & DevOps
-tagline: Un hébergement fiable, des mises en ligne automatiques et une surveillance active, pour des mises à jour sans stress.
+tagline: Un hébergement fiable et des mises en ligne automatiques, sans stress.
 summary: Nous mettons en place et entretenons l’hébergement cloud de votre logiciel. Nous automatisons les tests et les mises en ligne (CI/CD), conditionnons les applications en conteneurs et ajoutons une surveillance, sur AWS, DigitalOcean ou vos propres serveurs, pour des mises à jour fréquentes et sans incident.
 order: 3
 seo:
   title: "Conseil DevOps et hébergement cloud : AWS, DigitalOcean"
-  description: Hébergement cloud, mises en ligne automatisées (CI/CD), Docker, infrastructure as code et surveillance sur AWS et DigitalOcean. Services DevOps par Atlaxys.
+  description: Hébergement cloud, mises en ligne automatisées (CI/CD), Docker, infrastructure as code et surveillance sur AWS et DigitalOcean, par Atlaxys.
 hero:
   eyebrow: Service 03
   title: Un hébergement dont vous n’avez plus à vous soucier.

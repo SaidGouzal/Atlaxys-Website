@@ -10,7 +10,12 @@ The project is a pure static build: `npm run build` writes everything to `dist/`
    output directory `dist`, error document `404.html`. Do **not** set a catch-all document: unknown URLs
    must return 404.
 3. Apply the HTTP security headers listed in [SECURITY.md](SECURITY.md) where the site is served.
-4. Read the build log: `[launch-check]` lists legal/privacy information still missing.
+   A Static Site component cannot set them itself (see SECURITY.md for the options).
+4. If the app was created in the Control Panel, `.do/app.yaml` is not read automatically: copy its
+   `disable_email_obfuscation` and `ingress` blocks into the app's spec (Settings → App Spec → Edit)
+   or run `doctl apps update <APP_ID> --spec .do/app.yaml`. They turn off email obfuscation (crawlers
+   report its `/cdn-cgi/l/email-protection` links as broken) and answer `/` with a 301 to `/en/`.
+5. Read the build log: `[launch-check]` lists legal/privacy information still missing.
 
 ## Environment variables (all build-time)
 
