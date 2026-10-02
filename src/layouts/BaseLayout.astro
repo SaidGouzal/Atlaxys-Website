@@ -103,17 +103,25 @@ const graph: (JsonLdNode | undefined)[] = [
   dir={meta.dir}
   data-variant={variant}
   data-motion={variant === 'landing' ? 'lite' : undefined}
+  data-theme={site.theme.default === 'system' ? undefined : site.theme.default}
   data-theme-default={site.theme.default}
 >
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta name="theme-color" content={site.brand.ink} data-dark={site.brand.ink} data-light={site.brand.paper} />
+    <meta
+      name="theme-color"
+      content={site.theme.default === 'light' ? site.brand.paper : site.brand.ink}
+      data-dark={site.brand.ink}
+      data-light={site.brand.paper}
+    />
     <meta name="color-scheme" content="dark light" />
     {
       /* Theme before first paint (no flash): the visitor's stored choice, else
-         data-theme-default ('system' follows the device). See scripts/core/theme.ts. */
+         data-theme-default (site.theme.default; 'system' follows the device).
+         <html data-theme> is also rendered with the default, for visitors
+         without JavaScript. See scripts/core/theme.ts. */
     }
     <script is:inline>
       (function (d) {

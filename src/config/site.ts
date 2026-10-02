@@ -119,11 +119,12 @@ export const site = {
 
   /**
    * Colour theme for a first visit, before the visitor uses the toggle:
-   * 'system' follows the device setting (light or dark), 'dark' or 'light'
-   * forces one. The visitor's own choice is remembered and always wins.
+   * 'light' or 'dark' forces one whatever the device setting; 'system'
+   * follows the device. Once the visitor clicks the toggle, their choice is
+   * stored and always wins, until they clear the site's data.
    */
   theme: {
-    default: 'system' as 'system' | 'dark' | 'light',
+    default: 'light' as 'system' | 'dark' | 'light',
   },
 
   /**

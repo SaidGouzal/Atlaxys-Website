@@ -47,8 +47,8 @@ colour from following the theme.
 
 | Context | Selector | Look |
 |---|---|---|
-| Dark (default, the brand) | `:root`, `[data-theme="dark"]` | ink page, steel text, glowing orange signal |
-| Light | `[data-theme="light"]` on `<html>` | cool blue-grey paper (`#EEF1F5`), softened ink text, burnt-orange accents (`--signal-ink`); orange buttons keep ink text |
+| Dark (the brand's original look) | `:root`, `[data-theme="dark"]` | ink page, steel text, glowing orange signal |
+| Light (default for first visits) | `[data-theme="light"]` on `<html>` | cool blue-grey paper (`#EEF1F5`), softened ink text, burnt-orange accents (`--signal-ink`); orange buttons keep ink text |
 | Paper section in dark mode | `[data-theme="light"]` on a section | the light palette, as a band |
 | Paper section in light mode | `[data-theme="light"] [data-theme="light"]` | one step deeper (`--paper-150`) so bands still read as bands |
 | Always dark | `data-theme="dark"` on an element | e.g. the logo panel on the About page |
@@ -60,13 +60,14 @@ every pair passes WCAG AA (checked with axe on all pages, both themes).
 **How it switches.** An inline script at the top of `BaseLayout.astro` sets
 `<html data-theme>` before the first paint (no flash): the visitor's stored
 choice (`localStorage['atlaxys-theme']`), else `site.theme.default` in
-`src/config/site.ts` (`'system'` follows the device setting; `'dark'` or
-`'light'` forces one for first visits). `ThemeToggle.astro` (header and
-landing header) is a toggle button named "Dark mode"; `src/scripts/core/theme.ts`
-stores the choice only when it differs from the default, follows device
-changes live while nothing is stored, syncs other tabs, updates the browser
-UI colour, and reveals the new theme as a circle from the button (View
-Transitions API; instant with reduced motion or older browsers). The WebGL
+`src/config/site.ts`, currently `'light'` (`'dark'` forces dark; `'system'`
+follows the device setting). The HTML is also rendered with the default, so
+visitors without JavaScript get it too. `ThemeToggle.astro` (header and
+landing header) is a toggle button named "Dark mode";
+`src/scripts/core/theme.ts` saves every choice (kept until the visitor clears
+the site's data), syncs other tabs, updates the browser UI colour, and
+reveals the new theme as a circle from the button (View Transitions API;
+instant with reduced motion or older browsers). The WebGL
 hero listens for the `atlaxys:themechange` event: additive glow on dark,
 normal "ink" blending on light, colours from `--color-trace` / `--trace-gain`.
 

@@ -6,9 +6,10 @@
  * toggle buttons, the visitor's stored choice, the device setting (followed
  * live while nothing is stored), other open tabs and the browser UI colour.
  *
- * Storing: a choice is saved only when it differs from the default, so a
- * visitor who switches back to their device's theme goes back to following
- * the device.
+ * Storing: every click on the toggle saves the choice (localStorage
+ * 'atlaxys-theme'), and it is used on every page and visit until the
+ * visitor clears the site's data. Without a stored choice the site shows
+ * site.theme.default.
  *
  * Components that draw colours themselves (the WebGL hero) listen for the
  * `atlaxys:themechange` window event.
@@ -90,8 +91,7 @@ function switchTo(theme: Theme, origin?: HTMLElement) {
 
 function choose(theme: Theme, origin?: HTMLElement) {
   try {
-    if (theme === defaultTheme()) localStorage.removeItem(KEY);
-    else localStorage.setItem(KEY, theme);
+    localStorage.setItem(KEY, theme);
   } catch {
     /* storage blocked: the choice lasts for this page only */
   }
@@ -109,7 +109,8 @@ export function initTheme() {
     button.addEventListener('click', () => choose(currentTheme() === 'dark' ? 'light' : 'dark', button)),
   );
 
-  // Follow the device while the visitor has not made a choice of their own.
+  // With site.theme.default = 'system': follow the device while the visitor
+  // has not made a choice of their own (no effect with 'light' or 'dark').
   prefersLight.addEventListener('change', () => {
     if (!storedTheme()) applyWithoutTransitions(defaultTheme());
   });

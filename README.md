@@ -173,9 +173,9 @@ component uses semantic tokens derived from those values.
 
 ### Dark and light theme
 Visitors switch with the sun/moon button in the header; their choice is
-remembered. What a first visit shows is `theme.default` in
-`src/config/site.ts`: `'system'` (follows the device, the default), `'dark'`
-or `'light'`. Light colours are the *Paper* block in `src/styles/tokens.css`;
+saved in the browser and kept until they clear the site's data. What a first
+visit shows is `theme.default` in `src/config/site.ts`: `'light'` (the
+default), `'dark'`, or `'system'` (follows the device). Light colours are the *Paper* block in `src/styles/tokens.css`;
 see "Themes" in docs/DESIGN-SYSTEM.md.
 
 ### Change contact information

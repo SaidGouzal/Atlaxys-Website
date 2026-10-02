@@ -112,9 +112,9 @@ export const storageItems: StorageItem[] = [
     firstParty: true,
     category: 'preferences',
     purpose: {
-      en: 'Remembers whether you picked the light or dark theme with the theme button. Only written when you click it, and removed again if your choice matches your device setting.',
-      fr: 'Mémorise le thème clair ou sombre choisi avec le bouton de thème. Écrit uniquement si vous cliquez dessus, et supprimé si votre choix correspond au réglage de votre appareil.',
-      ar: 'يحفظ اختيارك بين المظهر الفاتح والداكن عبر زر المظهر. لا يُكتب إلا عند النقر عليه، ويُحذف إذا طابق اختيارك إعداد جهازك.',
+      en: 'Remembers whether you picked the light or dark theme with the theme button, so every page opens in that theme. Only written when you click it.',
+      fr: 'Mémorise le thème clair ou sombre choisi avec le bouton de thème, pour ouvrir chaque page dans ce thème. Écrit uniquement si vous cliquez dessus.',
+      ar: 'يحفظ اختيارك بين المظهر الفاتح والداكن عبر زر المظهر، لتُفتح كل الصفحات به. لا يُكتب إلا عند النقر عليه.',
     },
     duration: { en: 'Until you clear site data', fr: 'Jusqu’à suppression des données du site', ar: 'إلى أن تحذف بيانات الموقع' },
     active: true,
