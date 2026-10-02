@@ -500,6 +500,11 @@ const fid = (field: string) => `${id}-${field}`;
     white-space: nowrap;
   }
 
+  /* Keep the trap input inside the clipped 1px box so it never extends past the viewport. */
+  .lead-form__hp input {
+    width: 1px;
+  }
+
   .lead-form__footer {
     display: grid;
     gap: var(--space-m);

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, envField } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import csp from './integrations/csp.mjs';
 import rehypeTableScroll from './integrations/rehype-table-scroll.mjs';
 
@@ -93,7 +94,7 @@ export default defineConfig({
 
   markdown: {
     // Tables scroll inside a focusable region on narrow screens (also applies to MDX).
-    rehypePlugins: [rehypeTableScroll],
+    processor: unified({ rehypePlugins: [rehypeTableScroll] }),
     shikiConfig: {
       theme: 'github-dark-default',
       wrap: false,

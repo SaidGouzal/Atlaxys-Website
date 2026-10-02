@@ -103,7 +103,7 @@ as applicable. Item C.12 below is therefore decided (GA4 only).
 | Risk | Why it remains | Recommended action |
 |---|---|---|
 | **HTTP-only security headers not applied** (HSTS, `frame-ancestors`/X-Frame-Options, `X-Content-Type-Options`, Permissions-Policy) | Cannot be set from HTML; App Platform header support for Static Sites could not be verified from the audit environment | Apply the set in [SECURITY.md](SECURITY.md) at App Platform or a CDN; verify with `curl -I` / Mozilla Observatory |
-| **Astro 5.18.2 advisories** (incl. one rated critical) and **Node 20 end-of-life** (April 2026) | Fixes exist only in Astro ≥ 7.2.8 (Node 22). Most concern SSR/dev server, not this static output; the image one needs a malicious image in the repo | Plan the upgrade to Node 22 LTS + Astro 7 |
+| **Astro 5.18.2 advisories** (incl. one rated critical) and **Node 20 end-of-life** (April 2026) | Fixes exist only in Astro ≥ 7.2.8 (Node 22). Most concern SSR/dev server, not this static output; the image one needs a malicious image in the repo | **Done (2 Oct 2026):** Astro 7.3 on Node ≥ 22.12, `npm audit` clean |
 | **Form provider not chosen** | Server-side validation, spam filtering, rate limiting, CORS and retention all depend on it | Choose one meeting the checklist in SECURITY.md; sign its DPA; name it in `src/config/privacy.ts` |
 | **Google Tag Manager** | Whoever controls the container can add tags; CSP blocks custom-HTML tags by design | Prefer GA4 directly; if GTM is used, keep it to built-in Google tags and configure consent checks |
 | Vendor cookie names/durations | Taken from vendor documentation; vendors change them | Re-check when enabling a vendor |
@@ -174,7 +174,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 | No CSP on the static build | High | **Fixed** (hash-based meta CSP, vendor allowlist per configuration) |
 | HSTS / frame-ancestors / nosniff / Permissions-Policy absent | Medium | **Open** — header-only; documented in SECURITY.md |
 | Nested `sharp` with high-severity libvips/libheif CVEs | High (build-time) | **Fixed** (override) |
-| Astro 5 advisories (SSR/dev-server/image) & Node 20 EOL | Critical (as rated) / low exploitability for static output | **Open** — upgrade recommended |
+| Astro 5 advisories (SSR/dev-server/image) & Node 20 EOL | Critical (as rated) / low exploitability for static output | **Fixed** — Astro 7.3 / Node 22, `npm audit` clean |
 | esbuild dev-server file read (Windows only) | Low | Open (dev only) |
 | Inline analytics bootstrap built from env values (`define:vars`) | Medium | **Fixed** (strict ID validation) |
 | Form could post to an empty/insecure endpoint | Medium | **Fixed** (https enforced at build and runtime; fallback without endpoint) |

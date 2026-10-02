@@ -114,12 +114,5 @@ chosen provider must:
 
 ## Dependencies
 
-- `npm audit` (October 2026): the remaining advisories are in **Astro 5.18.2**
-  (the last 5.x release; fixes exist only in Astro ≥ 7.2.8) and in Astro's
-  bundled `esbuild` (Windows dev-server only). Most of the Astro advisories
-  concern server rendering (SSR), server islands or the dev server, which this
-  static build does not use; the image-optimisation one requires a malicious
-  image in the repository. They are not exploitable by visitors of the static
-  site, but **upgrading to Astro 7 on Node 22 LTS is recommended** — Node 20,
-  which the project currently targets, reached end of life in April 2026.
+- **Dependencies:** upgraded to Astro 7 / `@astrojs/mdx` 8 on Node ≥ 22.12 (October 2026); `npm audit` reports 0 vulnerabilities.
 - Run `npm audit` and `npm outdated` before each release.
