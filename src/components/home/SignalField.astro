@@ -54,7 +54,7 @@ const fieldJson = JSON.stringify(field);
     inset: 0;
     overflow: hidden;
     pointer-events: none;
-    color: var(--steel-200);
+    color: var(--color-text-2);
   }
 
   .signal-field__svg {
@@ -74,8 +74,8 @@ const fieldJson = JSON.stringify(field);
 
   .sf-trace__line {
     fill: none;
-    stroke: var(--steel-300);
-    stroke-opacity: 0.22;
+    stroke: var(--color-trace);
+    stroke-opacity: calc(0.22 * var(--trace-gain));
     stroke-width: 1.4;
   }
 
@@ -85,9 +85,9 @@ const fieldJson = JSON.stringify(field);
   }
 
   .sf-trace__node {
-    fill: var(--ink-950);
-    stroke: var(--steel-300);
-    stroke-opacity: 0.4;
+    fill: var(--color-bg);
+    stroke: var(--color-trace);
+    stroke-opacity: calc(0.4 * var(--trace-gain));
     stroke-width: 1.4;
   }
 

@@ -8,6 +8,7 @@ import { routePath, useTranslations, type Locale } from '@/i18n';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 interface Props {
   locale: Locale;
@@ -23,6 +24,7 @@ const t = useTranslations(locale);
       <Logo width={124} />
     </a>
     <div class="landing-header__actions">
+      <ThemeToggle locale={locale} />
       <a
         href={whatsappLink(t.whatsapp.message)}
         class="landing-header__wa"

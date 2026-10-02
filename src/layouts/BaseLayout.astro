@@ -98,11 +98,44 @@ const graph: (JsonLdNode | undefined)[] = [
 ---
 
 <!doctype html>
-<html lang={meta.hreflang} dir={meta.dir} data-variant={variant} data-motion={variant === 'landing' ? 'lite' : undefined}>
+<html
+  lang={meta.hreflang}
+  dir={meta.dir}
+  data-variant={variant}
+  data-motion={variant === 'landing' ? 'lite' : undefined}
+  data-theme-default={site.theme.default}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content={site.brand.ink} data-dark={site.brand.ink} data-light={site.brand.paper} />
+    <meta name="color-scheme" content="dark light" />
+    {
+      /* Theme before first paint (no flash): the visitor's stored choice, else
+         data-theme-default ('system' follows the device). See scripts/core/theme.ts. */
+    }
+    <script is:inline>
+      (function (d) {
+        var t = null;
+        try {
+          t = localStorage.getItem('atlaxys-theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = d.getAttribute('data-theme-default');
+          if (t !== 'light' && t !== 'dark') {
+            try {
+              t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            } catch (e) {
+              t = 'dark';
+            }
+          }
+        }
+        d.setAttribute('data-theme', t);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', meta.getAttribute('data-' + t));
+      })(document.documentElement);
+    </script>
     <script is:inline>
       (function (d) {
         d.classList.add('js');
@@ -122,8 +155,6 @@ const graph: (JsonLdNode | undefined)[] = [
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content={site.brand.ink} />
-    <meta name="color-scheme" content="dark light" />
     <meta name="format-detection" content="telephone=no" />
     {Object.entries(site.verification).map(([name, content]) => <meta name={name} content={content} />)}
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM summary" />

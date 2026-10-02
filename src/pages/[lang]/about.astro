@@ -50,7 +50,7 @@ const facts = [
     <Container class="about-facts">
       <div class="about-facts__head">
         <h2 id="facts-title" class="h3">{copy.facts.title}</h2>
-        <div class="about-facts__mark" aria-hidden="true">
+        <div class="about-facts__mark" data-theme="dark" aria-hidden="true">
           <Logo width={220} eager={false} />
         </div>
       </div>
@@ -139,7 +139,7 @@ const facts = [
 
   .about-facts__mark {
     padding: var(--space-l);
-    background: var(--ink-950);
+    background: var(--color-bg);
     width: fit-content;
     clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
   }

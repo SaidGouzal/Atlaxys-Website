@@ -112,7 +112,18 @@ export const site = {
   /** Brand colours mirrored from src/styles/tokens.css for non-CSS contexts (manifest, meta theme-color). */
   brand: {
     ink: '#08090B',
+    /** --paper-100: page background in light mode (browser theme colour). */
+    paper: '#EEF1F5',
     signal: '#FF8828',
+  },
+
+  /**
+   * Colour theme for a first visit, before the visitor uses the toggle:
+   * 'system' follows the device setting (light or dark), 'dark' or 'light'
+   * forces one. The visitor's own choice is remembered and always wins.
+   */
+  theme: {
+    default: 'system' as 'system' | 'dark' | 'light',
   },
 
   /**

@@ -43,36 +43,27 @@
   --signal-500: var(--brand-signal); /* 8.3:1 on ink-950; ink text on it 8.1:1 */
   --signal-600: var(--brand-signal-deep);
   --signal-700: #d95c00;
-  --signal-ink: #b04400; /* orange for text on light surfaces — 5.1:1 on steel-50 */
+  --signal-ink: #a84200; /* orange text on light surfaces: ≥ 4.6:1 on paper-50…200 */
 
   /* ---- Status (functional, never used as decoration) ------------------- */
   --danger-on-dark: #ff6b6b;
   --danger-on-light: #b3261e;
   --success-on-dark: #5ee0a0;
-  --success-on-light: #1b7a4b;
+  --success-on-light: #16683f;
 
-  /* ---- Semantic roles: dark theme (default) ---------------------------- */
-  --color-bg: var(--ink-950);
-  --color-surface: var(--ink-900);
-  --color-surface-2: var(--ink-850);
-  --color-surface-3: var(--ink-800);
-  --color-text: var(--steel-50);
-  --color-text-2: var(--steel-200);
-  --color-muted: var(--steel-400);
-  --color-subtle: var(--steel-600);
-  --color-line: rgb(195 203 213 / 0.12);
-  --color-line-strong: rgb(195 203 213 / 0.24);
-  --color-control-border: var(--steel-600);
-  --color-accent: var(--signal-500);
-  --color-primary: var(--signal-500);
-  --color-primary-hover: var(--signal-400);
-  --color-primary-active: var(--signal-600);
-  --color-on-primary: var(--ink-950);
-  --color-focus: var(--signal-400);
-  --color-danger: var(--danger-on-dark);
-  --color-success: var(--success-on-dark);
-  --color-selection: rgb(255 136 40 / 0.32);
-  --color-grid: rgb(195 203 213 / 0.05);
+  /* ---- Paper (light surfaces) -------------------------------------------
+     A cool blue-grey instead of white and a softened ink instead of black:
+     less glare on large areas, body text still ≥ 13:1 on every surface. */
+  --paper-50: #f7f8fa;
+  --paper-100: #eef1f5;
+  --paper-150: #e5e9ef;
+  --paper-200: #dae0e7;
+  --paper-300: #cdd4dd;
+  --paper-400: #c3cbd5;
+  --paper-ink: #11141a; /* 16.3:1 on paper-100 */
+  --paper-ink-2: #323843; /* 10.4:1 */
+  --paper-muted: #525a66; /* 6.2:1; ≥ 5.2:1 on paper-50…200 */
+  --paper-subtle: #69727e; /* 4.3:1, borders and large text only */
 
   /* ---- Typography ------------------------------------------------------ */
   --font-sans: 'Archivo', 'Archivo Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -129,10 +120,6 @@
   --chamfer-lg: 22px;
   --hairline: 1px;
 
-  /* ---- Elevation -------------------------------------------------------- */
-  --shadow-overlay: 0 30px 80px -30px rgb(0 0 0 / 0.75);
-  --shadow-float: 0 12px 30px -12px rgb(0 0 0 / 0.6);
-
   /* ---- Motion ----------------------------------------------------------- */
   --ease-signal: cubic-bezier(0.7, 0, 0.2, 1); /* precise, engineered */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -151,34 +138,109 @@
   --z-overlay: 80;
   --z-toast: 90;
 
+}
+
+/* ==========================================================================
+   THEMES
+   --------------------------------------------------------------------------
+   Components only use the semantic roles below. Three contexts:
+     dark   :root / [data-theme='dark']            default, the brand
+     light  [data-theme='light']                   on <html> (light mode) or
+                                                    on a section ("paper" band
+                                                    in dark mode)
+     paper in light mode  [data-theme='light'] [data-theme='light']
+                                                    one step deeper, so paper
+                                                    bands still read as bands
+   The theme on <html> is set before first paint by the inline script in
+   BaseLayout.astro (stored choice → system preference) and switched by
+   src/scripts/core/theme.ts.
+   ========================================================================== */
+
+:root,
+[data-theme='dark'] {
+  --color-bg: var(--ink-950);
+  --color-surface: var(--ink-900);
+  --color-surface-2: var(--ink-850);
+  --color-surface-3: var(--ink-800);
+  --color-surface-4: var(--ink-700);
+  --color-text: var(--steel-50);
+  --color-text-2: var(--steel-200);
+  --color-muted: var(--steel-400);
+  --color-subtle: var(--steel-600);
+  --color-line: rgb(195 203 213 / 0.12);
+  --color-line-strong: rgb(195 203 213 / 0.24);
+  --color-control-border: var(--steel-600);
+  --color-control-knob: var(--steel-300);
+  --color-accent: var(--signal-500);
+  --color-primary: var(--signal-500);
+  --color-primary-hover: var(--signal-400);
+  --color-primary-active: var(--signal-600);
+  --color-on-primary: var(--ink-950);
+  --color-focus: var(--signal-400);
+  --color-danger: var(--danger-on-dark);
+  --color-success: var(--success-on-dark);
+  --color-selection: rgb(255 136 40 / 0.32);
+  --color-grid: rgb(195 203 213 / 0.05);
+  /* Signal-trace motif (hero field, 404): line colour and how strongly it shows. */
+  --color-trace: var(--steel-300);
+  --trace-gain: 1;
+  --shadow-overlay: 0 30px 80px -30px rgb(0 0 0 / 0.75);
+  --shadow-float: 0 12px 30px -12px rgb(0 0 0 / 0.6);
+  --color-backdrop: rgb(8 9 11 / 0.72);
+  /* Which logo file is visible (Logo.astro renders both). */
+  --logo-on-dark: block;
+  --logo-on-light: none;
   color-scheme: dark;
 }
 
-/* Light surfaces ("paper" sections). Apply with data-theme="light". */
 [data-theme='light'] {
-  --color-bg: var(--steel-50);
-  --color-surface: #ffffff;
-  --color-surface-2: var(--steel-100);
-  --color-surface-3: #d9dee6;
-  --color-text: var(--ink-950); /* 17.5:1 */
-  --color-text-2: #262b32; /* 13:1 */
-  --color-muted: var(--ink-500); /* 7.1:1 */
-  --color-subtle: var(--steel-600);
-  --color-line: rgb(8 9 11 / 0.1);
-  --color-line-strong: rgb(8 9 11 / 0.22);
-  --color-control-border: var(--steel-600);
+  --color-bg: var(--paper-100);
+  --color-surface: var(--paper-50);
+  --color-surface-2: var(--paper-150);
+  --color-surface-3: var(--paper-200);
+  --color-surface-4: var(--paper-300);
+  --color-text: var(--paper-ink);
+  --color-text-2: var(--paper-ink-2);
+  --color-muted: var(--paper-muted);
+  --color-subtle: var(--paper-subtle);
+  --color-line: rgb(17 20 26 / 0.1);
+  --color-line-strong: rgb(17 20 26 / 0.22);
+  --color-control-border: var(--paper-subtle); /* 4.3:1 */
+  --color-control-knob: var(--paper-muted);
   --color-accent: var(--signal-ink);
+  --color-primary: var(--signal-500); /* orange fill, ink text 8.3:1 */
+  --color-primary-hover: var(--signal-400);
+  --color-primary-active: var(--signal-600);
+  --color-on-primary: var(--ink-950);
   --color-focus: var(--signal-ink);
   --color-danger: var(--danger-on-light);
   --color-success: var(--success-on-light);
-  --color-grid: rgb(8 9 11 / 0.045);
+  --color-selection: rgb(255 136 40 / 0.28);
+  --color-grid: rgb(17 20 26 / 0.05);
+  --color-trace: var(--paper-muted);
+  --trace-gain: 1.35;
+  --shadow-overlay: 0 30px 70px -30px rgb(24 32 48 / 0.3);
+  --shadow-float: 0 12px 30px -14px rgb(24 32 48 / 0.28);
+  --color-backdrop: rgb(17 20 26 / 0.45);
+  --logo-on-dark: none;
+  --logo-on-light: block;
   color-scheme: light;
+}
+
+/* Paper band inside light mode: a step deeper than the page. */
+[data-theme='light'] [data-theme='light'] {
+  --color-bg: var(--paper-150);
+  --color-surface: var(--paper-100);
+  --color-surface-2: var(--paper-200);
+  --color-surface-3: var(--paper-300);
+  --color-surface-4: var(--paper-400);
 }
 
 /* Visitors who ask for more contrast: brighter secondary text, visible
    hairlines and stronger control borders. The default design is unchanged. */
 @media (prefers-contrast: more) {
-  :root {
+  :root,
+  [data-theme='dark'] {
     --color-text-2: var(--steel-100);
     --color-muted: var(--steel-200);
     --color-subtle: var(--steel-400);
@@ -188,8 +250,9 @@
   }
 
   [data-theme='light'] {
+    --color-text: var(--ink-950);
     --color-text-2: var(--ink-950);
-    --color-muted: #262b32;
+    --color-muted: var(--paper-ink-2);
     --color-subtle: var(--ink-500);
     --color-line: rgb(8 9 11 / 0.35);
     --color-line-strong: rgb(8 9 11 / 0.55);

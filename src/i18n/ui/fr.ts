@@ -29,6 +29,7 @@ const fr: UIDictionary = {
     homeLink: 'Atlaxys Consulting, page d’accueil',
     pauseAnimation: 'Mettre en pause l’animation d’arrière-plan',
     playAnimation: 'Relancer l’animation d’arrière-plan',
+    darkMode: 'Mode sombre',
   },
 
   nav: {

@@ -1,0 +1,83 @@
+---
+/**
+ * Light / dark theme switch. A toggle button named "Dark mode": pressed
+ * means the dark theme is on. The icon shows the current theme (moon or
+ * sun). Needs JavaScript, so it is hidden without it (the site then stays
+ * in its default theme). Behaviour: src/scripts/core/theme.ts.
+ */
+import { useTranslations, type Locale } from '@/i18n';
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+
+const { locale, class: className } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<button type="button" class:list={['theme-toggle', className]} data-theme-toggle>
+  <span class="theme-toggle__icons" aria-hidden="true">
+    <Icon name="moon" size={19} class="theme-toggle__icon theme-toggle__icon--moon" />
+    <Icon name="sun" size={19} class="theme-toggle__icon theme-toggle__icon--sun" />
+  </span>
+  <span class="visually-hidden">{t.a11y.darkMode}</span>
+</button>
+
+<script>
+  import { initTheme } from '@/scripts/core/theme';
+
+  initTheme();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    color: var(--color-text-2);
+    transition: color var(--dur-2);
+  }
+
+  :global(html:not(.js)) .theme-toggle {
+    display: none;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-text);
+  }
+
+  .theme-toggle__icons {
+    display: grid;
+  }
+
+  .theme-toggle__icons > :global(.icon) {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--dur-3) var(--ease-out),
+      transform var(--dur-3) var(--ease-out);
+  }
+
+  /* Dark (default): moon shown, sun tucked away. */
+  .theme-toggle__icons > :global(.theme-toggle__icon--sun) {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+
+  :global(:root[data-theme='light']) .theme-toggle__icons > :global(.theme-toggle__icon--moon) {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+  }
+
+  :global(:root[data-theme='light']) .theme-toggle__icons > :global(.theme-toggle__icon--sun) {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The moon carries the brand signal: a small orange touch, like the wordmark's X. */
+  .theme-toggle :global(.theme-toggle__icon--moon) {
+    color: var(--color-accent);
+  }
+</style>

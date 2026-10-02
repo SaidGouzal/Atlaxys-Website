@@ -31,6 +31,7 @@ const en = {
     homeLink: 'Atlaxys Consulting, home page',
     pauseAnimation: 'Pause background animation',
     playAnimation: 'Play background animation',
+    darkMode: 'Dark mode',
   },
 
   nav: {

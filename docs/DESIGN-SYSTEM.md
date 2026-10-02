@@ -7,7 +7,7 @@ The logo files in `src/assets/brand/source/` were analysed programmatically
 
 | Element | Observation | Translated into |
 |---|---|---|
-| Background | Cool near-black, `#050608`–`#0C0D0F` | The ink scale; a dark-first site |
+| Background | Cool near-black, `#050608`–`#0C0D0F` | The ink scale; dark is the brand theme (a light theme is available, see below) |
 | "A" mark | Two steel legs, white → `#D1DAE5` gradient, sharp cuts | Steel text colours; sharp corners; 45°/60° diagonals |
 | Blade | Orange sweep `#FE6E02` replacing the crossbar | The single signal colour, used sparingly |
 | Circuit traces | 45° routed lines ending in **ring nodes** | The Atlaxys signature motif: trace + node |
@@ -16,6 +16,9 @@ The logo files in `src/assets/brand/source/` were analysed programmatically
 
 The logo itself is never redrawn: `scripts/brand-assets.mjs` only crops it,
 removes its flat background and places it on canvases (favicons, OG image).
+For light backgrounds it also writes `atlaxys-wordmark-ink.png`, the same
+lockup with its white/steel letters in ink; the orange X and every shape are
+untouched.
 
 ## Colour tokens (`src/styles/tokens.css`)
 
@@ -29,13 +32,46 @@ removes its flat background and places it on canvases (favicons, OG image).
 | `--steel-600` | `#6B7480` | UI borders, decorative only | 4.2:1 |
 | `--signal-500` (brand) | `#FF8828` | accents, primary buttons (ink text) | 8.3:1 on ink; ink on it 8.1:1 |
 | `--signal-600` | `#FE6E02` | active states, glows | — |
-| `--signal-ink` | `#B04400` | orange text on light surfaces | 5.1:1 |
-| Light "paper" | `#F2F4F7` / `#FFFFFF` | `data-theme="light"` sections | ink text 17.5:1 |
+| `--signal-ink` | `#A84200` | orange text on light surfaces | ≥ 4.6:1 on every paper surface |
+| `--paper-50 … --paper-400` | `#F7F8FA` → `#C3CBD5` | light surfaces (light theme, paper sections) | — |
+| `--paper-ink` / `-ink-2` / `-muted` | `#11141A` / `#323843` / `#525A66` | text on paper | 16.3:1 / 10.4:1 / 6.2:1 on `--paper-100` |
 
-Semantic roles (`--color-bg`, `--color-surface`, `--color-text`,
+Semantic roles (`--color-bg`, `--color-surface` … `-4`, `--color-text`,
 `--color-text-2`, `--color-muted`, `--color-line`, `--color-accent`,
-`--color-primary`, `--color-focus`, `--color-danger`, …) are what components
-use. `[data-theme="light"]` re-maps them, so any section can switch to paper.
+`--color-primary`, `--color-focus`, `--color-danger`, `--color-trace`,
+`--shadow-*`, …) are what components use. Never reference the raw `--ink-*`,
+`--steel-*` or `--paper-*` scales from a component: that is what kept a
+colour from following the theme.
+
+## Themes: dark and light
+
+| Context | Selector | Look |
+|---|---|---|
+| Dark (default, the brand) | `:root`, `[data-theme="dark"]` | ink page, steel text, glowing orange signal |
+| Light | `[data-theme="light"]` on `<html>` | cool blue-grey paper (`#EEF1F5`), softened ink text, burnt-orange accents (`--signal-ink`); orange buttons keep ink text |
+| Paper section in dark mode | `[data-theme="light"]` on a section | the light palette, as a band |
+| Paper section in light mode | `[data-theme="light"] [data-theme="light"]` | one step deeper (`--paper-150`) so bands still read as bands |
+| Always dark | `data-theme="dark"` on an element | e.g. the logo panel on the About page |
+
+*Easy on the eyes:* the light theme avoids pure white and pure black on large
+areas (less glare, less halation); body text stays ≥ 13:1 on every surface and
+every pair passes WCAG AA (checked with axe on all pages, both themes).
+
+**How it switches.** An inline script at the top of `BaseLayout.astro` sets
+`<html data-theme>` before the first paint (no flash): the visitor's stored
+choice (`localStorage['atlaxys-theme']`), else `site.theme.default` in
+`src/config/site.ts` (`'system'` follows the device setting; `'dark'` or
+`'light'` forces one for first visits). `ThemeToggle.astro` (header and
+landing header) is a toggle button named "Dark mode"; `src/scripts/core/theme.ts`
+stores the choice only when it differs from the default, follows device
+changes live while nothing is stored, syncs other tabs, updates the browser
+UI colour, and reveals the new theme as a circle from the button (View
+Transitions API; instant with reduced motion or older browsers). The WebGL
+hero listens for the `atlaxys:themechange` event: additive glow on dark,
+normal "ink" blending on light, colours from `--color-trace` / `--trace-gain`.
+
+**Logo.** `Logo.astro` renders both files; `--logo-on-dark` / `--logo-on-light`
+show the one that suits the surface it sits on.
 
 **To change the brand colours**, edit the *Brand* block only.
 

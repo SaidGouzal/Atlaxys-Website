@@ -3,8 +3,10 @@
  *
  * Generates every derived logo file (transparent logo, favicons, PWA icons,
  * default social image) from the two official source files in
- * `src/assets/brand/source/`. The logo artwork itself is never redrawn or
- * altered: we only crop, remove the flat background and place it on a canvas.
+ * `src/assets/brand/source/`. The logo artwork itself is never redrawn: we
+ * crop it, remove the flat background, place it on a canvas, and for light
+ * backgrounds swap its white/steel letters for ink (the orange X and every
+ * shape stay exactly as drawn).
  *
  * Run after replacing the source logo files:
  *   npm run brand:assets
@@ -46,6 +48,34 @@ async function colorToAlpha(input, bg, crop) {
     out[j + 3] = Math.round(alpha * 255);
   }
   return sharp(out, { raw: { width: info.width, height: info.height, channels: 4 } }).png();
+}
+
+/**
+ * Logo for light backgrounds: neutral (white / steel) pixels become ink, with
+ * the letters' subtle steel gradient kept as a gradient of inks. Coloured
+ * pixels (the orange X) and alpha are left exactly as they are.
+ */
+async function inkVariant(png) {
+  const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const out = Buffer.from(data);
+  const dark = [17, 20, 26]; // --paper-ink
+  const soft = [58, 65, 76]; // lighter steel in the source → slightly lighter ink
+  const smooth = (a, b, x) => {
+    const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+    return t * t * (3 - 2 * t);
+  };
+  for (let i = 0; i < data.length; i += 4) {
+    const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+    const chroma = Math.max(r, g, b) - Math.min(r, g, b);
+    const neutral = 1 - smooth(40, 90, chroma);
+    if (neutral <= 0) continue;
+    const t = Math.max(0, Math.min(1, (255 - (r + g + b) / 3) / 90));
+    for (let c = 0; c < 3; c++) {
+      const ink = dark[c] + (soft[c] - dark[c]) * t;
+      out[i + c] = Math.round(data[i + c] * (1 - neutral) + ink * neutral);
+    }
+  }
+  return sharp(out, { raw: { width: info.width, height: info.height, channels: 4 } }).png().toBuffer();
 }
 
 /** Minimal ICO container wrapping PNG payloads (supported by every modern browser). */
@@ -143,6 +173,8 @@ async function main() {
   const wordmarkBuf = await wordmark.toBuffer();
   await writeFile(`${OUT_SRC}/atlaxys-wordmark.png`, wordmarkBuf);
   await writeFile(`${OUT_PUBLIC}/brand/atlaxys-wordmark.png`, wordmarkBuf);
+  // Same lockup for light backgrounds (light theme, paper sections).
+  await writeFile(`${OUT_SRC}/atlaxys-wordmark-ink.png`, await inkVariant(wordmarkBuf));
 
   // 2. "A" symbol — cropped from the app icon, transparent.
   const mark = await colorToAlpha(`${SRC}/atlaxys-app-icon.webp`, { r: 3, g: 5, b: 7 }, {

@@ -171,6 +171,13 @@ Edit the **Brand** block at the top of `src/styles/tokens.css` (and
 `site.brand` in `src/config/site.ts` for the browser theme colour). Every
 component uses semantic tokens derived from those values.
 
+### Dark and light theme
+Visitors switch with the sun/moon button in the header; their choice is
+remembered. What a first visit shows is `theme.default` in
+`src/config/site.ts`: `'system'` (follows the device, the default), `'dark'`
+or `'light'`. Light colours are the *Paper* block in `src/styles/tokens.css`;
+see "Themes" in docs/DESIGN-SYSTEM.md.
+
 ### Change contact information
 Edit `contact` in `src/config/site.ts` — email, phone and the WhatsApp number
 (digits only, international format). Every button, the footer, structured data

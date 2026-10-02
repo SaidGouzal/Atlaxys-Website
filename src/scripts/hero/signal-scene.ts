@@ -4,6 +4,11 @@
  * Draw calls: 3 (grid dots, traces, terminals). All animation happens in
  * shaders driven by a handful of uniforms, so the CPU does almost nothing per
  * frame. Rendering pauses when the hero is off-screen or the tab is hidden.
+ *
+ * Theme: trace colour and strength come from the --color-trace and
+ * --trace-gain tokens (the same ones the SVG fallback uses). On the dark
+ * theme the field glows (additive blending); on the light theme it is drawn
+ * like ink (normal blending), since adding light to a light page shows nothing.
  */
 import {
   AdditiveBlending,
@@ -12,6 +17,7 @@ import {
   Color,
   LineSegments,
   MathUtils,
+  NormalBlending,
   PerspectiveCamera,
   Plane,
   Points,
@@ -25,7 +31,6 @@ import {
 import type { SignalField } from '@/lib/signal/routing';
 
 const SIGNAL = new Color('#ff8828');
-const STEEL = new Color('#c3cbd5');
 const SPACING = 0.5;
 
 const commonUniforms = () => ({
@@ -34,7 +39,8 @@ const commonUniforms = () => ({
   uFade: { value: 1 },
   uPointer: { value: new Vector2(999, 999) },
   uSignal: { value: SIGNAL },
-  uSteel: { value: STEEL },
+  uSteel: { value: new Color('#c3cbd5') },
+  uGain: { value: 1 },
 });
 
 const traceVertex = /* glsl */ `
@@ -62,6 +68,7 @@ const traceFragment = /* glsl */ `
   uniform vec2 uPointer;
   uniform vec3 uSignal;
   uniform vec3 uSteel;
+  uniform float uGain;
   varying float vDist;
   varying float vLen;
   varying float vHot;
@@ -87,7 +94,7 @@ const traceFragment = /* glsl */ `
     vec3 color = mix(base, uSignal, pulse);
     color = mix(color, vec3(1.0), probe * 0.35);
     float alpha = (0.16 + vHot * 0.18 + pulse * 0.85 + probe * 0.45) * depth * uFade * drawn;
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor = vec4(color, min(alpha * uGain, 1.0));
   }
 `;
 
@@ -122,6 +129,7 @@ const pointFragment = /* glsl */ `
   uniform float uFade;
   uniform vec3 uSignal;
   uniform vec3 uSteel;
+  uniform float uGain;
   varying float vKind;
   varying float vProbe;
   varying float vArrive;
@@ -132,7 +140,7 @@ const pointFragment = /* glsl */ `
       // Grid dot.
       float dot = smoothstep(0.5, 0.2, r);
       float a = dot * (0.1 + vProbe * 0.6) * vDepth * uFade;
-      gl_FragColor = vec4(mix(uSteel, uSignal, vProbe * 0.4), a);
+      gl_FragColor = vec4(mix(uSteel, uSignal, vProbe * 0.4), min(a * uGain, 1.0));
       return;
     }
     // Ring terminal.
@@ -140,7 +148,7 @@ const pointFragment = /* glsl */ `
     float core = smoothstep(0.24, 0.0, r) * vArrive;
     vec3 color = vKind > 1.5 ? uSignal : mix(uSteel, uSignal, vProbe);
     float a = (ring * (0.45 + vProbe * 0.5 + vArrive * 0.5) + core) * vDepth * uFade * step(0.98, uDraw);
-    gl_FragColor = vec4(color, a);
+    gl_FragColor = vec4(color, min(a * uGain, 1.0));
   }
 `;
 
@@ -252,6 +260,21 @@ export function createSignalScene(container: HTMLElement, field: SignalField, op
   const setUniform = <K extends keyof ReturnType<typeof commonUniforms>>(key: K, fn: (u: ReturnType<typeof commonUniforms>[K]) => void) =>
     allUniforms.forEach((u) => fn(u[key]));
 
+  // ---- Theme -------------------------------------------------------------
+  const applyTheme = () => {
+    const styles = getComputedStyle(container);
+    const trace = styles.getPropertyValue('--color-trace').trim();
+    const gain = parseFloat(styles.getPropertyValue('--trace-gain')) || 1;
+    const light = document.documentElement.dataset.theme === 'light';
+    if (trace) setUniform('uSteel', (u) => u.value.set(trace));
+    setUniform('uGain', (u) => (u.value = gain));
+    for (const material of [traceMat, pointMat]) {
+      material.blending = light ? NormalBlending : AdditiveBlending;
+      material.needsUpdate = true;
+    }
+  };
+  applyTheme();
+
   // ---- Pointer probe ------------------------------------------------------
   const raycaster = new Raycaster();
   const ground = new Plane(new Vector3(0, 1, 0), 0);
@@ -332,12 +355,20 @@ export function createSignalScene(container: HTMLElement, field: SignalField, op
     renderer.render(scene, camera);
   });
 
+  // A paused or off-screen field still shows the new colours straight away.
+  const onThemeChange = () => {
+    applyTheme();
+    renderer.render(scene, camera);
+  };
+  window.addEventListener('atlaxys:themechange', onThemeChange);
+
   return {
     destroy() {
       renderer.setAnimationLoop(null);
       hero.removeEventListener('pointermove', onPointerMove);
       hero.removeEventListener('pointerleave', onPointerLeave);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('atlaxys:themechange', onThemeChange);
       resizeObserver.disconnect();
       io.disconnect();
       traceGeo.dispose();

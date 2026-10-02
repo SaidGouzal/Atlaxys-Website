@@ -115,6 +115,28 @@
   }
 }
 
+/* ---- Theme switch (src/scripts/core/theme.ts) -------------------------------
+   Same-document view transition: the old theme stays still underneath while
+   the new one opens as a circle from the toggle. The page-navigation
+   animations above are switched off for it, the header is part of the page
+   snapshot, and colour transitions on individual elements are paused so
+   nothing fades on its own. */
+:root.is-theme-switching::view-transition-old(root),
+:root.is-theme-switching::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+:root.is-theme-switching .site-header {
+  view-transition-name: none;
+}
+
+:root.is-theme-switching *,
+:root.is-theme-switching *::before,
+:root.is-theme-switching *::after {
+  transition: none !important;
+}
+
 /* ---- Reduced motion: everything static and instant ---------------------- */
 @media (prefers-reduced-motion: reduce) {
   @view-transition {

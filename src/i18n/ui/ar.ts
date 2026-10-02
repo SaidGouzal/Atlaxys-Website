@@ -45,6 +45,7 @@ const ar: UIDictionary = {
     homeLink: 'Atlaxys Consulting، الصفحة الرئيسية',
     pauseAnimation: 'إيقاف الحركة في الخلفية مؤقتًا',
     playAnimation: 'تشغيل الحركة في الخلفية',
+    darkMode: 'الوضع الداكن',
   },
 
   nav: {

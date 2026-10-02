@@ -106,6 +106,20 @@ export const storageItems: StorageItem[] = [
     active: true,
   },
   {
+    name: 'atlaxys-theme',
+    kind: 'localStorage',
+    provider: 'Atlaxys',
+    firstParty: true,
+    category: 'preferences',
+    purpose: {
+      en: 'Remembers whether you picked the light or dark theme with the theme button. Only written when you click it, and removed again if your choice matches your device setting.',
+      fr: 'Mémorise le thème clair ou sombre choisi avec le bouton de thème. Écrit uniquement si vous cliquez dessus, et supprimé si votre choix correspond au réglage de votre appareil.',
+      ar: 'يحفظ اختيارك بين المظهر الفاتح والداكن عبر زر المظهر. لا يُكتب إلا عند النقر عليه، ويُحذف إذا طابق اختيارك إعداد جهازك.',
+    },
+    duration: { en: 'Until you clear site data', fr: 'Jusqu’à suppression des données du site', ar: 'إلى أن تحذف بيانات الموقع' },
+    active: true,
+  },
+  {
     name: 'atlaxys-attribution',
     kind: 'sessionStorage',
     provider: 'Atlaxys',
