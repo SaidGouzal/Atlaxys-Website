@@ -18,22 +18,45 @@ function inject(src: string, id: string) {
   document.head.appendChild(script);
 }
 
+/**
+ * Google Consent Mode v2. Only analytics_storage follows the visitor's choice.
+ * The three advertising signals stay denied whatever they accept: this site
+ * runs no Google advertising tag, and the consent dialog does not ask for
+ * Google advertising use. If Google Ads is ever added, declare it as a
+ * marketing vendor (config, privacy inventory, dialog) and tie these signals
+ * to `state.marketing` at the same time.
+ */
 export function updateGoogleConsent(state: ConsentState) {
   window.gtag?.('consent', 'update', {
     analytics_storage: state.analytics ? 'granted' : 'denied',
-    ad_storage: state.marketing ? 'granted' : 'denied',
-    ad_user_data: state.marketing ? 'granted' : 'denied',
-    ad_personalization: state.marketing ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
   });
+}
+
+/**
+ * The page address without free text a visitor typed (the on-site search
+ * query `q`) or anything that looks like an email address, so neither can
+ * reach Google Analytics as part of a page URL.
+ */
+function sanitizedLocation() {
+  const url = new URL(window.location.href);
+  url.searchParams.delete('q');
+  for (const [key, value] of [...url.searchParams]) if (value.includes('@')) url.searchParams.delete(key);
+  url.hash = '';
+  return url.toString();
 }
 
 function loadGa4(id: string) {
   inject(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`, 'ga4');
   window.gtag?.('js', new Date());
+  // Applies to every later hit on this page, including history-based page views.
+  window.gtag?.('set', { page_location: sanitizedLocation() });
   // GA4 does not log or store IP addresses. Google signals (cross-device
-  // linking with signed-in Google accounts) stays off; ad storage follows the
-  // marketing choice through Consent Mode.
-  window.gtag?.('config', id, { allow_google_signals: false });
+  // linking with signed-in Google accounts) and ad personalisation stay off;
+  // the advertising consent signals are always denied (see above).
+  window.gtag?.('config', id, { allow_google_signals: false, allow_ad_personalization_signals: false });
 }
 
 function loadGtm(id: string) {

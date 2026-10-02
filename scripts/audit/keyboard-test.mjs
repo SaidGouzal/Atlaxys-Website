@@ -5,7 +5,7 @@ const { chromium } = require('playwright');
 const BASE = process.argv[2] ?? 'http://127.0.0.1:4401';
 const results = [];
 const check = (name, ok, detail = '') => { results.push(ok); console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}${detail ? ' — ' + detail : ''}`); };
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const seeded = async (opts = {}) => {
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, ...opts });
   await ctx.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());

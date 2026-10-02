@@ -33,7 +33,7 @@ const DAY = 86_400_000;
 /** First-party cookies set by each category's vendors (see src/config/privacy.ts). */
 const VENDOR_COOKIES: Record<'analytics' | 'marketing', RegExp> = {
   analytics: /^(_ga|_ga_.+|_gid|_gat.*)$/,
-  marketing: /^(_fbp|_fbc|_gcl_.+|li_.+|lms_.+)$/,
+  marketing: /^(_fbp|_fbc|_gcl_.+|_gac_.+|li_.+|lms_.+)$/,
 };
 
 function config() {
@@ -99,7 +99,11 @@ function deleteCookies(pattern: RegExp) {
   }
 }
 
+/** The consent last applied in this page (vendors may already be running). */
+let applied: ConsentState | null = null;
+
 function apply(state: ConsentState) {
+  applied = state;
   updateGoogleConsent(state);
   loadVendors(state);
   if (state.marketing) captureAttribution();
@@ -144,6 +148,9 @@ export function initConsent() {
 
     const withdrawn = (['analytics', 'marketing'] as const).filter((c) => previous?.[c] && !state[c]);
     if (withdrawn.length) {
+      // Official Google opt-out switch: stops any gtag call that runs before the reload completes.
+      const ga4 = config()?.ga4;
+      if (ga4 && withdrawn.includes('analytics')) (window as unknown as Record<string, boolean>)[`ga-disable-${ga4}`] = true;
       withdrawn.forEach((c) => deleteCookies(VENDOR_COOKIES[c]));
       if (withdrawn.includes('marketing')) clearAttribution();
       // Vendor code already running in this page cannot be unloaded: reload.
@@ -179,6 +186,21 @@ export function initConsent() {
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
     decide(Boolean(analyticsInput?.checked), Boolean(marketingInput?.checked));
+  });
+
+  // A choice changed in another tab applies here too: a withdrawal reloads
+  // this page so vendor code already running stops; otherwise hide the banner.
+  window.addEventListener('storage', (event) => {
+    if (event.key !== KEY) return;
+    const next = readConsent();
+    const withdrew = (['analytics', 'marketing'] as const).some((c) => applied?.[c] && !next?.[c]);
+    if (withdrew) {
+      window.location.reload();
+      return;
+    }
+    if (!next) return;
+    showBanner(false);
+    apply(next);
   });
 
   // Footer "Cookie settings" buttons.
