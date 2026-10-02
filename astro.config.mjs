@@ -18,6 +18,13 @@ try {
 }
 
 /**
+ * Production Google Analytics 4 measurement ID (public by design). Used when
+ * the hosting environment does not set PUBLIC_GA4_ID, so the build does not
+ * depend on the App Platform dashboard. Still loaded only after consent.
+ */
+process.env.PUBLIC_GA4_ID ||= 'G-9LD8TLNH9K';
+
+/**
  * Canonical origin used for canonical URLs, hreflang, sitemap and Open Graph.
  * It must be the exact origin that answers 200: the site is served on
  * www.atlaxys.com (the apex atlaxys.com only redirects), so canonicals and
