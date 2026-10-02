@@ -48,7 +48,7 @@ static_sites:
   - name: web
     github:
       repo: saidgouzal/atlaxys-website
-      branch: main
+      branch: develop
       deploy_on_push: true
     environment_slug: node-js
     build_command: npm ci && npm run build
@@ -70,7 +70,7 @@ static_sites:
       # consent banner). Each one set here is loaded only after consent and
       # appears automatically in the cookie and privacy policies.
       - key: PUBLIC_GA4_ID
-        value: ''
+        value: G-9LD8TLNH9K
         scope: BUILD_TIME
       - key: PUBLIC_GTM_ID
         value: ''

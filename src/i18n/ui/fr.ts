@@ -248,6 +248,7 @@ const fr: UIDictionary = {
     analyticsText: 'Compte les visites et les pages vues pour améliorer le site. Dépose des cookies contenant un identifiant aléatoire.',
     marketingTitle: 'Marketing',
     marketingText: 'Mesure les résultats de nos campagnes publicitaires et associe à votre demande la campagne qui vous a amené ici. Les plateformes publicitaires peuvent rapprocher ces données de votre compte chez elles.',
+    marketingTextNoAds: 'Associe à une demande que vous envoyez le lien de campagne qui vous a amené ici (paramètres utm, identifiants de clic publicitaire comme gclid ou fbclid, site référent), pour savoir quelles campagnes fonctionnent. Conservé dans votre navigateur jusqu’à la fermeture de l’onglet ; aucune plateforme publicitaire n’est utilisée sur ce site.',
     providers: 'Fournisseurs :',
     gpcNote: 'Votre navigateur envoie un signal Global Privacy Control : le marketing reste désactivé.',
     alwaysOn: 'Toujours actifs',

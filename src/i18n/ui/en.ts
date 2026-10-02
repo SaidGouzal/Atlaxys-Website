@@ -250,6 +250,7 @@ const en = {
     analyticsText: 'Counts visits and pages viewed so we can improve the site. Sets cookies containing a random identifier.',
     marketingTitle: 'Marketing',
     marketingText: 'Measures the results of our ad campaigns and attaches the campaign that brought you here to an enquiry you send. Ad platforms may link this data to your account with them.',
+    marketingTextNoAds: 'Attaches the campaign link that brought you here (utm parameters, ad click identifiers such as gclid or fbclid, referring site) to an enquiry you send, so we know which campaigns work. Kept in your browser until the tab is closed; no advertising platform is used on this site.',
     providers: 'Providers:',
     gpcNote: 'Your browser sends a Global Privacy Control signal, so marketing stays off.',
     alwaysOn: 'Always on',

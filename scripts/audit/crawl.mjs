@@ -12,7 +12,7 @@ const [base, dist, vp = 'desktop', filter = ''] = process.argv.slice(2);
 const sizes = { desktop: { width: 1366, height: 900 }, tablet: { width: 820, height: 1180 }, mobile: { width: 375, height: 812 }, reflow: { width: 320, height: 640 } };
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : e.name.endsWith('.html') ? [path.join(d, e.name)] : []));
 const pages = walk(dist).map((f) => '/' + path.relative(dist, f).replace(/index\.html$/, '')).filter((p) => p.includes(filter));
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const ctx = await browser.newContext({ bypassCSP: !process.env.NOAXE, viewport: sizes[vp], reducedMotion: process.env.REDUCED ? 'reduce' : 'no-preference' });
 // Block any request leaving localhost and record it.
 const external = new Set();

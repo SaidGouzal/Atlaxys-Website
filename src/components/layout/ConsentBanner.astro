@@ -59,7 +59,7 @@ const vendors = { analytics: vendorsFor('analytics'), marketing: vendorsFor('mar
     <label class="consent-form__row">
       <span>
         <span class="consent-form__label">{t.consent.marketingTitle}</span>
-        <span class="consent-form__desc">{t.consent.marketingText}</span>
+        <span class="consent-form__desc">{vendors.marketing.length > 0 ? t.consent.marketingText : t.consent.marketingTextNoAds}</span>
         {vendors.marketing.length > 0 && <span class="consent-form__desc">{t.consent.providers} {vendors.marketing.join(', ')}</span>}
         <span class="consent-form__desc consent-form__gpc" hidden data-gpc-note>{t.consent.gpcNote}</span>
       </span>

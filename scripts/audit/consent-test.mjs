@@ -34,7 +34,7 @@ async function newCtx(browser, { gpc = false } = {}) {
 }
 const state = (page) => page.evaluate(() => ({ cookies: document.cookie, local: { ...localStorage }, session: { ...sessionStorage } }));
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 
 // 1. Before consent: nothing loads, nothing stored, banner first in tab order.
 {
@@ -117,6 +117,29 @@ const browser = await chromium.launch();
   check('Withdraw: cookies deleted', !/_ga|_fbp|li_fat_id/.test(s.cookies), s.cookies);
   check('Withdraw: attribution deleted', !('atlaxys-attribution' in s.session));
   check('Withdraw: no vendor requests after reload', log.vendor.length === before, log.vendor.slice(before).join(', '));
+  await ctx.close();
+}
+
+// 3b. Withdrawal in one tab stops tracking in the other open tabs; search text never reaches GA.
+{
+  const { ctx, log } = await newCtx(browser);
+  const a = await ctx.newPage();
+  await a.goto(`${BASE}/en/`);
+  await a.click('[data-consent-banner] [data-consent-action="accept"]');
+  await a.waitForTimeout(800);
+  const b = await ctx.newPage();
+  await b.goto(`${BASE}/en/search/?q=jane.doe%40example.com`);
+  await b.waitForTimeout(1000);
+  const loc = await b.evaluate(() => (window.dataLayer ?? []).map((e) => e && e[0] === 'set' && e[1]?.page_location).filter(Boolean)[0]);
+  check('GA page_location drops the search query', typeof loc === 'string' && !/[?&]q=|example\.com|%40/.test(loc), loc);
+  const before = log.vendor.length;
+  await a.click('footer [data-consent-open]');
+  await a.uncheck('#consent-settings input[name="analytics"]');
+  await a.uncheck('#consent-settings input[name="marketing"]');
+  await Promise.all([a.waitForNavigation(), b.waitForNavigation(), a.click('#consent-settings button[type="submit"]')]);
+  await b.waitForTimeout(1000);
+  check('Cross-tab: other tab reloaded without vendors', log.vendor.length === before, log.vendor.slice(before).join(', '));
+  check('Cross-tab: other tab shows no banner (choice known)', !(await b.locator('[data-consent-banner]').isVisible()));
   await ctx.close();
 }
 

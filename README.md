@@ -212,6 +212,6 @@ Items marked `TODO(launch)` in the code:
 - [ ] **Technology list** — `src/config/technology.ts` must only list technologies the team actually uses.
 - [ ] **Legal pages** — legal notice, privacy, cookies and terms were written from the actual implementation but must be reviewed by qualified counsel (Law 09-08 / CNDP declaration and transfers; GDPR applicability; US state law). Open items: `docs/AUDIT.md` → "Legal TODOs".
 - [ ] **Translations** — have a native speaker review the French and Arabic copy. The brand stays in Latin script ("Atlaxys") on Arabic pages; change it if you prefer a transliteration.
-- [ ] **Analytics** — add IDs; check the consent banner appears, nothing loads before consent, and the cookie/privacy tables list the new vendor. Prefer GA4 over GTM (see `docs/SECURITY.md`).
+- [x] **Analytics** — GA4 `G-9LD8TLNH9K` set in `.do/app.yaml`; complete the GA4 property checklist in `docs/AUDIT.md` (retention, Google signals, data redaction, product links). For any further ID: check the consent banner appears, nothing loads before consent, and the cookie/privacy tables list the new vendor. Prefer GA4 over GTM (see `docs/SECURITY.md`).
 - [ ] **Search Console / Bing Webmaster** — verify the domain and submit `/sitemap.xml`.
 - [ ] Replace media placeholders with real product screenshots as they become available.

@@ -7,7 +7,7 @@ const { chromium } = require('playwright');
 const [base, dist, width = '375'] = process.argv.slice(2);
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : e.name.endsWith('.html') ? [path.join(d, e.name)] : []));
 const pages = walk(dist).map((f) => '/' + path.relative(dist, f).replace(/index\.html$/, ''));
-const browser = await chromium.launch();
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
 const ctx = await browser.newContext({ viewport: { width: Number(width), height: 800 } });
 await ctx.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.abort());
 await ctx.addInitScript(() => { try { localStorage.setItem('atlaxys-consent', JSON.stringify({ v: 2, analytics: false, marketing: false, ts: new Date().toISOString() })); } catch {} });

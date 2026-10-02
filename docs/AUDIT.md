@@ -13,6 +13,42 @@ practice · **[Asm]** assumption.
 
 ---
 
+## Update — 2 October 2026: Google Analytics 4 enabled
+
+Production now builds with `PUBLIC_GA4_ID=G-9LD8TLNH9K` (`.do/app.yaml`). No
+other tracker is configured. Consequences, verified on a build with exactly
+this configuration (`scripts/audit/consent-live-config-test.mjs`):
+
+- The consent banner now appears on first visit (EN/FR/AR). Before a choice:
+  no request to any third-party host, no cookie, no `gtag('config')`, and
+  Consent Mode v2 defaults are all *denied*. `gtag.js` is requested only after
+  analytics consent ("basic" consent mode: no cookieless pings before consent).
+- **Google advertising signals are always denied.** `ad_storage`,
+  `ad_user_data` and `ad_personalization` no longer follow the marketing
+  choice: the site runs no Google advertising tag and the dialog does not ask
+  for it. GA4 runs with Google signals and ad personalisation off.
+- **The on-site search query (`q`) and any URL value containing `@` are
+  removed** from the page address sent to GA4 (`gtag('set', {page_location})`).
+- **Withdrawal propagates across tabs:** a withdrawal in one tab reloads the
+  other open tabs so already-running Google code stops; `ga-disable-<ID>` is
+  set before the reload and the `_ga*` cookies are deleted.
+- In a build without advertising platforms, the "Marketing" category is
+  described for what it then does — keep the campaign link (utm/gclid/fbclid,
+  referrer) in sessionStorage to attach it to an enquiry — and no longer
+  mentions ad platforms. Privacy and cookie policies (EN/FR/AR) were reworded
+  accordingly.
+
+**GA4 property settings Atlaxys must check in Google Analytics (cannot be set
+from code):** data retention (2 or 14 months, must not exceed what the privacy
+policy states: 14 months); Google signals **off**; Google Ads / other product
+links **off** (or disclose and re-ask consent); data-sharing settings reviewed;
+*Data redaction* for email and the `q` query parameter **on**; granular
+location and device data collection reviewed for EU visitors; accept the
+Google Ads Data Processing Terms / Measurement Controller-Controller terms
+as applicable. Item C.12 below is therefore decided (GA4 only).
+
+---
+
 ## A. Fixed
 
 ### Privacy and consent
@@ -94,7 +130,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 9. **Terms**: confirm the competent court (city of the registered office), whether a language-precedence clause is wanted (EN/FR/AR), and whether Moroccan consumer law (Law 31-08) or electronic-commerce rules (Law 53-05) impose extra information for this B2B site.
 10. **Trademark**: the terms do not claim "Atlaxys" is a registered mark. If registered with OMPIC, say so.
 11. **Illustrative content**: demo case studies/products are labelled; keep the labels until real ones replace them (misleading-advertising risk).
-12. **Decide which trackers to enable**, if any. The current `.do/app.yaml` ships none — so no consent banner and no optional cookies at all.
+12. **Trackers:** decided — GA4 only (`G-9LD8TLNH9K`, 2 October 2026). Complete the GA4 property checklist in the update at the top of this document, and include analytics in the CNDP formalities (item 2) and transfer analysis (item 3).
 
 ---
 
@@ -106,7 +142,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 | Form provider *(to be chosen)* | Receives enquiries | Form fields, page, IP; attribution only with marketing consent | Provider's | Yes, for the form | No (user-initiated) | On submit, only if `PUBLIC_CONTACT_ENDPOINT` set |
 | WhatsApp (Meta) | Chat | Whatever the user sends in WhatsApp | WhatsApp's | User-initiated | No (link only — nothing sent before click) | On click |
 | Email / phone | Contact | Message content | Mail provider *(TBC)* | User-initiated | No | On click |
-| Google Analytics 4 | Audience measurement | `_ga` identifiers, pages, events, IP (not stored by GA4) | `_ga`, `_ga_<ID>` | No | **Yes — analytics** | Only if `PUBLIC_GA4_ID` set (not set today) |
+| Google Analytics 4 | Audience measurement | `_ga` identifiers, pages, events, IP (not stored by GA4) | `_ga`, `_ga_<ID>` | No | **Yes — analytics** | **Enabled** (`G-9LD8TLNH9K`), after analytics consent only |
 | Google Tag Manager | Tag loader | IP, browser data; then depends on tags | depends | No | **Yes — analytics** | Only if `PUBLIC_GTM_ID` set (not set today) |
 | Meta Pixel | Ad measurement/audiences | `_fbp`/`_fbc`, pages, Lead/Contact events | `_fbp`, `_fbc` + facebook.com cookies | No | **Yes — marketing** | Only if `PUBLIC_META_PIXEL_ID` set (not set today) |
 | LinkedIn Insight Tag | Ad measurement/audiences | identifiers, pages, conversions | `li_fat_id`, `li_sugr` + linkedin.com cookies | No | **Yes — marketing** | Only if `PUBLIC_LINKEDIN_PARTNER_ID` set (not set today) |
@@ -127,7 +163,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 | `li_fat_id`, `li_sugr` | Cookie (first-party, set by LinkedIn) | Marketing (consent) | After marketing consent, if LinkedIn configured | 30–90 days (vendor) |
 | `bcookie`, `lidc`, `UserMatchHistory`, `AnalyticsSyncHistory` | Cookie (third-party, linkedin.com) | Marketing (consent) | Same | 24 h – 1 year (vendor) |
 
-**With the current production configuration (no tracker IDs) the site sets no cookies at all**; the only possible storage is `atlaxys-lang`, after an explicit language click. *[Asm] treated as a user-requested preference that does not require consent — legal review.*
+`atlaxys-theme` (localStorage, preferences) is written only when the visitor clicks the theme button. **With the current production configuration (GA4 only)** nothing is stored before a choice except, after an explicit click, `atlaxys-lang` / `atlaxys-theme`; `_ga`/`_ga_9LD8TLNH9K` exist only after analytics consent. *[Asm] treated as a user-requested preference that does not require consent — legal review.*
 
 ---
 
@@ -185,7 +221,7 @@ Click tracking (`data-track`) only pushes events to an in-page `dataLayer`; noth
 2. The site is B2B and not directed at children. [Asm]
 3. GDPR may apply under art. 3(2) (targeting EU clients; monitoring if analytics enabled). We applied GDPR principles and rights as good practice without asserting full applicability. [Asm — legal review]
 4. Atlaxys is below CCPA/CPRA and other US state-law thresholds. [Asm — confirm]
-5. Production ships **no trackers** unless IDs are added to `.do/app.yaml`. [Fact, from the spec]
+5. Production ships **GA4 only** (`G-9LD8TLNH9K` in `.do/app.yaml`); no GTM, Meta or LinkedIn. [Fact, from the spec]
 6. The language preference in localStorage is user-requested and exempt from consent. [Asm — legal review]
 7. 180-day consent lifetime is good practice (aligned with common EU regulator guidance), not a Moroccan statutory value. [GP]
 8. Accounting records: "generally 10 years" under Moroccan law. [Asm — confirm with accountant]
@@ -240,6 +276,9 @@ PUBLIC_LINKEDIN_PARTNER_ID=1234567 PUBLIC_CONTACT_ENDPOINT=https://forms.example
   npx astro build --outDir /tmp/dist-consent && npx http-server /tmp/dist-consent -p 4401 -s &
 npm i --no-save playwright axe-core && npx playwright install chromium
 node scripts/audit/consent-test.mjs http://127.0.0.1:4401
+PUBLIC_GA4_ID=G-9LD8TLNH9K npx astro build --outDir /tmp/dist-live && npx http-server /tmp/dist-live -p 4402 -s &
+node scripts/audit/consent-live-config-test.mjs http://127.0.0.1:4402   # production config
+# set CHROMIUM_PATH=/path/to/chromium to use a preinstalled browser
 node scripts/audit/keyboard-test.mjs http://127.0.0.1:4401
 node scripts/audit/crawl.mjs http://127.0.0.1:4400 dist desktop      # axe + CSP + console
 node scripts/audit/overflow.mjs http://127.0.0.1:4400 dist 320       # reflow
