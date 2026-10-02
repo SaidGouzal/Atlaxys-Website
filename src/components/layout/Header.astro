@@ -287,12 +287,17 @@ const isActive = (href: string) => current.startsWith(href);
     opacity: 1;
   }
 
+  /* The arrow sits right after the label without overlapping the link, so the
+     button keeps an unobscured 24px-wide target (WCAG 2.5.8). */
+  .site-nav__item--mega .site-nav__link {
+    padding-inline-end: 0;
+  }
+
   .site-nav__toggle {
     display: inline-grid;
     place-items: center;
     width: 1.5rem;
     height: 2.75rem;
-    margin-inline-start: -0.5rem;
     color: var(--color-muted);
     transition:
       color var(--dur-2),
