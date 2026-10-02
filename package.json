@@ -13,6 +13,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "brand:assets": "node ./scripts/brand-assets.mjs",
+    "brand:mark-stills": "node ./scripts/render-mark-stills.mjs",
     "astro": "astro"
   },
   "dependencies": {

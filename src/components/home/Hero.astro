@@ -3,10 +3,15 @@
  * Home hero. The headline is the LCP element: it is server-rendered and
  * animated with CSS only (no JavaScript on the critical path). Words wrapped
  * in *asterisks* in the content file get the signal-trace underline.
+ *
+ * The 3D Atlaxys mark (HeroMark + scripts/hero/mark) is placed in the space
+ * the text leaves free (data-mark-area / -avoid / -floor tell it where that
+ * is) and drawn in the canvas layer between the signal field and the text.
  */
 import { localeMeta, routePath, useTranslations, type Locale } from '@/i18n';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
+import HeroMark from './HeroMark.astro';
 import SignalField from './SignalField.astro';
 
 interface Props {
@@ -44,14 +49,15 @@ const parts = segments.map((segment) => ({
 <section class="hero" data-hero aria-labelledby="hero-title">
   <SignalField />
   <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__mark-gl" data-mark-gl aria-hidden="true"></div>
 
-  <div class="container hero__content">
-    <p class="eyebrow hero__eyebrow">
+  <div class="container hero__content" data-mark-area>
+    <p class="eyebrow hero__eyebrow" data-mark-avoid>
       <span class="hero__pulse" aria-hidden="true"></span>
       <span>{copy.eyebrow}</span>
     </p>
 
-    <h1 id="hero-title" class:list={['display display-hero hero__title', { 'hero__title--whole': !splitWords }]}>
+    <h1 id="hero-title" class:list={['display display-hero hero__title', { 'hero__title--whole': !splitWords }]} data-mark-avoid>
       {
         !splitWords &&
           segments.map((segment) =>
@@ -104,9 +110,9 @@ const parts = segments.map((segment) => ({
       }
     </h1>
 
-    <p class="lead hero__lead">{copy.lead}</p>
+    <p class="lead hero__lead" data-mark-avoid>{copy.lead}</p>
 
-    <div class="hero__actions">
+    <div class="hero__actions" data-mark-avoid>
       <Button href={routePath(locale, 'contact')} size="lg" magnetic icon="arrow-up-right">
         {copy.primaryCta}
       </Button>
@@ -116,7 +122,9 @@ const parts = segments.map((segment) => ({
     </div>
   </div>
 
-  <div class="container hero__footer">
+  <HeroMark />
+
+  <div class="container hero__footer" data-mark-floor>
     <ul role="list" class="hero__capabilities">
       {
         copy.capabilities.map((cap, i) => (
@@ -147,8 +155,10 @@ const parts = segments.map((segment) => ({
 
 <script>
   import { initHeroField, initMotionToggle } from '@/scripts/hero';
+  import { initHeroMark } from '@/scripts/hero/mark';
   initMotionToggle();
   initHeroField();
+  initHeroMark();
 </script>
 
 <style>
@@ -156,7 +166,8 @@ const parts = segments.map((segment) => ({
     position: relative;
     isolation: isolate;
     display: grid;
-    grid-template-rows: 1fr auto;
+    /* content · 3D mark slot (in flow below 1024px) · capabilities */
+    grid-template-rows: 1fr auto auto;
     min-height: max(100svh, 40rem);
     padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-l);
     overflow: hidden;
@@ -181,6 +192,25 @@ const parts = segments.map((segment) => ({
       linear-gradient(0deg, var(--color-bg) 0%, transparent 28%),
       linear-gradient(180deg, var(--color-bg) 0%, transparent 18%),
       linear-gradient(90deg, color-mix(in srgb, var(--color-bg) 70%, transparent) 0%, transparent 12%);
+  }
+
+  /* The 3D mark's canvas: above the field and its veil, below the text. */
+  .hero__mark-gl {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.8s var(--ease-out);
+  }
+
+  .hero__mark-gl :global(canvas) {
+    position: absolute;
+    display: block;
+  }
+
+  .hero[data-mark='gl'] .hero__mark-gl {
+    opacity: 1;
   }
 
   .hero__content {

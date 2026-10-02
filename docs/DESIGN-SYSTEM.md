@@ -110,6 +110,14 @@ metric-matched Arial fallback minimises layout shift.
   of engineering documentation.
 - **Orange ×**: the wordmark's X, reused as the "things we refuse to do" and
   problem-list marker.
+- **The 3D mark** (home hero, `scripts/hero/mark/`): the logo's "A" as a
+  machined object — the exact logo geometry, extruded, every edge cut with
+  the 45° chamfer. Dark theme: white steel; light theme: graphite (the ink
+  logo); the blade and traces keep the brand orange (sampled from the logo
+  file, no tone mapping so it never washes out). It arrives in the site's
+  motion vocabulary — traces route in, signals travel — and on scroll opens
+  into an exploded view over a dashed blueprint of itself: the engineering
+  behind the brand. Used once, in the home hero; elsewhere the logo stays 2D.
 
 ## Components (selection)
 
@@ -134,7 +142,7 @@ metric-matched Arial fallback minimises layout shift.
 - Vocabulary: things **arrive in reading order**, **traces route in**,
   **signals travel along traces**, media **wipes open** along the reading
   direction. No bouncing, no spinning, no parallax on text.
-- Reduced motion: everything static and instant.
+- Reduced motion: everything static and instant (the 3D mark becomes a still render of itself).
 
 ## Breakpoints
 

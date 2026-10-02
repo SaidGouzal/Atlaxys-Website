@@ -1,0 +1,120 @@
+---
+/**
+ * The hero's slot for the 3D Atlaxys mark (scripts/hero/mark).
+ *
+ * Below 1024px the slot is in the flow, after the calls to action, so the
+ * headline and the primary button keep their place on small screens. From
+ * 1024px it sits beside the text, where scripts/hero/mark/index.ts measures
+ * the free space (data-placed); without JavaScript it falls back to the
+ * lower inline-end corner.
+ *
+ * The WebGL canvas is drawn in the hero-wide layer (Hero.astro); the slot
+ * holds the still image — a render of the same 3D mark — shown without
+ * JavaScript, with reduced motion and on devices that skip WebGL. In the 3D
+ * case the still stays display:none and lazy, so it is never downloaded.
+ * Decorative: hidden from assistive technology (the alt is for crawlers).
+ */
+import { Picture } from 'astro:assets';
+import { site } from '@/config/site';
+import stillDark from '@/assets/brand/mark-3d-dark.png';
+import stillLight from '@/assets/brand/mark-3d-light.png';
+
+const sizes = '(min-width: 64rem) 34vw, 92vw';
+const widths = [480, 720, 1080, 1440].filter((w) => w <= stillDark.width);
+---
+
+<div class="hero-mark" data-mark-slot aria-hidden="true">
+  {
+    [
+      { src: stillDark, variant: 'on-dark' },
+      { src: stillLight, variant: 'on-light' },
+    ].map(({ src, variant }) => (
+      <div class:list={['hero-mark__still', `hero-mark__still--${variant}`]}>
+        <Picture
+          src={src}
+          alt={site.name}
+          widths={widths}
+          sizes={sizes}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .hero-mark {
+    position: relative;
+    z-index: 1;
+    height: clamp(12rem, 56vw, 22rem);
+    margin-block-start: var(--space-l);
+    pointer-events: none;
+  }
+
+  @media (min-width: 64rem) {
+    .hero-mark {
+      position: absolute;
+      z-index: 0;
+      inset-block-end: 9.5rem;
+      inset-inline-end: max(var(--gutter), (100% - var(--container-max)) / 2 + var(--gutter));
+      width: clamp(18rem, 30vw, 32rem);
+      height: auto;
+      aspect-ratio: 3 / 2;
+      margin: 0;
+    }
+
+    /* Measured placement beside the text (physical px from the script). */
+    .hero-mark[data-placed] {
+      inset: var(--mark-y) auto auto var(--mark-x);
+      width: var(--mark-w);
+      height: var(--mark-h);
+      aspect-ratio: auto;
+    }
+  }
+
+  .hero-mark__still {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-mark__still :global(picture),
+  .hero-mark__still :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* No JavaScript, or the script chose the still: show the one that suits the theme. */
+  :global(html:not(.js)) .hero-mark__still--on-dark,
+  :global(.hero[data-mark='static']) .hero-mark__still--on-dark {
+    display: var(--logo-on-dark, block);
+  }
+
+  :global(html:not(.js)) .hero-mark__still--on-light,
+  :global(.hero[data-mark='static']) .hero-mark__still--on-light {
+    display: var(--logo-on-light, none);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.hero[data-mark='static']) .hero-mark__still {
+      animation: hero-mark-in 1.2s var(--ease-out) both;
+    }
+  }
+
+  @keyframes hero-mark-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1rem, 0);
+    }
+  }
+
+  /* No room beside the text at this size: leave the space to the text. */
+  :global(.hero[data-mark='none']) .hero-mark {
+    visibility: hidden;
+  }
+</style>

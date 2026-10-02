@@ -59,6 +59,7 @@ Other scripts:
 |---|---|
 | `npm run check` | Type-checks `.astro` and `.ts` files (0 errors expected) |
 | `npm run brand:assets` | Regenerates favicons, PWA icons, transparent logo and OG image from `src/assets/brand/source/` |
+| `npm run brand:mark-stills` | Re-renders the still images of the 3D hero mark (its no-WebGL / reduced-motion fallback) with Playwright's Chromium; run after changing `src/scripts/hero/mark/` |
 
 ---
 
@@ -70,13 +71,14 @@ integrations/csp.mjs      Build step: Content-Security-Policy meta tag per page
 docs/                     Architecture, design system, content guide, SEO, deployment, audit
 public/                   Favicons, icons, brand files, default social image
 scripts/brand-assets.mjs  Logo → favicon / OG image pipeline
+scripts/render-mark-stills.mjs  3D hero mark → still images (fallback)
 scripts/audit/            Accessibility, consent, CSP and reflow regression tests (see docs/AUDIT.md)
 src/
   assets/brand/           Official logo files (source/) + derived transparent versions
   components/
     cards/                CaseCard, ProductCard, PostRow
     forms/                LeadForm (contact + landing variants)
-    home/                 Hero, SignalField (SVG + WebGL), Statement, Process
+    home/                 Hero, HeroMark (3D logo slot), SignalField (SVG + WebGL), Statement, Process
     layout/               Header, MegaMenu, MobileNav, Footer, LanguageSwitcher, Logo,
                           WhatsAppFloat, ConsentBanner, FontFaces, Landing header/footer
     sections/             PageHero, ServiceIndex, TechStack, FAQ, CTABlock, RelatedContent,
@@ -96,11 +98,12 @@ src/
                           related-content engine, search index builder
     seo/                  JSON-LD graph builders, meta helpers, breadcrumbs
     signal/routing.ts     Circuit-trace generator for the hero visual
+    brand/mark.ts         The logo's "A" as vector data, measured from the logo file (3D mark)
   pages/
     [lang]/               Every page, generated per language
     index.astro           Language redirect
     404.astro, sitemap.xml.ts, robots.txt.ts, llms.txt.ts, manifest.webmanifest.ts
-  scripts/                Client code: header, motion (reveal + GSAP), hero (Three.js),
+  scripts/                Client code: header, motion (reveal + GSAP), hero (Three.js field + 3D mark),
                           forms, analytics & consent, search
   styles/                 tokens.css (design tokens), base, layout, typography, motion, prose
 ```

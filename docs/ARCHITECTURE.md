@@ -32,7 +32,7 @@ Browser ──► DigitalOcean App Platform Static Site (TLS, CDN) ──► dis
 | Content | Long-form: one Markdown file per language, linked by `translationKey`. Structured JSON: one file with `{ en, fr, ar }` fields, falling back to English |
 | Language switcher | Links to the *same* page in the other language when a translation exists (via `translationKey`), otherwise to the section index, marked as such |
 | hreflang | Generated per page from the same alternates map, plus `x-default` → English. Also emitted in `sitemap.xml` |
-| RTL | `<html dir="rtl">`, logical CSS properties everywhere, mirrored directional icons, Kufi typography without tracking/uppercase, word-splitting animations disabled in RTL (bidi-safe), WebGL scene mirrored |
+| RTL | `<html dir="rtl">`, logical CSS properties everywhere, mirrored directional icons, Kufi typography without tracking/uppercase, word-splitting animations disabled in RTL (bidi-safe), WebGL field mirrored; the 3D mark moves to the inline-end side and turns towards the text, but is never mirrored (it is the logo) |
 | Root `/` | Picks an explicit earlier choice, then `navigator.languages`, then English; crawlers follow a meta refresh to `/en/` |
 
 ## Content model
@@ -87,6 +87,39 @@ ranks by field. Replaceable by Pagefind/Algolia without touching content.
 | `scripts/motion/reveal.ts` (IntersectionObserver) | always, < 1 KB | `[data-reveal]`, `[data-draw]`, staggered groups, masked media |
 | `scripts/motion/enhance.ts` (GSAP + ScrollTrigger + SplitText) | idle, code-split, not on landing pages, not with reduced motion | heading line reveals, scroll-scrubbed statement, magnetic buttons, parallax, pinned horizontal process, counters |
 | `scripts/hero/signal-scene.ts` (Three.js) | idle after load, desktop + fine pointer + ≥4 cores + WebGL, no Data Saver | the 3D signal field; SVG version otherwise |
+| `scripts/hero/mark/` (Three.js + GSAP) | placement: always (tiny, eager); 3D: idle after load, slot near the viewport, motion allowed + WebGL 2 + ≥4 cores/4 GB + no Data Saver or 2G/3G — phones included | the 3D Atlaxys mark (below); a pre-rendered still of it otherwise |
+
+### The 3D hero mark
+
+The logo's "A" symbol as a real 3D object, built at runtime from vector data
+measured off the official logo file (`src/lib/brand/mark.ts`): extrusions
+with 45° chamfers, physically based materials lit by a procedural studio
+(no model or HDR file to download, ~2,750 triangles).
+
+| Module | Role |
+|---|---|
+| `mark/index.ts` (eager, ~2 KB) | Measures the hero's text line boxes and fits the mark in the largest free box on the inline-end side (`layout.ts`) — robust to French's longer headline and Arabic's mirrored layout; picks 3D or still |
+| `mark/stage.ts` (lazy) | DOM wiring: assembly on entering the viewport, ScrollTrigger scrub, pointer, pause button, theme, visibility, context loss |
+| `mark/scene.ts` | Renderer, parts, GSAP assembly timeline, exploded view, signals, adaptive resolution |
+| `mark/geometry.ts`, `materials.ts`, `studio.ts` | Extrusions; materials + reveal/signal shader patch; studio environment (PMREM) |
+
+Choreography: the steel A rises from its baseline, the blade cuts through,
+the traces route out and close round their rings (each behind a hot signal
+edge), then signals travel the traces now and then. The pointer moves the
+light and the reflections; touch devices get a slow drift. Scrolling out of
+the hero opens the mark into an exploded axonometric view over a dashed
+blueprint of itself, then it fades before the next section. Rendering stops
+off-screen, in background tabs and (for autonomous motion) when the hero's
+pause button is pressed; resolution drops if frames are consistently slow.
+
+Placement: beside the headline from 1024px (measured); below the calls to
+action on phones and tablets (an in-flow slot), so the headline and primary
+button keep their place. The H1 stays the LCP element.
+
+Fallback: `src/assets/brand/mark-3d-{dark,light}.png`, renders of the same
+scene made by `npm run brand:mark-stills`. Shown without JavaScript, with
+reduced motion and on devices that skip WebGL; in the 3D case it stays
+`display:none` + lazy, so it is never downloaded.
 
 Safety: hidden start states apply only when `<html class="motion">` is set by
 the head script; if the motion code does not boot within 3 s, everything is
@@ -100,8 +133,10 @@ transitions.
 | HTML (home, gzip) | ~24 KB | always |
 | Critical JS (header, reveal, tracking) | < 10 KB | deferred modules |
 | Fonts | Archivo Latin 90 KB (preloaded), JetBrains Mono 40 KB, Noto Kufi Arabic 124 KB (Arabic pages only via `unicode-range`) | swap + metric-matched fallback |
-| GSAP chunk | ~123 KB raw | idle, motion allowed |
-| Three.js chunk | ~540 KB raw | idle, capable desktops only |
+| GSAP chunk (core + ScrollTrigger) | ~115 KB raw / 45 KB gzip | idle, motion allowed |
+| Three.js chunk | ~560 KB raw / 140 KB gzip | idle, capable devices only (shared by the field and the mark) |
+| 3D mark (`stage` chunk) | ~23 KB raw / 10 KB gzip | idle, slot near the viewport, capable devices only |
+| 3D mark still (fallback) | 10–40 KB AVIF | only when the 3D is not used |
 
 Images use AVIF/WebP with responsive `srcset`, intrinsic dimensions and lazy
 loading (`components/ui/Img.astro`).
