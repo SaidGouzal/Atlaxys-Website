@@ -5,7 +5,8 @@ import { localeMeta, locales, type Locale } from '@/i18n/config';
 interface Props {
   title: string;
   description: string;
-  url: string;
+  /** Omitted on error pages, which have no URL of their own. */
+  url?: string;
   image: { src: string; width?: number; height?: number; alt?: string };
   siteName: string;
   locale: Locale;
@@ -26,7 +27,7 @@ const ogType = type === 'product' ? 'website' : type;
 <meta property="og:site_name" content={siteName} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:url" content={url} />
+{url && <meta property="og:url" content={url} />}
 <meta property="og:locale" content={localeMeta[locale].ogLocale} />
 {
   alternateLocales

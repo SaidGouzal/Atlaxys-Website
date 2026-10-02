@@ -16,7 +16,7 @@ The project is a pure static build: `npm run build` writes everything to `dist/`
 
 | Variable | Purpose |
 |---|---|
-| `SITE_URL` | Canonical origin (canonical URLs, hreflang, sitemap, OG) |
+| `SITE_URL` | Canonical origin (canonical URLs, hreflang, sitemap, OG). Must be the origin that answers 200 — `https://www.atlaxys.com` — never a host that redirects, or every canonical and hreflang URL is reported as non-indexable. |
 | `PUBLIC_CONTACT_ENDPOINT` | `https://` URL the forms POST JSON to (Formspree, Basin, Web3Forms, a DO Function, an n8n webhook…). Unset → the form is replaced by email/WhatsApp/phone links. Name the provider in `src/config/privacy.ts`. |
 | `PUBLIC_GA4_ID`, `PUBLIC_GTM_ID`, `PUBLIC_META_PIXEL_ID`, `PUBLIC_LINKEDIN_PARTNER_ID` | Analytics/advertising, loaded only after consent. Setting one also: shows the consent banner, allowlists the vendor in the CSP, and adds it to the cookie and privacy policies. Formats are validated at build time. |
 

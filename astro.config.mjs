@@ -17,8 +17,13 @@ try {
   /* no .env file — rely on the real environment */
 }
 
-/** Canonical origin used for canonical URLs, hreflang, sitemap and Open Graph. */
-const SITE_URL = process.env.SITE_URL || 'https://atlaxys.com';
+/**
+ * Canonical origin used for canonical URLs, hreflang, sitemap and Open Graph.
+ * It must be the exact origin that answers 200: the site is served on
+ * www.atlaxys.com (the apex atlaxys.com only redirects), so canonicals and
+ * hreflang pointing at the apex would all land on redirects.
+ */
+const SITE_URL = process.env.SITE_URL || 'https://www.atlaxys.com';
 
 /**
  * Build-time public values. They are inlined into HTML/JS, so each one is

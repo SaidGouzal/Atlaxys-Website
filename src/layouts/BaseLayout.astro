@@ -69,7 +69,8 @@ const sectionRoots = new Set(Object.values(routes).map((r) => r.split('/').filte
 const section = Astro.url.pathname.split('/').filter(Boolean)[1];
 const languageTargets = Object.fromEntries(
   locales.map((l) => {
-    const exact = l === locale ? path : alternates[l];
+    // An error page has no path of its own: every language points at its home page.
+    const exact = seo.errorPage ? undefined : l === locale ? path : alternates[l];
     const fallback = section && sectionRoots.has(section) && section !== 'landing' && section !== 'legal' ? `/${l}/${section}/` : `/${l}/`;
     return [l, { href: exact ?? fallback, exact: Boolean(exact) } satisfies LanguageTarget];
   }),
@@ -78,17 +79,19 @@ const languageTargets = Object.fromEntries(
 const graph: (JsonLdNode | undefined)[] = [
   organizationNode(locale, t.meta.orgDescription),
   websiteNode(locale),
-  webPageNode({
-    url: path,
-    title: seo.title,
-    description: seo.description,
-    locale,
-    type: pageType,
-    hasBreadcrumb: Boolean(breadcrumbs?.length),
-    primaryId,
-    datePublished: seo.publishedTime,
-    dateModified: seo.modifiedTime,
-  }),
+  seo.errorPage
+    ? undefined
+    : webPageNode({
+        url: path,
+        title: seo.title,
+        description: seo.description,
+        locale,
+        type: pageType,
+        hasBreadcrumb: Boolean(breadcrumbs?.length),
+        primaryId,
+        datePublished: seo.publishedTime,
+        dateModified: seo.modifiedTime,
+      }),
   breadcrumbs?.length ? breadcrumbNode(path, breadcrumbs) : undefined,
   ...schema,
 ];

@@ -184,7 +184,7 @@ See `.env.example`. Summary:
 
 | Variable | Where | Purpose |
 |---|---|---|
-| `SITE_URL` | build + run | Canonical domain (canonical URLs, hreflang, sitemap, OG) |
+| `SITE_URL` | build + run | Canonical origin (canonical URLs, hreflang, sitemap, OG): `https://www.atlaxys.com`, the host that serves the site |
 | `PUBLIC_CONTACT_ENDPOINT` | build | Form endpoint (external service accepting JSON POST) |
 | `PUBLIC_GA4_ID`, `PUBLIC_GTM_ID`, `PUBLIC_META_PIXEL_ID`, `PUBLIC_LINKEDIN_PARTNER_ID` | build | Analytics (loaded only after consent) |
 
@@ -195,7 +195,7 @@ See `.env.example`. Summary:
 Items marked `TODO(launch)` in the code:
 
 - [ ] `src/config/site.ts` — confirm legal name, founding year, city (optional), social links, and the **company identifiers** in `site.legal` (RC, ICE, IF, registered office, publication director, CNDP receipt). The build log's `[launch-check]` lists what is missing. The public email is `contact@atlaxys.com`.
-- [ ] `SITE_URL` — set the real domain in `.do/app.yaml` and the App Platform settings.
+- [x] `SITE_URL` — `https://www.atlaxys.com` (the apex `atlaxys.com` only redirects). Keep `.do/app.yaml` and the App Platform settings in sync with it.
 - [ ] **Contact form** — set `PUBLIC_CONTACT_ENDPOINT` (https) and name the provider in `src/config/privacy.ts` (`formProcessor`). Until then the form is replaced by direct contact links.
 - [ ] **Security headers** — apply the header set in `docs/SECURITY.md` where the site is served (App Platform or CDN).
 - [ ] **Demo content** — the two illustrative case studies and the placeholder products Atlaxys Docs and Atlaxys Ops are unpublished (`draft: true`); replace them with real ones. Confirm the Nexus Gym product sheet, then set its `demo` to `false` and `site.showDemoNotices` accordingly.

@@ -16,8 +16,21 @@ interface Props extends SeoProps {
   locale: Locale;
 }
 
-const { title, description, canonical, alternates = {}, image, type = 'website', noindex = false, locale, publishedTime, modifiedTime, section, tags } =
-  Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  alternates = {},
+  image,
+  type = 'website',
+  noindex = false,
+  errorPage = false,
+  locale,
+  publishedTime,
+  modifiedTime,
+  section,
+  tags,
+} = Astro.props;
 const t = useTranslations(locale);
 
 const pageTitle = fullTitle(title, t.meta.siteName);
@@ -32,7 +45,7 @@ const xDefault = alternates[defaultLocale];
 
 <title>{pageTitle}</title>
 <meta name="description" content={metaDescription} />
-<link rel="canonical" href={canonicalUrl} />
+{!errorPage && <link rel="canonical" href={canonicalUrl} />}
 <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
 {
@@ -45,7 +58,7 @@ const xDefault = alternates[defaultLocale];
 <OpenGraph
   title={pageTitle}
   description={metaDescription}
-  url={canonicalUrl}
+  url={errorPage ? undefined : canonicalUrl}
   image={ogImageAbs}
   siteName={t.meta.siteName}
   locale={locale}

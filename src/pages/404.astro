@@ -21,7 +21,7 @@ const copies = locales.map((l) => {
 const en = useTranslations('en');
 ---
 
-<BaseLayout locale="en" page="404" footerCta={false} seo={{ title: 'Page not found (404)', description: en.notFound.text, noindex: true }}>
+<BaseLayout locale="en" page="404" footerCta={false} seo={{ title: 'Page not found (404)', description: en.notFound.text, noindex: true, errorPage: true }}>
   <section class="nf">
     <svg class="nf__art" viewBox="0 0 900 260" fill="none" aria-hidden="true" focusable="false">
       <path class="nf__trace" d="M0 190 H250 L300 140 H410" pathLength="1" />

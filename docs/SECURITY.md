@@ -88,7 +88,7 @@ served over HTTPS, and submit at hstspreload.org.
 Verify after deploying:
 
 ```
-curl -sI https://atlaxys.com/en/ | grep -iE 'strict-transport|x-content-type|frame|permissions|referrer|content-security'
+curl -sI https://www.atlaxys.com/en/ | grep -iE 'strict-transport|x-content-type|frame|permissions|referrer|content-security'
 ```
 
 …and run the site through observatory.mozilla.org and securityheaders.com.

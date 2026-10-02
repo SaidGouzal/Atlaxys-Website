@@ -13,6 +13,12 @@ export interface SeoProps {
   image?: { src: string; width?: number; height?: number; alt?: string };
   type?: 'website' | 'article' | 'product';
   noindex?: boolean;
+  /**
+   * Error pages (404) are served at any missing URL, so they have no URL of
+   * their own: no canonical, og:url or WebPage node, which would otherwise
+   * point crawlers at a path that does not exist.
+   */
+  errorPage?: boolean;
   publishedTime?: Date;
   modifiedTime?: Date;
   section?: string;

@@ -162,7 +162,7 @@ Blocks (all optional): `hero`, `audience`, `problem`, `solution`,
 - `campaign` and `tracking.contentName` are sent with every lead and to Meta.
 
 **Ad links:** use the page URL with UTM parameters, e.g.
-`https://atlaxys.com/fr/landing/developpement-logiciel/?utm_source=facebook&utm_medium=paid&utm_campaign=dev-logiciel-oct`.
+`https://www.atlaxys.com/fr/landing/developpement-logiciel/?utm_source=facebook&utm_medium=paid&utm_campaign=dev-logiciel-oct`.
 The parameters (and `fbclid`/`gclid`) are stored for the visit and included in
 the lead. Landing pages load no GSAP/WebGL, and show a sticky
 "quote + WhatsApp" bar on phones.
