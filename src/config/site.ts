@@ -50,21 +50,21 @@ export const site = {
    */
   legal: {
     /** Legal form, e.g. "SARL" or "SARL AU". TODO(launch) */
-    legalForm: undefined as string | undefined,
+    legalForm: 'SARL AU | Single-Owner LLC' as string | undefined,
     /** Share capital, e.g. "100 000 MAD". TODO(launch) */
-    shareCapital: undefined as string | undefined,
+    shareCapital: '10 000 MAD' as string | undefined,
     /** Registre du Commerce number and court, e.g. "RC Casablanca 000000". TODO(launch) */
-    rc: undefined as string | undefined,
+    rc: '14119' as string | undefined,
     /** Identifiant Commun de l'Entreprise (15 digits). TODO(launch) */
-    ice: undefined as string | undefined,
+    ice: '004004253000011' as string | undefined,
     /** Identifiant Fiscal. TODO(launch) */
-    taxId: undefined as string | undefined,
+    taxId: '73349584' as string | undefined,
     /** Registered office (siège social), full postal address. TODO(launch) */
-    registeredAddress: undefined as string | undefined,
+    registeredAddress: 'N° 2740 Douar Tiguemi Lajdid, Tarmigt Ouarzazate, Morocco' as string | undefined,
     /** Legal representative / person responsible for the website's content. TODO(launch) */
     publicationDirector: undefined as string | undefined,
     /** Inbox for data-protection requests. Falls back to contact.email. */
-    privacyEmail: undefined as string | undefined,
+    privacyEmail: 'contact@atlaxys.com' as string | undefined,
     /**
      * CNDP receipt or authorisation number covering the processing done through
      * this website (contact enquiries, analytics). TODO(legal review)
@@ -84,11 +84,11 @@ export const site = {
 
   /** Only filled links are rendered. */
   social: {
-    linkedin: '' as string,
-    instagram: '' as string,
-    facebook: '' as string,
-    x: '' as string,
-    github: '' as string,
+    linkedin: 'https://www.linkedin.com/company/atlaxys-consulting/' as string,
+    instagram: 'https://www.instagram.com/atlaxys.consulting/' as string,
+    facebook: 'https://www.facebook.com/p/Atlaxys-Consulting-Ltd-61595056014279/' as string,
+    x: 'https://twitter.com/Atlaxys' as string,
+    github: 'https://github.com/Atlaxys' as string,
   },
 
   /**

@@ -55,7 +55,7 @@ export interface ThirdParty {
  */
 export const formProcessor: { name?: string; entity?: string; privacyUrl?: string } = {
   name: 'Web3Forms',
-  entity: 'Web3Forms (Vercel-hosted service)',
+  entity: undefined, // TODO(launch): legal entity and country, as published by Web3Forms
   privacyUrl: 'https://web3forms.com/privacy',
 };
 
