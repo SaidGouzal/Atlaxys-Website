@@ -3,7 +3,7 @@
 The official website of **Atlaxys Consulting**: a technology consultancy and
 software engineering studio based in Morocco, working worldwide.
 
-Built with **Astro 5 + TypeScript**, GSAP, and Three.js where it earns its place.
+Built with **Astro 7 + TypeScript**, GSAP, and Three.js where it earns its place.
 It ships in **English, French and Arabic (RTL)**, and its content is fully
 driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 
@@ -22,7 +22,7 @@ driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 
 ## Requirements
 
-- **Node.js 20 or 22** (`engines` in `package.json`; `.nvmrc` pins 20). The site stays on Astro 5, which supports both. Astro 6+ needs Node 22.12+ and a migration, so do not merge major Astro upgrades from Dependabot without one.
+- **Node.js 22.12 or newer** (`engines` in `package.json`; `.nvmrc` pins 22), required by Astro 7. Check that a major Astro upgrade builds and passes the tests in `scripts/audit/` before merging it.
   - Windows: install from nodejs.org or use `nvm-windows`, then `nvm use 22`.
   - macOS/Linux: `nvm install && nvm use`.
 - npm 10+
