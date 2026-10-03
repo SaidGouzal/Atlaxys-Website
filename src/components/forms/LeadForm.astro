@@ -6,7 +6,11 @@
  * constraint attributes, inline errors linked with aria-describedby, an error
  * summary that receives focus, and a polite live region for status.
  * Progressive enhancement: without JavaScript the form still POSTs to the
- * endpoint (PUBLIC_CONTACT_ENDPOINT, https only — validated at build time).
+ * endpoint (PUBLIC_CONTACT_ENDPOINT, https only — validated at build time);
+ * with Web3Forms the visitor then lands on the localized thank-you page.
+ *
+ * Spam: Web3Forms' own server-side checks plus its "botcheck" honeypot, which
+ * the script also checks so a trapped submission is never sent.
  *
  * Privacy: only name + email (+ message on the full form) are required;
  * everything else is optional. The notice under the form names the purpose
@@ -19,8 +23,9 @@
 import { PUBLIC_CONTACT_ENDPOINT } from 'astro:env/client';
 import { web3formsAccessKey, budgetRanges, countryCodes, priorityCountries, projectTypes, timelines, type ProjectType } from '@/config/forms';
 import { mailtoLink, site, telLink, whatsappLink } from '@/config/site';
-import { countryName, localeMeta, useTranslations, type Locale } from '@/i18n';
+import { countryName, localeMeta, routePath, useTranslations, type Locale } from '@/i18n';
 import { getLegalUrl } from '@/lib/content';
+import { absoluteUrl } from '@/lib/seo/urls';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
 
@@ -250,19 +255,21 @@ const fid = (field: string) => `${id}-${field}`;
       <p class="field__error" id={`${fid('message')}-error`} hidden></p>
     </div>
 
-    <!-- Spam trap: hidden from people and assistive technology. -->
+    <!-- Spam trap ("botcheck", the field Web3Forms rejects when ticked): hidden
+         from people and assistive technology, and a checkbox is never auto-filled. -->
     <div class="lead-form__hp" aria-hidden="true">
-      <label for={fid('website')}>{f.honeypot}</label>
-      <input id={fid('website')} name="website" type="text" tabindex="-1" autocomplete="off" />
+      <label for={fid('botcheck')}>{f.honeypot}</label>
+      <input id={fid('botcheck')} name="botcheck" type="checkbox" tabindex="-1" autocomplete="off" />
     </div>
 
     {isWeb3Forms && <input type="hidden" name="access_key" value={web3formsAccessKey} />}
     {isWeb3Forms && <input type="hidden" name="subject" value={`New enquiry from atlaxys.com (${name})`} />}
+    {/* Without JavaScript, Web3Forms sends the visitor here after a successful submission (same domain: free plan). */}
+    {isWeb3Forms && <input type="hidden" name="redirect" value={absoluteUrl(routePath(locale, 'contactThanks'))} />}
     <input type="hidden" name="locale" value={locale} />
     <input type="hidden" name="source" value={Astro.url.pathname} />
     <input type="hidden" name="landing" value={landing} />
     <input type="hidden" name="campaign" value={campaign} />
-    <input type="hidden" name="startedAt" value="" data-started-at />
 
     <div class="lead-form__footer">
       <p class="lead-form__privacy">

@@ -3,7 +3,7 @@
 The official website of **Atlaxys Consulting**: a technology consultancy and
 software engineering studio based in Morocco, working worldwide.
 
-Built with **Astro 7 + TypeScript**, GSAP, and Three.js where it earns its place.
+Built with **Astro 5 + TypeScript**, GSAP, and Three.js where it earns its place.
 It ships in **English, French and Arabic (RTL)**, and its content is fully
 driven by Markdown/JSON files. Deployment targets **DigitalOcean App Platform**.
 

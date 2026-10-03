@@ -45,9 +45,6 @@ export const countryCodes = [
   'VU','WS','YE','ZA','ZM','ZW',
 ];
 
-/** Minimum time (ms) between form render and submit — cheap bot filter. */
-export const minFillTimeMs = 2500;
-
 /**
  * Web3Forms access key. Public by design (it only allows sending to the inbox
  * registered with it), so it is safe to ship in the page. Used only when

@@ -11,6 +11,14 @@ Moroccan (and, where relevant, EU/US) lawyer or privacy professional.
 Legend: **[Req]** legal requirement (as we understand it) · **[GP]** good
 practice · **[Asm]** assumption.
 
+> **Superseded in part (2 October 2026).** A second audit, tested against the
+> live site and with the real `gtag.js`, is in [PRODUCTION-AUDIT.md](PRODUCTION-AUDIT.md).
+> It corrects this document on: site search (the query reached Google Analytics
+> through enhanced measurement; now kept in the URL fragment), the hosting
+> cookie `__cf_bm` (missing from section E), the form honeypot (now Web3Forms'
+> `botcheck`), the CSP (one deliberate violation with the real `gtag.js`), and
+> live hosting facts (apex redirect through HTTP, ingress rule not applied).
+
 ---
 
 ## Update — 2 October 2026: Google Analytics 4 enabled
@@ -123,7 +131,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 2. **CNDP formalities** *(legal review)*: declaration (or authorisation where required) for the processing done through the site — enquiries/prospects, and analytics/advertising if enabled — and add the receipt number to `site.legal.cndpReceipt` (it then appears under every form).
 3. **Transfers outside Morocco** *(legal review)*: hosting (DigitalOcean, USA), the form provider, the email provider and any analytics/ad vendor may involve transfers to countries without CNDP-recognised adequacy (Law 09-08, arts. 43–44). Confirm the authorisation/exception relied on.
 4. **Form provider**: choose it, sign its DPA, set its retention, then fill `formProcessor` in `src/config/privacy.ts`.
-5. **Email provider** for `hello@atlaxys.com` (Google Workspace, Microsoft 365…): confirm; add to the inventory if counsel wants it named.
+5. **Email provider** for `contact@atlaxys.com` (Google Workspace, Microsoft 365…): confirm; add to the inventory if counsel wants it named.
 6. **Retention periods** to confirm: enquiries 24 months after last exchange (carried over from the original policy draft); client records "generally 10 years" for accounting (confirm with your accountant); GA4 event-data retention setting (≤ 14 months).
 7. **GDPR applicability** *(legal review)*: the site targets EU clients (French language, EUR budgets, "Europe" in markets) and may monitor EU visitors if analytics are enabled (GDPR art. 3(2)). Decide whether an **EU representative (art. 27)** is required; if so fill `site.legal.euRepresentative`.
 8. **US state laws**: we assumed Atlaxys is below CCPA/CPRA and other state-law thresholds. If that changes (or Meta/LinkedIn tags are enabled at scale), add a "Do Not Sell or Share / Your Privacy Choices" link (the "Cookie settings" dialog already provides the opt-out and GPC is honoured).
@@ -155,6 +163,7 @@ The build prints the open configuration items as `[launch-check]` warnings.
 
 | Name | Type | Category | Set when | Duration |
 |---|---|---|---|---|
+| `__cf_bm` | Cookie (set by the hosting CDN, Cloudflare) | Strictly necessary | Every response from www.atlaxys.com | 30 minutes |
 | `atlaxys-consent` | localStorage | Strictly necessary | A consent choice is made (only exists when a tracker is configured) | 180 days, then re-asked |
 | `atlaxys-lang` | localStorage | Preferences (user-requested) | The visitor clicks a language in the switcher | Until cleared |
 | `atlaxys-attribution` | sessionStorage | Marketing (consent) | After marketing consent | Until the tab closes; deleted on withdrawal |
@@ -209,7 +218,7 @@ See A.24–A.33. Already in good shape before the audit (verified): skip link, l
 | Attribution | Browser (session) → with form | utm_*, gclid/fbclid, referrer origin, landing page | Campaign measurement | Tab session / with enquiry | Form provider, Atlaxys |
 | Analytics (if enabled + consent) | Browser → Google | identifiers, pages, events, IP | Audience measurement | ≤ 14 months event data | Google |
 | Advertising (if enabled + consent) | Browser → Meta / LinkedIn | identifiers, pages, Lead/Contact events | Ad measurement/audiences | Vendor policies | Meta, LinkedIn |
-| Site search | Browser only (index fetched from own origin) | query text (in `?q=` on the site's own URL) | Find pages | Not stored by Atlaxys; may appear in hosting logs if a `?q=` URL is loaded | DigitalOcean (logs) |
+| Site search | Browser only (index fetched from own origin) | query text, kept in the URL fragment (`#q=`), never sent to a server or to analytics | Find pages | Not stored | None |
 
 Click tracking (`data-track`) only pushes events to an in-page `dataLayer`; nothing leaves the browser unless a vendor was allowed to load.
 

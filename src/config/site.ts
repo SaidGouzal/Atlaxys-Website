@@ -9,6 +9,8 @@
  * Values marked `TODO(launch)` are placeholders. Replace them before going
  * live — see "Launch checklist" in README.md.
  */
+import type { Locale } from '@/i18n/config';
+
 export const site = {
   name: 'Atlaxys Consulting',
   shortName: 'Atlaxys',
@@ -49,8 +51,12 @@ export const site = {
    * build time (see src/lib/launch-check.ts) and simply not displayed.
    */
   legal: {
-    /** Legal form, e.g. "SARL" or "SARL AU". TODO(launch) */
-    legalForm: 'SARL AU | Single-Owner LLC' as string | undefined,
+    /** Legal form per language; the official Moroccan form (SARL AU) stays in each. */
+    legalForm: {
+      en: 'SARL AU (single-member limited liability company)',
+      fr: 'SARL AU (société à responsabilité limitée à associé unique)',
+      ar: 'شركة ذات مسؤولية محدودة بشريك وحيد (SARL AU)',
+    } as Record<Locale, string> | undefined,
     /** Share capital, e.g. "100 000 MAD". TODO(launch) */
     shareCapital: '10 000 MAD' as string | undefined,
     /** Registre du Commerce number and court, e.g. "RC Casablanca 000000". TODO(launch) */
@@ -59,8 +65,11 @@ export const site = {
     ice: '004004253000011' as string | undefined,
     /** Identifiant Fiscal. TODO(launch) */
     taxId: '73349584' as string | undefined,
-    /** Registered office (siège social), full postal address. TODO(launch) */
-    registeredAddress: 'N° 2740 Douar Tiguemi Lajdid, Tarmigt Ouarzazate, Morocco' as string | undefined,
+    /**
+     * Registered office (siège social), postal address without the country:
+     * the country (address.countryCode) is added in the page's language.
+     */
+    registeredAddress: 'N° 2740 Douar Tiguemi Lajdid, Tarmigt Ouarzazate' as string | undefined,
     /** Legal representative / person responsible for the website's content. TODO(launch) */
     publicationDirector: undefined as string | undefined,
     /** Inbox for data-protection requests. Falls back to contact.email. */
@@ -82,12 +91,19 @@ export const site = {
   /** Regions Atlaxys actively serves — used in copy and structured data. */
   areaServed: ['Morocco', 'Europe', 'United Kingdom', 'Canada', 'United States', 'Middle East', 'Africa'],
 
-  /** Only filled links are rendered. */
+  /**
+   * Only filled links are rendered (footer, Organization `sameAs`, X card).
+   * Every URL must open the company's own, existing profile: a dead link here
+   * is a broken link on every page and misleading structured data.
+   * TODO(owner): LinkedIn and X were removed on 2026-10-02 because
+   * linkedin.com/company/atlaxys-consulting/ and x.com/Atlaxys did not exist.
+   * Add the correct URLs once confirmed.
+   */
   social: {
-    linkedin: 'https://www.linkedin.com/company/atlaxys-consulting/' as string,
+    linkedin: '' as string,
     instagram: 'https://www.instagram.com/atlaxys.consulting/' as string,
     facebook: 'https://www.facebook.com/p/Atlaxys-Consulting-Ltd-61595056014279/' as string,
-    x: 'https://twitter.com/Atlaxys' as string,
+    x: '' as string,
     github: 'https://github.com/Atlaxys' as string,
   },
 

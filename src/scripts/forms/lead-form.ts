@@ -50,9 +50,8 @@ function initForm(form: HTMLFormElement) {
   const failureText = root.querySelector<HTMLElement>('[data-failure-text]');
   const defaultFailure = failureText?.textContent ?? '';
   const fields = Array.from(form.querySelectorAll<Field>('input[id]:not([type="hidden"]):not([tabindex="-1"]), textarea[id], select[id]'));
+  const trap = form.querySelector<HTMLInputElement>('input[name="botcheck"]');
   let attempted = false;
-
-  form.querySelector<HTMLInputElement>('[data-started-at]')!.value = String(Date.now());
 
   // "Request a demo" links pass #product=<slug> (a fragment, so crawlers see a
   // single contact URL); ?product=<slug> is still read for older links and ads.
@@ -105,6 +104,12 @@ function initForm(form: HTMLFormElement) {
     failure.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   };
 
+  const succeed = () => {
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
+  };
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     attempted = true;
@@ -116,6 +121,12 @@ function initForm(form: HTMLFormElement) {
     fields.forEach((field) => setError(field, errors.find((e) => e.field === field)?.message ?? null));
     showSummary(errors);
     if (errors.length) return;
+
+    // Only a bot ticks the hidden spam trap: show the usual confirmation, send nothing.
+    if (trap?.checked) {
+      succeed();
+      return;
+    }
 
     if (!navigator.onLine) {
       fail(messages.offline);
@@ -130,6 +141,8 @@ function initForm(form: HTMLFormElement) {
     }
 
     const data: Record<string, unknown> = Object.fromEntries(new FormData(form).entries());
+    // The redirect is for submissions without JavaScript; here success is shown in place.
+    delete data.redirect;
     // Empty when marketing consent was not given (see analytics/attribution.ts).
     const attribution = readAttribution();
     if (Object.keys(attribution).length) data.attribution = attribution;
@@ -146,14 +159,18 @@ function initForm(form: HTMLFormElement) {
       });
 
       if (response.ok) {
+        // Some providers (Web3Forms) report a refusal as {"success": false}, even with HTTP 200.
+        const body = (await response.json().catch(() => ({}))) as { success?: boolean };
+        if (body.success === false) {
+          fail();
+          return;
+        }
         track('generate_lead', {
           form: form.dataset.formName,
           project_type: String(data.projectType ?? ''),
           content_name: String(data.landing || form.dataset.formName || 'contact'),
         });
-        form.hidden = true;
-        success.hidden = false;
-        success.focus();
+        succeed();
         return;
       }
 

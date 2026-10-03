@@ -2,6 +2,12 @@
  * Client-side site search over the static index (/<lang>/search.json).
  * Accent- and case-insensitive, Arabic-normalised, weighted by field.
  * Replaceable by Pagefind / Algolia later without touching content.
+ *
+ * Privacy: the query is kept in the URL fragment (#q=…), never in the query
+ * string. Browsers do not send fragments to servers or in the Referer of the
+ * next page, and Google Analytics ignores them, so what a visitor types stays
+ * in their browser. Older ?q= links still work: the query is moved to the
+ * fragment as soon as this script runs.
  */
 interface Item {
   type: 'service' | 'product' | 'caseStudy' | 'article' | 'page';
@@ -42,7 +48,7 @@ function score(item: Item, terms: string[]): number {
 export function initSearch() {
   const form = document.querySelector<HTMLFormElement>('[data-search]');
   if (!form) return;
-  const input = form.querySelector<HTMLInputElement>('input[name="q"]')!;
+  const input = form.querySelector<HTMLInputElement>('input[type="search"]')!;
   const status = document.getElementById('search-status')!;
   const list = document.querySelector<HTMLOListElement>('[data-search-results]')!;
   const fallback = document.querySelector<HTMLElement>('[data-search-fallback]')!;
@@ -70,8 +76,8 @@ export function initSearch() {
   const render = async (raw: string) => {
     const q = raw.trim();
     const url = new URL(window.location.href);
-    if (q) url.searchParams.set('q', q);
-    else url.searchParams.delete('q');
+    url.searchParams.delete('q');
+    url.hash = q ? new URLSearchParams({ q }).toString() : '';
     history.replaceState(null, '', url);
 
     if (q.length < 2) {
@@ -129,8 +135,9 @@ export function initSearch() {
     void render(input.value);
   });
 
-  const initial = new URLSearchParams(window.location.search).get('q');
-  if (initial) {
+  const initial =
+    new URLSearchParams(window.location.hash.slice(1)).get('q') ?? new URLSearchParams(window.location.search).get('q');
+  if (initial !== null) {
     input.value = initial;
     void render(initial);
   }

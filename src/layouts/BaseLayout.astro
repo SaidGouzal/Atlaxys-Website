@@ -78,7 +78,7 @@ const languageTargets = Object.fromEntries(
 
 const graph: (JsonLdNode | undefined)[] = [
   organizationNode(locale, t.meta.orgDescription),
-  websiteNode(locale),
+  websiteNode(),
   seo.errorPage
     ? undefined
     : webPageNode({

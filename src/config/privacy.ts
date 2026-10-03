@@ -92,6 +92,23 @@ export const storageItems: StorageItem[] = [
     active: analyticsEnabled,
   },
   {
+    // Set on every response by the hosting platform's delivery network, not by
+    // this code, so it is listed whatever the build configuration. Re-check it
+    // if the hosting or CDN changes (curl -sI https://www.atlaxys.com/en/).
+    name: '__cf_bm',
+    kind: 'cookie',
+    provider: 'Cloudflare (DigitalOcean App Platform)',
+    firstParty: true,
+    category: 'necessary',
+    purpose: {
+      en: 'Set by the content-delivery network of our hosting provider (Cloudflare, used by DigitalOcean App Platform) to tell visitors apart from automated traffic and protect the website. We do not use it for analytics or advertising.',
+      fr: 'Déposé par le réseau de diffusion de contenu de notre hébergeur (Cloudflare, utilisé par DigitalOcean App Platform) pour distinguer les visiteurs du trafic automatisé et protéger le site. Nous ne l’utilisons ni pour la mesure d’audience ni pour la publicité.',
+      ar: 'تضعه شبكة توزيع المحتوى لدى مزوّد الاستضافة (Cloudflare، التي تعتمد عليها DigitalOcean App Platform) لتمييز الزوار عن الحركة الآلية وحماية الموقع. لا نستخدمه لقياس الجمهور ولا للإعلانات.',
+    },
+    duration: { en: '30 minutes', fr: '30 minutes', ar: '30 دقيقة' },
+    active: true,
+  },
+  {
     name: 'atlaxys-lang',
     kind: 'localStorage',
     provider: 'Atlaxys',
@@ -225,16 +242,16 @@ export const thirdParties: ThirdParty[] = [
   {
     id: 'hosting',
     name: 'DigitalOcean App Platform',
-    entity: 'DigitalOcean, LLC (USA)',
+    entity: 'DigitalOcean, LLC (USA); delivery network: Cloudflare, Inc. (USA)',
     purpose: {
-      en: 'Hosts and delivers the website (including through its content-delivery network).',
-      fr: 'Héberge et diffuse le site (y compris via son réseau de diffusion de contenu).',
-      ar: 'استضافة الموقع وتقديمه (بما في ذلك عبر شبكة توزيع المحتوى الخاصة به).',
+      en: 'Hosts and delivers the website through a content-delivery network run by Cloudflare, which also filters automated traffic.',
+      fr: 'Héberge et diffuse le site via un réseau de diffusion de contenu exploité par Cloudflare, qui filtre aussi le trafic automatisé.',
+      ar: 'استضافة الموقع وتقديمه عبر شبكة توزيع محتوى تديرها Cloudflare، تقوم أيضًا بتصفية الحركة الآلية.',
     },
     data: {
-      en: 'Technical request data: IP address, browser user agent, requested page, date and time.',
-      fr: 'Données techniques de requête : adresse IP, agent utilisateur du navigateur, page demandée, date et heure.',
-      ar: 'بيانات تقنية للطلب: عنوان IP، وكيل المستخدم للمتصفح، الصفحة المطلوبة، التاريخ والوقت.',
+      en: 'Technical request data: IP address, browser user agent, requested page, date and time; a bot-protection cookie (__cf_bm).',
+      fr: 'Données techniques de requête : adresse IP, agent utilisateur du navigateur, page demandée, date et heure ; un cookie de protection contre les robots (__cf_bm).',
+      ar: 'بيانات تقنية للطلب: عنوان IP، وكيل المستخدم للمتصفح، الصفحة المطلوبة، التاريخ والوقت؛ وملف ارتباط للحماية من الروبوتات (__cf_bm).',
     },
     when: { en: 'Every visit', fr: 'À chaque visite', ar: 'عند كل زيارة' },
     category: 'service',

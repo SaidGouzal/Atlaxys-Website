@@ -202,7 +202,7 @@ const en = {
     privacyBefore: 'We use these details only to answer your enquiry and, if you ask, prepare a proposal. They are sent through our form provider to our team. See our',
     privacyLink: 'privacy policy',
     privacyAfter: ' for your rights.',
-    honeypot: 'Leave this field empty',
+    honeypot: 'Leave this box unticked',
     requiredNote: 'All fields are required unless marked “optional”.',
     errorPhone: 'Use digits, spaces and + ( ) . - only, for example +212 6 00 00 00 00.',
     sensitiveHint: 'Please do not include sensitive information (health, religion, political opinions, bank or card details).',

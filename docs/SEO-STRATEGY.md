@@ -25,7 +25,7 @@ Consulting"), and a `/llms.txt` summary generated from the same content.
 - `hreflang` (en, fr, ar + `x-default`) in `<head>` and in `sitemap.xml`.
 - Clean, localised slugs (`/fr/services/ingenierie-logicielle/`).
 - Semantic HTML, one `h1` per page, logical heading order, breadcrumbs.
-- JSON-LD `@graph`: Organization/ProfessionalService, WebSite + SearchAction,
+- JSON-LD `@graph`: Organization/ProfessionalService, WebSite,
   WebPage, BreadcrumbList, Service, SoftwareApplication, BlogPosting/Article,
   FAQPage (only where FAQs are visible), ItemList.
 - Open Graph + X cards with a branded default image (1200×630).
@@ -93,8 +93,9 @@ and in-text links in articles.
    identical to `src/config/site.ts`.
 2. Register in credible directories (Clutch, GoodFirms, DesignRush, local
    chambers of commerce, LinkedIn company page) with the same NAP details.
-3. Add LinkedIn/Instagram/Facebook URLs to `site.social` so `sameAs` links
-   the entity.
+3. Keep `site.social` to profiles that exist (`sameAs` links the entity).
+   Instagram, Facebook and GitHub are set; add LinkedIn and X once their
+   URLs are confirmed (the earlier ones did not exist).
 4. Collect **real** client reviews/testimonials (with permission) and publish
    real case studies — the strongest trust and ranking signal available.
 

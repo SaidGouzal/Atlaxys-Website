@@ -294,6 +294,10 @@ const isActive = (href: string) => current.startsWith(href);
   }
 
   .site-nav__toggle {
+    /* Overlaps the link's end padding to sit close to the label; stacked above
+       the (positioned) link so its whole 24px box stays clickable (WCAG 2.5.8). */
+    position: relative;
+    z-index: 1;
     display: inline-grid;
     place-items: center;
     width: 1.5rem;

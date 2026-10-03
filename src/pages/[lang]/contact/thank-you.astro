@@ -9,13 +9,17 @@ import Container from '@/components/ui/Container.astro';
 import Icon from '@/components/ui/Icon.astro';
 import { whatsappLink } from '@/config/site';
 import { localeStaticPaths, mirroredAlternates, routePath, useTranslations, type Locale } from '@/i18n';
-import { getPageCopy } from '@/lib/content';
+import { getCaseStudies, getPageCopy } from '@/lib/content';
 
 export const getStaticPaths = localeStaticPaths;
 
 const locale = Astro.params.lang as Locale;
 const t = useTranslations(locale);
 const copy = await getPageCopy(locale, 'contact');
+// Case studies only once some are published (same rule as the navigation).
+const next = (await getCaseStudies(locale)).length > 0
+  ? { href: routePath(locale, 'work'), label: t.cta.seeWork }
+  : { href: routePath(locale, 'services'), label: t.nav.allServices };
 ---
 
 <BaseLayout
@@ -30,7 +34,7 @@ const copy = await getPageCopy(locale, 'contact');
       <h1 class="h2 thanks__title">{copy.thankYou.title}</h1>
       <p class="lead">{copy.thankYou.text}</p>
       <div class="thanks__actions">
-        <Button href={routePath(locale, 'work')}>{t.cta.seeWork}</Button>
+        <Button href={next.href}>{next.label}</Button>
         <Button
           href={whatsappLink(t.whatsapp.message)}
           variant="secondary"

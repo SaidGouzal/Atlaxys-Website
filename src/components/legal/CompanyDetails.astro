@@ -18,9 +18,9 @@ const country = countryName(site.address.countryCode, locale);
 
 const rows: [string, string | undefined, boolean?][] = [
   [c.name, site.legalName ?? site.name],
-  [c.legalForm, legal.legalForm],
+  [c.legalForm, legal.legalForm?.[locale]],
   [c.shareCapital, legal.shareCapital],
-  [c.address, legal.registeredAddress ?? country],
+  [c.address, legal.registeredAddress ? `${legal.registeredAddress}, ${country}` : country],
   [c.rc, legal.rc, true],
   [c.ice, legal.ice, true],
   [c.taxId, legal.taxId, true],

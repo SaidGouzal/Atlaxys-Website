@@ -200,7 +200,7 @@ const fr: UIDictionary = {
     privacyBefore: 'Nous utilisons ces informations uniquement pour répondre à votre demande et, si vous le souhaitez, préparer une proposition. Elles sont transmises à notre équipe via notre prestataire de formulaires. Consultez notre',
     privacyLink: 'politique de confidentialité',
     privacyAfter: ' pour connaître vos droits.',
-    honeypot: 'Laissez ce champ vide',
+    honeypot: 'Ne cochez pas cette case',
     requiredNote: 'Tous les champs sont obligatoires sauf mention « facultatif ».',
     errorPhone: 'Utilisez uniquement des chiffres, espaces et + ( ) . -, par exemple +212 6 00 00 00 00.',
     sensitiveHint: 'Merci de ne pas indiquer d’informations sensibles (santé, religion, opinions politiques, coordonnées bancaires).',
