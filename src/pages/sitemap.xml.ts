@@ -39,17 +39,18 @@ function xmlEscape(s: string): string {
 
 export const GET: APIRoute = async () => {
   const entries: UrlEntry[] = [];
-  const buildTime = new Date();
 
   const hasWork = Object.fromEntries(
     await Promise.all(locales.map(async (l) => [l, (await getCaseStudies(l)).length > 0] as const)),
   ) as Record<Locale, boolean>;
 
+  // No lastmod for these: they have no modification date of their own, and
+  // stamping every deploy's date on them teaches crawlers to ignore lastmod.
   for (const path of STATIC_PATHS) {
     const alternates = mirroredAlternates(path);
     for (const l of locales) {
       if (path === '/work/' && !hasWork[l]) continue;
-      entries.push({ loc: alternates[l], lastmod: buildTime, alternates });
+      entries.push({ loc: alternates[l], alternates });
     }
   }
 

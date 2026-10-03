@@ -40,7 +40,9 @@ const vendors = { analytics: vendorsFor('analytics'), marketing: vendorsFor('mar
 
 <Modal id="consent-settings" title={t.consent.dialogTitle} closeLabel={t.a11y.close}>
   <p class="consent-form__intro">{t.consent.dialogIntro}</p>
-  <form class="consent-form" data-consent-form>
+  {/* Submitted by script only. The explicit action keeps the address's
+      fragment (e.g. a search query) out of analytics "form" events. */}
+  <form class="consent-form" action={Astro.url.pathname} data-consent-form>
     <div class="consent-form__row">
       <div>
         <p class="consent-form__label">{t.consent.necessaryTitle}</p>

@@ -36,23 +36,42 @@ export function updateGoogleConsent(state: ConsentState) {
 }
 
 /**
- * The page address without free text a visitor typed (the on-site search
- * query `q`) or anything that looks like an email address, so neither can
- * reach Google Analytics as part of a page URL.
+ * A URL without free text a visitor typed (the on-site search query `q`) or
+ * anything that looks like an email address, so neither can reach Google
+ * Analytics as part of a page or referrer URL.
  */
-function sanitizedLocation() {
-  const url = new URL(window.location.href);
+function sanitizedUrl(href: string) {
+  const url = new URL(href);
   url.searchParams.delete('q');
   for (const [key, value] of [...url.searchParams]) if (value.includes('@')) url.searchParams.delete(key);
   url.hash = '';
   return url.toString();
 }
 
+/**
+ * GA4's automatic measurement (site search, history page views) reads the
+ * real address bar, not the page_location set below. Before Google's script
+ * loads, a search query still in the query string (an old ?q= link, or the
+ * search form submitted without JavaScript) is moved to the fragment, which
+ * GA4 ignores and browsers never send onwards. See scripts/search.ts.
+ */
+function moveSearchQueryToFragment() {
+  const url = new URL(window.location.href);
+  const q = url.searchParams.get('q');
+  if (q === null) return;
+  url.searchParams.delete('q');
+  if (!url.hash) url.hash = new URLSearchParams({ q }).toString();
+  history.replaceState(history.state, '', url);
+}
+
 function loadGa4(id: string) {
+  moveSearchQueryToFragment();
   inject(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`, 'ga4');
   window.gtag?.('js', new Date());
-  // Applies to every later hit on this page, including history-based page views.
-  window.gtag?.('set', { page_location: sanitizedLocation() });
+  window.gtag?.('set', {
+    page_location: sanitizedUrl(window.location.href),
+    ...(document.referrer ? { page_referrer: sanitizedUrl(document.referrer) } : {}),
+  });
   // GA4 does not log or store IP addresses. Google signals (cross-device
   // linking with signed-in Google accounts) and ad personalisation stay off;
   // the advertising consent signals are always denied (see above).

@@ -5,6 +5,10 @@
  * visitors to their language (an explicit earlier choice first, then the
  * browser's preferred languages, then English), and crawlers and visitors
  * without JavaScript follow the meta refresh to /en/.
+ *
+ * No `noindex`: together with the canonical it would send search engines
+ * contradictory signals. An instant meta refresh plus a canonical to /en/ is
+ * read as a permanent redirect, which is what this page stands in for.
  */
 import { site } from '@/config/site';
 import { defaultLocale, localeMeta, locales } from '@/i18n/config';
@@ -20,7 +24,6 @@ const target = `/${defaultLocale}/`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>{site.name}</title>
-    <meta name="robots" content="noindex, follow" />
     {Object.entries(site.verification).map(([name, content]) => <meta name={name} content={content} />)}
     <link rel="canonical" href={absoluteUrl(target)} />
     {locales.map((l) => <link rel="alternate" hreflang={localeMeta[l].hreflang} href={absoluteUrl(`/${l}/`)} />)}

@@ -4,11 +4,17 @@
  * Places the mark's slot beside the headline (desktop) or uses its in-flow
  * slot (phones, tablets), then decides how to show it:
  *
- *   3D     motion allowed, WebGL 2, enough CPU/memory, no Data Saver, not a
- *          slow connection → stage.ts (Three.js + GSAP) is fetched when the
- *          browser is idle and the slot is near the viewport;
+ *   3D     tablet or wider (≥ 48rem), motion allowed, WebGL 2, enough
+ *          CPU/memory, no Data Saver, not a slow connection → stage.ts
+ *          (Three.js + GSAP, ~160 KB compressed) is fetched when the browser
+ *          is idle and the slot is near the viewport;
  *   still  otherwise → a pre-rendered image of the same 3D mark, fetched
  *          only then (it stays display:none, and lazy, in the 3D case).
+ *
+ * Phones get the still: starting Three.js blocked a mid-range phone's main
+ * thread for seconds (Lighthouse mobile, home page: score 63, 7.5 s TBT),
+ * just as visitors start to scroll and tap. Same rule as the GSAP
+ * enhancements (scripts/main.ts) and the WebGL field (scripts/hero/index.ts).
  *
  * State lives on the hero: data-mark="gl" | "static" | "none".
  */
@@ -94,6 +100,7 @@ function capable(): boolean {
     deviceMemory?: number;
   };
   return (
+    window.matchMedia('(min-width: 48rem)').matches &&
     !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
     !nav.connection?.saveData &&
     !/(^|-)2g$|^3g$/.test(nav.connection?.effectiveType ?? '') &&

@@ -95,7 +95,11 @@ export function organizationNode(locale: Locale, description: string): JsonLdNod
   });
 }
 
-export function websiteNode(locale: Locale): JsonLdNode {
+/**
+ * No SearchAction: Google retired the sitelinks search box in November 2024,
+ * and the site search keeps queries out of URLs (scripts/search.ts).
+ */
+export function websiteNode(): JsonLdNode {
   return {
     '@type': 'WebSite',
     '@id': ids.website,
@@ -103,11 +107,6 @@ export function websiteNode(locale: Locale): JsonLdNode {
     name: site.name,
     inLanguage: locales.map((l) => localeMeta[l].hreflang),
     publisher: ref(ids.organization),
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${siteOrigin}/${locale}/search/?q={search_term_string}` },
-      'query-input': 'required name=search_term_string',
-    },
   };
 }
 

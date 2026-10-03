@@ -72,7 +72,8 @@ ranks by field. Replaceable by Pagefind/Algolia without touching content.
   robots, hreflang + x-default, Open Graph (`OpenGraph.astro`), X card
   (`TwitterCard.astro`).
 - `lib/seo/schema.ts`: one JSON-LD `@graph` per page. `BaseLayout` always
-  emits `Organization`+`ProfessionalService`, `WebSite` (with `SearchAction`),
+  emits `Organization`+`ProfessionalService`, `WebSite` (no `SearchAction`: Google
+  retired the sitelinks search box, and search keeps queries out of URLs),
   `WebPage` and `BreadcrumbList`; pages add `Service`, `SoftwareApplication`,
   `BlogPosting`/`Article`, `FAQPage` (only when the FAQ is visible) and
   `ItemList`. Unknown values are omitted rather than invented.
@@ -87,7 +88,7 @@ ranks by field. Replaceable by Pagefind/Algolia without touching content.
 | `scripts/motion/reveal.ts` (IntersectionObserver) | always, < 1 KB | `[data-reveal]`, `[data-draw]`, staggered groups, masked media |
 | `scripts/motion/enhance.ts` (GSAP + ScrollTrigger + SplitText) | idle, code-split, not on landing pages, not with reduced motion | heading line reveals, scroll-scrubbed statement, magnetic buttons, parallax, pinned horizontal process, counters |
 | `scripts/hero/signal-scene.ts` (Three.js) | idle after load, desktop + fine pointer + ≥4 cores + WebGL, no Data Saver | the 3D signal field; SVG version otherwise |
-| `scripts/hero/mark/` (Three.js + GSAP) | placement: always (tiny, eager); 3D: idle after load, slot near the viewport, motion allowed + WebGL 2 + ≥4 cores/4 GB + no Data Saver or 2G/3G — phones included | the 3D Atlaxys mark (below); a pre-rendered still of it otherwise |
+| `scripts/hero/mark/` (Three.js + GSAP) | placement: always (tiny, eager); 3D: idle after load, slot near the viewport, tablet or wider (≥ 48rem) + motion allowed + WebGL 2 + ≥4 cores/4 GB + no Data Saver or 2G/3G; phones get the still (Lighthouse mobile: 7.5 s TBT with the 3D) | the 3D Atlaxys mark (below); a pre-rendered still of it otherwise |
 
 ### The 3D hero mark
 
@@ -117,8 +118,8 @@ action on phones and tablets (an in-flow slot), so the headline and primary
 button keep their place. The H1 stays the LCP element.
 
 Fallback: `src/assets/brand/mark-3d-{dark,light}.png`, renders of the same
-scene made by `npm run brand:mark-stills`. Shown without JavaScript, with
-reduced motion and on devices that skip WebGL; in the 3D case it stays
+scene made by `npm run brand:mark-stills`. Shown without JavaScript, on
+phones, with reduced motion and on devices that skip WebGL; in the 3D case it stays
 `display:none` + lazy, so it is never downloaded.
 
 Safety: hidden start states apply only when `<html class="motion">` is set by
@@ -134,7 +135,7 @@ transitions.
 | Critical JS (header, reveal, tracking) | < 10 KB | deferred modules |
 | Fonts | Archivo Latin 90 KB (preloaded), JetBrains Mono 40 KB, Noto Kufi Arabic 124 KB (Arabic pages only via `unicode-range`) | swap + metric-matched fallback |
 | GSAP chunk (core + ScrollTrigger) | ~115 KB raw / 45 KB gzip | idle, motion allowed |
-| Three.js chunk | ~560 KB raw / 140 KB gzip | idle, capable devices only (shared by the field and the mark) |
+| Three.js chunk | ~560 KB raw / 116 KB brotli | idle, capable tablets and desktops only (shared by the field and the mark) |
 | 3D mark (`stage` chunk) | ~23 KB raw / 10 KB gzip | idle, slot near the viewport, capable devices only |
 | 3D mark still (fallback) | 10–40 KB AVIF | only when the 3D is not used |
 

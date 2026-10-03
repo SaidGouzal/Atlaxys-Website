@@ -50,6 +50,16 @@ accepting cookies: any blocked request is reported as a CSP violation. Fix it
 by adding the specific host in `integrations/csp.mjs` — never a wildcard
 scheme such as `https:` or `*`.
 
+**One violation is expected and deliberate.** With the real `gtag.js`, each
+GA4 hit (sent to `www.google-analytics.com`, allowed) is followed by a request
+to `https://www.google.com/g/collect`, which the CSP blocks. The browser logs
+three console messages per hit, only for visitors who accepted analytics. That
+request belongs to Google's signals/advertising features. No gtag setting stops
+it (five configurations tested on 2 October 2026), so it comes from the GA4
+property settings. Do **not** add `www.google.com` to the CSP: the privacy
+policy says Google signals are off. Instead, in Google Analytics turn off
+Admin → Data collection → Google signals, and check Admin → Product links.
+
 ## What must be set where the site is served (not possible from HTML)
 
 A `<meta>` CSP cannot carry `frame-ancestors`, and these protections only
@@ -75,7 +85,12 @@ Options:
    reference, October 2026). This is why crawlers report the headers above
    as missing on every page.
 2. **Cloudflare (or another CDN) in front of the app** — add the headers with a
-   "Modify response header" / Transform rule on the zone.
+   "Modify response header" / Transform rule on the zone. Moving the domain's
+   DNS to your own Cloudflare zone also fixes the apex redirect (see below)
+   and lets a Cache Rule give `/_astro/*` a one-year immutable cache. App
+   Platform itself already delivers through Cloudflare; test the proxied
+   set-up on a staging hostname first, because certificate issuance and
+   double proxying need care.
 3. **Switch the component to a Web Service** (a tiny Node/Caddy/nginx server
    that serves `dist/` with the headers). More moving parts; only if 1 and 2
    are not possible.
@@ -95,6 +110,17 @@ curl -sI https://www.atlaxys.com/en/ | grep -iE 'strict-transport|x-content-type
 
 …and run the site through observatory.mozilla.org and securityheaders.com.
 
+### Live state (checked 2 October 2026)
+
+| Check | Result |
+|---|---|
+| `https://www.atlaxys.com/en/` | 200; CSP meta present; **no** HSTS, X-Content-Type-Options, frame protection or Permissions-Policy header |
+| `http://www.atlaxys.com/…` | 301 to `https://` (good) |
+| `https://atlaxys.com/` | **301 to `http://www.atlaxys.com`** by Squarespace domain forwarding: an unencrypted hop, plus a Squarespace `crumb` cookie. Fix in Squarespace Domains (forward to `https://www.atlaxys.com`), or move DNS as in option 2 |
+| `https://www.atlaxys.com/` | 200 (client-side redirect page): the `ingress` 301 in `.do/app.yaml` is not applied to the live app |
+| Cookies set by the host | `__cf_bm` (Cloudflare bot management, 30 min, HttpOnly), listed in the cookie policy via `src/config/privacy.ts` |
+| `/_astro/*` caching | `Cache-Control: public,max-age=10` (host default; option 2 fixes it) |
+
 ## Form endpoint (third-party): what to require from the provider
 
 The static site cannot validate, rate-limit or store submissions itself. The
@@ -103,14 +129,33 @@ chosen provider must:
 - accept only HTTPS, and only `POST` with JSON;
 - validate server-side (required fields, lengths, email format) — the
   client-side checks are only for usability;
-- filter spam: reject submissions where the `website` honeypot field is not
-  empty, and treat a `startedAt` less than ~2.5 s before submission as a bot;
+- filter spam: reject submissions where the `botcheck` honeypot checkbox is
+  ticked (Web3Forms does this; the browser script also drops them);
 - rate-limit per IP;
 - restrict CORS to the site's origin;
 - deliver to the team and let you set a retention period / delete
   submissions;
 - offer a data-processing agreement and state where data is stored (needed for
   the privacy policy — name it in `src/config/privacy.ts`).
+
+### Web3Forms (the provider in use)
+
+- The access key in `src/config/forms.ts` is public by design: it can only
+  send to the inbox registered with it. Anyone can still post to it directly,
+  so keep Web3Forms' spam filtering on, and use the dashboard's domain
+  restriction if your plan offers it.
+- The honeypot is Web3Forms' own `botcheck` checkbox. A free-plan
+  `redirect` to `https://www.atlaxys.com/<lang>/contact/thank-you/` serves
+  visitors without JavaScript (same domain, as the free plan requires).
+- Data sent per enquiry: `name`, `email`, optional `company`, `phone`,
+  `country`, `projectType`, `budget`, `timeline`, `message`, plus `locale`,
+  `source` (page path), `landing`/`campaign` (campaign page slugs), `subject`,
+  `access_key` and, only with marketing consent, `attribution` (utm/gclid/
+  fbclid, referring site origin, landing path). Nothing else.
+- A reply with `"success": false` (even HTTP 200) shows the error state with
+  the direct email and WhatsApp links.
+- Web3Forms' legal entity, storage location and retention are not confirmed
+  yet (`formProcessor.entity` in `src/config/privacy.ts`, **[legal]**).
 
 ## Dependencies
 

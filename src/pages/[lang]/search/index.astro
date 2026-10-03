@@ -44,11 +44,15 @@ const strings = {
 
   <Section spacing="tight">
     <Container>
+      {/* Search runs in the browser (scripts/search.ts). The input has no `name`,
+          so what a visitor types is never put into a URL sent to the server.
+          The explicit action matters: without it the form's destination is the
+          current address, #q= included, which analytics "form" events report. */}
       <form class="search" role="search" action={routePath(locale, 'search')} method="get" data-search data-index={localizePath(locale, '/search.json')} data-types={JSON.stringify(typeLabels)} data-strings={JSON.stringify(strings)} data-locale={locale}>
         <label for="search-q" class="search__label">{t.search.label}</label>
         <div class="search__row">
           <Icon name="search" size={22} class="search__icon" />
-          <input id="search-q" name="q" type="search" autocomplete="off" placeholder={t.search.placeholder} class="search__input" aria-describedby="search-status" />
+          <input id="search-q" type="search" autocomplete="off" placeholder={t.search.placeholder} class="search__input" aria-describedby="search-status" />
           <button type="submit" class="search__submit">{t.search.submit}</button>
         </div>
       </form>

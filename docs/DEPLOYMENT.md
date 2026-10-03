@@ -31,3 +31,22 @@ The project is a pure static build: `npm run build` writes everything to `dist/`
   form provider's job — see the requirements in [SECURITY.md](SECURITY.md#form-endpoint-third-party-what-to-require-from-the-provider).
 - Enabling a tracker is a privacy change: re-read the generated cookie/privacy tables on the legal pages
   and have the policies reviewed (see [AUDIT.md](AUDIT.md)).
+
+## Domain, redirects and Search Console
+
+Checked on the live site on 2 October 2026 (details in [PRODUCTION-AUDIT.md](PRODUCTION-AUDIT.md)):
+
+1. **Apex domain.** `atlaxys.com` is forwarded by Squarespace Domains to `http://www.atlaxys.com`
+   (plain HTTP). Change the forwarding destination to `https://www.atlaxys.com` (301), or move DNS
+   to a provider that can serve the apex (DigitalOcean DNS, Cloudflare).
+2. **Root redirect.** Apply `.do/app.yaml` to the live app (step 4 above): today `/` answers 200
+   with a client-side redirect instead of a 301 to `/en/`.
+3. **Security headers and asset caching** need a layer in front of the static site (SECURITY.md,
+   option 2).
+4. **Google Analytics** (property `G-9LD8TLNH9K`): turn Google signals off, check product links,
+   keep data retention at 14 months or less, keep data redaction (email, `q`) on. The privacy
+   policy describes this configuration.
+5. **Google Search Console:** add a *Domain* property for `atlaxys.com` (DNS TXT verification at
+   the DNS provider), submit `https://www.atlaxys.com/sitemap.xml`, then use URL Inspection on
+   `/en/`, `/fr/`, `/ar/` and one service page. No verification code is stored in this repository
+   (`site.verification` in `src/config/site.ts` is where an HTML-tag code would go).
