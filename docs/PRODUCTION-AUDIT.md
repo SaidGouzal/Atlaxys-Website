@@ -57,7 +57,7 @@ change.
 | LEGAL-1 | P2 | Legal / i18n | Legal form shown in English on French/Arabic pages; policy text out of date after these fixes | Fixed in code **[legal]** |
 | PERF-2 | P2 | Performance | Hashed assets served with `max-age=10` (host default) | **[owner]** |
 | PERF-3 | P2 | Performance | Live 3D hero still costs main-thread time on desktop | Kept deliberately, documented |
-| SEC-1 | P2 | Dependencies | Astro 5.18.2 advisories (one rated critical) | Analysed, not exploitable here; upgrade planned |
+| SEC-1 | P2 | Dependencies | Astro 5.18.2 advisories (one rated critical) | Resolved on `develop` by the Astro 7 upgrade (5537dce); `npm audit` clean |
 | GSC-1 | P2 | Search Console | Nexus Gym `SoftwareApplication` not eligible for rich results without price and reviews | Informational |
 | CONT-1 | P3 | Structured data | `areaServed` lists regions not stated on the site | **[owner]** to confirm |
 | CONT-2 | P3 | Trust | Company name differs across profiles ("Atlaxys Consulting Ltd" on Facebook, "Consultig" on Instagram) | **[owner]** |
@@ -303,9 +303,11 @@ Reviewed one by one:
 - AVIF RCE: needs a malicious image in the repository.
 - esbuild: Windows dev server only.
 
-They are not exploitable by visitors of this static site. The fix is the
-Astro 7 / Node 22 / Zod 4 migration, which was deliberately postponed (see
-[SECURITY.md](SECURITY.md)). Not changed here, per "do not blindly upgrade".
+They were not exploitable by visitors of this static site. **Resolved:** while
+this audit was in progress, `develop` moved to Astro 7.3 / `@astrojs/mdx` 8 on
+Node 22 (commit 5537dce), and `npm audit` reports 0 vulnerabilities. This
+audit's changes were rebased onto it and re-tested on Astro 7 (see "Tests
+after the fixes").
 
 ### GSC-1 · Nexus Gym rich result · P2 (informational)
 
@@ -350,7 +352,10 @@ indexing. Nothing is invented to "fix" it.
 ## Tests after the fixes
 
 Run on 3–4 October 2026 against a build with the production configuration,
-served locally with Brotli compression and real 404s.
+served locally with Brotli compression and real 404s. After `develop` moved to
+Astro 7, the changes were rebased and the build, `astro check` (0 errors, 0
+warnings), the SEO check, the privacy/analytics suite, consent, keyboard and
+axe tests were run again on Astro 7.3.5 / Node 22.23.
 
 | Test | Scope | Result |
 |---|---|---|
@@ -385,9 +390,6 @@ node scripts/audit/crawl.mjs http://127.0.0.1:4402 /tmp/dist-prod desktop   # al
 npx lighthouse http://127.0.0.1:4402/en/ --only-categories=performance   # serve with compression for realistic numbers
 ```
 
-Note: builds made on this Windows machine keep some whitespace between inline
-tags that the App Platform (Linux) build removes, for example a visible space
-in "runs on ." in the English home headline. The live HTML is correct. The
-cause was not identified: same Astro (5.18.2) and compiler (2.13.1) versions,
-and an LF copy of the source gives the same result. For exact whitespace,
-check the live page rather than a local build.
+Astro 7 needs Node 22.12 or newer. With an older Node, `npm ci` skips
+Rolldown's native binding and the build fails with "Cannot find native
+binding": install with Node 22, not just build with it.
